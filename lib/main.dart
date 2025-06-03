@@ -39,15 +39,15 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       // Use builder only if you need to use library outside ScreenUtilInit context
       builder: (_, child) {
-        return GetMaterialApp(
+        return Obx(()=>GetMaterialApp(
           title: 'Path To Water',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.system, // or ThemeMode.light/dark
+          themeMode: AppGlobals.isDarkMode.value? ThemeMode.dark : ThemeMode.light, // or ThemeMode.light/dark
           home: const SplashScreen(),
           navigatorKey: AppGlobals.appNavigationKey,
-        );
+        ));
       },
     );
   }

@@ -28,7 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
           "message": "Already Logged In",
           "data": UserPreferences.loginData
         });
-        Get.offAll(()=>HomeView(),binding: HomeBinding());
+        // Get.offAll(()=>HomeView(),binding: HomeBinding());
+        Get.offAll(() => LoginView(), binding: LoginBinding());
       } else {
         Get.offAll(() => LoginView(), binding: LoginBinding());
       }
@@ -42,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
       decoration:  BoxDecoration(
         color: AppColors.primary,
       ),
-      child: SvgPicture.asset(AppConstants.appLogoWhite),
+      child: SvgPicture.asset(AppConstants.mail),
     );
   }
 }

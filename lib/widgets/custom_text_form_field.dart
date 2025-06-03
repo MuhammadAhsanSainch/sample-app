@@ -15,6 +15,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool enableInteractiveSelection;
   final bool enableSuggestions;
   final int? maxLength;
+
   const CustomTextFormField({
     super.key,
     required this.controller,
@@ -48,21 +49,19 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    bool isTablet = Get.context?.isTablet ?? false;
     return Padding(
-      padding: widget.outerPadding ??  EdgeInsets.only(left: 2.0.w, top: 10.h),
+      padding: widget.outerPadding ?? EdgeInsets.only(left: 2.0.w, top: 10.h),
       child: Column(
         spacing: 10,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              CustomText(widget.upperLabel,style: AppTextTheme.bodyLarge,fontSize: isTablet ? 0.5 : 1,),
+              CustomText(widget.upperLabel, style: AppTextTheme.bodyMedium),
               CustomText(
                 widget.upperLabelReqStar,
                 color: Colors.red,
-                style: AppTextTheme.bodyLarge,
-                fontSize: isTablet ? 0.5 : 1,
+                style: AppTextTheme.bodyMedium,
               ),
             ],
           ),
@@ -77,33 +76,51 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             enableInteractiveSelection: widget.enableInteractiveSelection,
             enableSuggestions: widget.enableSuggestions,
             maxLength: widget.maxLength,
-            style: TextStyle(fontSize: isTablet ? 20 : 18,color: AppColors.primary,fontFamily: AppFonts.primary),
+            style: AppTextTheme.bodyLarge,
             decoration: InputDecoration(
               prefixIconConstraints: BoxConstraints(minWidth: 50),
               hintText: widget.hintValue,
-              hintStyle: TextStyle(fontSize: isTablet ? 20 : 18,color: AppColors.borderDark,fontFamily: AppFonts.primary),
+              hintStyle: AppTextTheme.bodyLarge,
+              filled: true,
+              fillColor: AppColors.textFieldFillColor,
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: widget.prefixIcon,
               ),
-              suffixIcon: (widget.obscureText)
-                  ? GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          obscureText = !obscureText;
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.only(right:  20.0),
-                        child: SvgPicture.asset(
-                          obscureText ? AppConstants.eyeSlash : AppConstants.eye,
+              suffixIcon:
+                  (widget.obscureText)
+                      ? GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            obscureText = !obscureText;
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(right: 20.0),
+                          child: SvgPicture.asset(
+                            obscureText
+                                ? AppConstants.eyeSlash
+                                : AppConstants.eye,
+                          ),
                         ),
-                      ),
-                    )
-                  : null,
+                      )
+                      : null,
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(
-                      50)), // You can customize the border
+                borderSide: BorderSide(color: AppColors.textFieldBorderColor),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.textFieldBorderColor),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.textFieldBorderColor),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: AppColors.textFieldBorderColor),
+                borderRadius: BorderRadius.circular(8),
+              )
             ),
           ),
         ],

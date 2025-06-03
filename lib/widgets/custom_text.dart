@@ -14,7 +14,7 @@ class CustomText extends StatelessWidget {
     super.key,
     this.fontSize = 14,
     this.maxLine = 1,
-    this.color = Colors.black,
+    this.color,
     this.fontWeight = FontWeight.normal,
     this.textAlign,
     this.style,
@@ -36,7 +36,6 @@ class CustomText extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       maxLines: maxLine,
       softWrap: true,
-      selectionColor: AppColors.primary,
       textAlign: textAlign ?? TextAlign.start,
     );
   }

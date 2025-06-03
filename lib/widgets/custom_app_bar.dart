@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 
 import '../utilities/app_exports.dart';
 import 'custom_network_image.dart';
-import 'custom_switch.dart'; // Assuming ThemeSwitcher is in custom_switch.dart
 
 /// A utility class for common AppBar widgets and styling.
 class _AppBarUtils {
@@ -67,18 +66,13 @@ class TabletAppBar extends StatelessWidget implements PreferredSizeWidget {
           mainAxisSize: MainAxisSize.min,
           // Use min to prevent excessive spacing
           children: [
-            ThemeSwitcher(
-              initialThemeIsDark: true,
-              // This should likely come from a theme provider
-              onChanged: (isDark) => () {},
-            ),
             InkWell(
               onTap: () {
                 // NotificationsController.to.updateNotifications();
                 // Get.to(() => NotificationsView(), binding: NotificationsBinding());
               },
               child: _AppBarUtils.buildCircularIcon(
-                  SvgPicture.asset(AppConstants.notificationFilled),
+                  SvgPicture.asset(AppConstants.mail),
                   backgroundColor: AppColors.primary,
                   borderColor: AppColors.secondary
               ),
@@ -125,7 +119,7 @@ class MobileAppBar {
             child: Container(
               margin: const EdgeInsets.only(left: 6),
               child: _AppBarUtils.buildCircularIcon(
-                SvgPicture.asset(AppConstants.menuFormal),
+                SvgPicture.asset(AppConstants.mail),
                 backgroundColor:
                     const Color(0xffF3F4F6), // Specific color for mobile
               ),
@@ -146,7 +140,7 @@ class MobileAppBar {
             // Get.to(() => NotificationsView(), binding: NotificationsBinding());
           },
           child: _AppBarUtils.buildCircularIcon(
-              SvgPicture.asset(AppConstants.notificationFilled),
+              SvgPicture.asset(AppConstants.mail),
               backgroundColor: AppColors.primary,
               borderColor: AppColors.secondary
           ),
@@ -197,19 +191,13 @@ class MobileAppBar {
                 spacing: 5,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ThemeSwitcher(
-                    initialThemeIsDark: true,
-                    onChanged: (isDark) {
-                      // Handle theme toggle
-                    },
-                  ),
                   InkWell(
                     onTap: () {
                       // NotificationsController.to.updateNotifications();
                       // Get.to(() => NotificationsView(), binding: NotificationsBinding());
                     },
                     child: _AppBarUtils.buildCircularIcon(
-                        SvgPicture.asset(AppConstants.notificationFilled),
+                        SvgPicture.asset(AppConstants.mail),
                         backgroundColor: AppColors.primary,
                         borderColor: AppColors.secondary
                     ),
@@ -241,7 +229,7 @@ class MobileAppBar {
                   // Get.to(() => NotificationsView(), binding: NotificationsBinding());
                 },
                 child: _AppBarUtils.buildCircularIcon(
-                    SvgPicture.asset(AppConstants.notificationFilled),
+                    SvgPicture.asset(AppConstants.mail),
                     backgroundColor: AppColors.primary,
                     borderColor: AppColors.secondary),
               ),

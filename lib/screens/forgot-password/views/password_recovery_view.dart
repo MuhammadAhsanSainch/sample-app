@@ -18,6 +18,7 @@ class PasswordRecoveryView extends StatelessWidget {
             body: Form(
               key: passwordRecoveryFormKey,
               child: SingleChildScrollView(
+                padding: EdgeInsets.all(16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: (Get.context?.isTablet ?? false)
@@ -49,7 +50,7 @@ class PasswordRecoveryView extends StatelessWidget {
                       controller: controller.emailTFController,
                       upperLabel: "Email Address",
                       upperLabelReqStar: "*",
-                      prefixIcon: SvgPicture.asset(AppConstants.person),
+                      prefixIcon: SvgPicture.asset(AppConstants.mail),
                       hintValue: "Enter Email Address",
                       validator: (value) => validateEmail(value),
                       type: TextInputType.emailAddress,

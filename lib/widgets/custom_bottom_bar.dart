@@ -13,10 +13,10 @@ class CustomBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final images = [
-      AppConstants.appointment,
-      AppConstants.salesBottom,
-      AppConstants.employeesBottom,
-      AppConstants.messagesBottom,
+      AppConstants.mail,
+      AppConstants.mail,
+      AppConstants.mail,
+      AppConstants.mail,
     ];
 
     final labels = [
@@ -80,16 +80,11 @@ class CustomBottomBar extends StatelessWidget {
                     ),
                     child: Center(
                       child: SvgPicture.asset(
-                        AppConstants.homeBottom,
+                        AppConstants.mail,
                         width: 24,
                         height: 24,
                       ),
                     ),
-                    // Image.asset(
-                    //   AppConstants.homeBottom,
-                    //   width: 20,
-                    //   height: 20,
-                    // )
                   ),
                 ],
               ),

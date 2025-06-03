@@ -72,11 +72,12 @@ class CustomRectangleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      height: 50,
       width: width,
       child: ElevatedButton.icon(
         onPressed: onTap,
         icon: (icon != null && icon != '') ? SvgPicture.asset(icon!) : null,
-        label: CustomText(text, style: TextStyle(color: textColor, fontWeight: FontWeight.w700)),
+        label: CustomText(text, style: AppTextTheme.titleSmall.copyWith(fontWeight: FontWeight.w600)),
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -90,8 +91,6 @@ class CustomRectangleButton extends StatelessWidget {
           foregroundColor: Colors.white,
           // Text color
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          // Adjust padding
-          textStyle: const TextStyle(fontSize: 14),
         ),
       ),
     );
