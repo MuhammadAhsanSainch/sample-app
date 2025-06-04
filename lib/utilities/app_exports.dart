@@ -27,5 +27,7 @@ export '../network/response/general_list_response.dart';
 export '../network/response/general_map_response.dart';
 export '../network/network_service.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
+export 'package:path_to_water/widgets/custom_image_view.dart';
+
 
 

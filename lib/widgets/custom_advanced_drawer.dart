@@ -1,4 +1,5 @@
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:path_to_water/screens/home/home_controller.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_image_view.dart';
 import 'package:path_to_water/widgets/custom_switch_widget.dart';
@@ -6,7 +7,13 @@ import 'package:path_to_water/widgets/custom_switch_widget.dart';
 class CustomAdvancedDrawer extends StatelessWidget {
   final Widget child;
   final AdvancedDrawerController controller;
-  const CustomAdvancedDrawer({super.key, required this.child, required this.controller});
+  final HomeController homeController;
+  const CustomAdvancedDrawer({
+    super.key,
+    required this.child,
+    required this.controller,
+    required this.homeController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +36,15 @@ class CustomAdvancedDrawer extends StatelessWidget {
               _DrawerItem(label: "Journal", pngIcon: AppConstants.journalDrawerIcon),
               _DrawerItem(label: "Notification", pngIcon: AppConstants.notificationIcon),
               _DrawerItem(label: "Subscription", pngIcon: AppConstants.subscriptionIcon),
-              _DrawerItem(label: "Dark Mode", pngIcon: AppConstants.themeIcon,showSwitch: true),
-              _DrawerItem(label: "Favorites", pngIcon: AppConstants.favoriteIcon),
+              _DrawerItem(label: "Dark Mode", pngIcon: AppConstants.themeIcon, showSwitch: true),
+              _DrawerItem(
+                label: "Favorites",
+                pngIcon: AppConstants.favoriteIcon,
+                onTap: () {
+                  controller.hideDrawer();
+                  homeController.currentTabIndex(9);
+                },
+              ),
               _DrawerItem(label: "Settings", pngIcon: AppConstants.settingIcon),
               _DrawerItem(label: "Sign Out", pngIcon: AppConstants.logoutIcon),
             ],
@@ -50,14 +64,25 @@ class CustomAdvancedDrawer extends StatelessWidget {
       // openScale: 1.0,
       disabledGestures: true,
       childDecoration: BoxDecoration(
-        border: Border.all(color: AppColors.lightColor.withAlpha(AppGlobals.isDarkMode.value? 40 : 120), width: 10),
+        border: Border.all(
+          color: AppColors.lightColor.withAlpha(AppGlobals.isDarkMode.value ? 40 : 120),
+          width: 10,
+        ),
         borderRadius: const BorderRadius.all(Radius.circular(40)),
       ),
-      child: Container(
-        decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(32))),
-        clipBehavior: Clip.hardEdge,
+      child: ValueListenableBuilder<AdvancedDrawerValue>(
+        valueListenable: controller,
+        builder: (_, value, __) {
+          return AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(value.visible ? 32 : 0)),
+            ),
+            clipBehavior: Clip.hardEdge,
 
-        child: child,
+            child: child,
+          );
+        },
       ),
     );
   }

@@ -1,0 +1,40 @@
+import 'package:path_to_water/utilities/app_exports.dart';
+
+class CustomTab extends StatelessWidget {
+  final bool isSelected;
+  final String title;
+  final String imagePath;
+  const CustomTab({super.key, required this.imagePath, required this.title, required this.isSelected});
+
+  @override
+  Widget build(BuildContext context) {
+    return Tab(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CustomImageView(
+              imagePath: imagePath,
+              height: 24,
+              color:
+                  isSelected
+                      ? AppColors.lightColor
+                      : (AppGlobals.isDarkMode.value ? AppColors.lightColor : AppColors.grey),
+            ),
+            4.horizontalSpace,
+            CustomText(
+              title,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color:
+                  isSelected
+                      ? AppColors.lightColor
+                      : (AppGlobals.isDarkMode.value ? AppColors.lightColor : AppColors.grey),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
