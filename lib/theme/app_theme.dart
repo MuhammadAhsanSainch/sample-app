@@ -73,6 +73,9 @@ class AppColors {
   // Background Colors
   static Color get scaffoldBackground =>
       isDarkMode ? Color(0xFF101010) : Color(0xFFFFFFFF);
+  
+  static Color get homeScreenCardBgColor => isDarkMode ? grey700 : lightColor;
+
 
   // Surface Colors
   static Color get surface =>
@@ -97,6 +100,13 @@ class AppColors {
   // Disabled Colors
   static const Color disabledLight = Color(0xFFBDBDBD);
   static const Color disabledDark = Color(0xFF616161);
+
+  // Drawer Colors
+  static Color get drawerBgColor => isDarkMode ? Color(0xFF101010) : primary;
+
+  // Dialog Colors
+  static Color get dialogBgColor => isDarkMode ? grey700 : lightColor;
+
 
   // Other Colors
   static const Color dividerLight = Color(0xFFEEEEEE);

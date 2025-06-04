@@ -1,3 +1,5 @@
+import 'package:path_to_water/screens/home/home_binding.dart';
+import 'package:path_to_water/screens/home/home_view.dart';
 import 'package:path_to_water/screens/signup/signup_binding.dart';
 import 'package:path_to_water/screens/signup/signup_view.dart';
 
@@ -116,33 +118,41 @@ class LoginView extends StatelessWidget {
                             width: Get.width,
                             text: "Login",
                             onTap: () {
-                              AppGlobals.isDarkMode.toggle();
-                              Get.changeThemeMode(
-                                AppGlobals.isDarkMode.value
-                                    ? ThemeMode.light
-                                    : ThemeMode.dark,
-                              );
-                              log(AppGlobals.isDarkMode.toString());
-                              /*if (!loginFormKey.currentState!.validate()) {
+                              // AppGlobals.isDarkMode.toggle();
+                              // Get.changeThemeMode(
+                              //   AppGlobals.isDarkMode.value
+                              //       ? ThemeMode.light
+                              //       : ThemeMode.dark,
+                              // );
+                              // log(AppGlobals.isDarkMode.toString());
+
+                              if (!loginFormKey.currentState!.validate()) {
                                 return;
                               }
-                              AppGlobals.isLoading(true);
-                              controller
-                                  .logIn({
-                                "email":
-                                controller.emailTFController.text,
-                                "pin":
-                                controller.passwordTFController.text,
-                              })
-                                  .then((value) {
-                                AppGlobals.isLoading(false);
-                                if (value?.status ?? false) {
-                                  Get.off(
+                                    Get.off(
                                         () => HomeView(),
                                     binding: HomeBinding(),
                                   );
-                                }
-                              });*/
+                              //API
+                              // AppGlobals.isLoading(true);
+                              // controller
+                              //     .logIn({
+                              //   "email":
+                              //   controller.emailTFController.text,
+                              //   "pin":
+                              //   controller.passwordTFController.text,
+                              // })
+                              //     .then((value) {
+                              //   AppGlobals.isLoading(false);
+                              //   if (value?.status ?? false) {
+                              //     Get.off(
+                              //           () => HomeView(),
+                              //       binding: HomeBinding(),
+                              //     );
+                              //   }
+                              // });
+
+
                             },
                           ),
 

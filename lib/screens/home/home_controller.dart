@@ -1,6 +1,8 @@
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:path_to_water/screens/dashboard/dashboard_view.dart';
 import 'package:path_to_water/screens/home/widgets/banner_dialog_widget.dart';
+import 'package:path_to_water/screens/login/login_binding.dart';
+import 'package:path_to_water/screens/login/login_view.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
 
 import '../../utilities/app_exports.dart';
@@ -42,7 +44,9 @@ class HomeController extends GetxController {
         message: "Please sign in to access your personalized settings and features.",
         imageIcon: AppConstants.personIcon,
         btnText: "Login",
-        onButtonTap: (){},
+        onButtonTap: (){
+          Get.offAll(()=> LoginView(),binding: LoginBinding());
+        },
       ),
     );
   }
