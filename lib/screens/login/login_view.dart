@@ -23,6 +23,7 @@ class LoginView extends StatelessWidget {
             () => CustomLoader(
               isTrue: AppGlobals.isLoading.value,
               child: Scaffold(
+                resizeToAvoidBottomInset: false,
                 body: Container(
                   height: Get.height,
                   decoration: BoxDecoration(
