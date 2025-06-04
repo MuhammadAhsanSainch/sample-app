@@ -8,6 +8,8 @@ class AppConstants {
   static const String images = 'assets/images';
 
   ///Images
+  static const String splashBgLight = '$images/splash_bg_light.png';
+  static const String splashBgDark = '$images/splash_bg_dark.jpeg';
   static const String singInBgLight = '$images/sign_in_bg_light.png';
   static const String singInBgDark = '$images/sign_in_bg_dark.png';
   static const String singUpBgLight = '$images/sign_up_bg_light.png';

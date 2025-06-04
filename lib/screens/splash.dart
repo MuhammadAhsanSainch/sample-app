@@ -1,8 +1,6 @@
 import 'dart:async';
 import '../network/models/auth_model.dart';
 import '../utilities/app_exports.dart';
-import 'home/home_binding.dart';
-import 'home/home_view.dart';
 import 'login/login_binding.dart';
 import 'login/login_view.dart';
 
@@ -41,9 +39,8 @@ class _SplashScreenState extends State<SplashScreen> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 60),
       decoration:  BoxDecoration(
-        color: AppColors.primary,
+        image: DecorationImage(image: AssetImage(AppGlobals.isDarkMode.value? AppConstants.splashBgDark: AppConstants.splashBgLight))
       ),
-      child: SvgPicture.asset(AppConstants.mail),
     );
   }
 }
