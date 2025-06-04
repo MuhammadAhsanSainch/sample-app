@@ -22,6 +22,7 @@ class VerifyCodeView extends StatelessWidget {
           (controller) => Obx(()=>CustomLoader(
             isTrue: AppGlobals.isLoading.value,
             child: Scaffold(
+              resizeToAvoidBottomInset: false,
               body: Container(
                 height: Get.height,
                 decoration: BoxDecoration(
@@ -72,23 +73,31 @@ class VerifyCodeView extends StatelessWidget {
                               return;
                             }
                             String otp = controller.otpTFController.text;
-                            controller
-                                .verifyOtp({
-                              "email": email,
-                              "code": int.tryParse(otp),
-                              "type": type,
-                            })
-                                .then((value) {
-                              if (value?['status']) {
-                                Get.to(
-                                      () => ResetPasswordView(
-                                    email: email,
-                                    otp: otp,
-                                  ),
-                                  binding: ForgotPasswordBinding(),
-                                );
-                              }
-                            });
+                            // controller
+                            //     .verifyOtp({
+                            //   "email": email,
+                            //   "code": int.tryParse(otp),
+                            //   "type": type,
+                            // })
+                            //     .then((value) {
+                            //   if (value?['status']) {
+                            //     Get.to(
+                            //           () => ResetPasswordView(
+                            //         email: email,
+                            //         otp: otp,
+                            //       ),
+                            //       binding: ForgotPasswordBinding(),
+                            //     );
+                            //   }
+                            // });
+
+                            Get.to(
+                                  () => ResetPasswordView(
+                                email: email,
+                                otp: otp,
+                              ),
+                              binding: ForgotPasswordBinding(),
+                            );
                           },
                         ),
                         Obx(

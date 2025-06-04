@@ -17,6 +17,7 @@ class ResetPasswordView extends StatelessWidget {
       builder: (controller) => Obx(()=>CustomLoader(
         isTrue: AppGlobals.isLoading.value,
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Container(
             height: Get.height,
             decoration: BoxDecoration(
@@ -107,15 +108,17 @@ class ResetPasswordView extends StatelessWidget {
                           if (!resetPasswordFormKey.currentState!.validate()) {
                             return;
                           }
-                          controller.resetPassword({
-                            "email": email,
-                            "code": int.tryParse(otp),
-                            "pin": controller.confirmPasswordTFController.text,
-                          }).then((value) {
-                            if(value['status']){
-                              Get.to(() => ResetPasswordSuccessView());
-                            }
-                          });
+                          // controller.resetPassword({
+                          //   "email": email,
+                          //   "code": int.tryParse(otp),
+                          //   "pin": controller.confirmPasswordTFController.text,
+                          // }).then((value) {
+                          //   if(value['status']){
+                          //     Get.to(() => ResetPasswordSuccessView());
+                          //   }
+                          // });
+
+                          Get.to(() => ResetPasswordSuccessView());
                         }),
                     SizedBox(height: Get.height * 0.02),
                   ],

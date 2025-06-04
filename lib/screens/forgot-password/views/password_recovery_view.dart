@@ -16,6 +16,7 @@ class PasswordRecoveryView extends StatelessWidget {
             () => CustomLoader(
               isTrue: AppGlobals.isLoading.value,
               child: Scaffold(
+                resizeToAvoidBottomInset: false,
                 backgroundColor: AppColors.scaffoldBackground,
                 body: Stack(
                   children: [
@@ -86,29 +87,39 @@ class PasswordRecoveryView extends StatelessWidget {
                                     return;
                                   }
 
-                                  controller
-                                      .sendOTP({
-                                        "email":
-                                            ForgotPasswordController
-                                                .to
-                                                .emailTFController
-                                                .text,
-                                        "type": "FORGOT_PASSWORD",
-                                      })
-                                      .then((value) {
-                                        if (value['status'] ?? false) {
-                                          Get.to(
-                                            () => VerifyCodeView(
-                                              email:
-                                                  ForgotPasswordController
-                                                      .to
-                                                      .emailTFController
-                                                      .text,
-                                              type: "FORGOT_PASSWORD",
-                                            ),
-                                          );
-                                        }
-                                      });
+                                  // controller
+                                  //     .sendOTP({
+                                  //       "email":
+                                  //           ForgotPasswordController
+                                  //               .to
+                                  //               .emailTFController
+                                  //               .text,
+                                  //       "type": "FORGOT_PASSWORD",
+                                  //     })
+                                  //     .then((value) {
+                                  //       if (value['status'] ?? false) {
+                                  //         Get.to(
+                                  //           () => VerifyCodeView(
+                                  //             email:
+                                  //                 ForgotPasswordController
+                                  //                     .to
+                                  //                     .emailTFController
+                                  //                     .text,
+                                  //             type: "FORGOT_PASSWORD",
+                                  //           ),
+                                  //         );
+                                  //       }
+                                  //     });
+                                  Get.to(
+                                        () => VerifyCodeView(
+                                      email:
+                                      ForgotPasswordController
+                                          .to
+                                          .emailTFController
+                                          .text,
+                                      type: "FORGOT_PASSWORD",
+                                    ),
+                                  );
                                 },
                               ),
                             ],
