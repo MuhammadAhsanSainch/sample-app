@@ -60,8 +60,8 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                                     ? Get.width * 0.15
                                     : Get.width * 0.50,
                                 child: SvgPicture.asset(
-                                    AppConstants.appLogoWhite)),
-                            SvgPicture.asset(AppConstants.menuModern),
+                                    AppConstants.mail)),
+                            SvgPicture.asset(AppConstants.mail),
                           ],
                         ),
                       ),
@@ -71,7 +71,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               IconButton(onPressed: (){ setState(() {
                 isDrawerOpen = !isDrawerOpen;
               });}, icon: SvgPicture.asset(
-                AppConstants.menuModern,
+                AppConstants.mail,
                 colorFilter:
                 ColorFilter.mode(Colors.white, BlendMode.srcIn),
               ),)
@@ -81,7 +81,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             ),
             _buildSideBarItem(
               index: 0,
-              icon: AppConstants.home,
+              icon: AppConstants.mail,
               title: 'Dashboard',
               onTap: () {
                 if (Get.context?.isTablet ?? false) {
@@ -97,7 +97,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             if (hasActivePermission("EMPLOYEE_MANAGEMENT"))
               _buildSideBarItem(
                 index: 1,
-                icon: AppConstants.employeeManagementIcon,
+                icon: AppConstants.mail,
                 title: 'Employee Management',
                 onTap: () {
                   log('Employee Management Tapped: Current Index: 1');
@@ -115,7 +115,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             if (hasActivePermission("BRANCH_MANAGEMENT"))
               _buildSideBarItem(
                 index: 2,
-                icon: AppConstants.branchManagementIcon,
+                icon: AppConstants.mail,
                 title: 'Branch Management',
                 onTap: () {
                   if (Get.context?.isTablet ?? false) {
@@ -132,7 +132,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             // if (hasActivePermission("Product"))
               _buildSideBarItem(
                 index: 3,
-                icon: AppConstants.productSalesReportIcon,
+                icon: AppConstants.mail,
                 title: 'Product Sales Reports',
                 onTap: () {
                   if (Get.context?.isTablet ?? false) {
@@ -148,7 +148,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               ),
             _buildSideBarItem(
               index: 4,
-              icon: AppConstants.complaintTrackerIcon,
+              icon: AppConstants.mail,
               title: 'Complain Tracker',
               onTap: () {
                 if (Get.context?.isTablet ?? false) {
@@ -164,7 +164,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             ),
             _buildSideBarItem(
               index: 5,
-              icon: AppConstants.adminNotificationIcon,
+              icon: AppConstants.mail,
               title: 'Admin Notification',
               onTap: () {
                 if (Get.context?.isTablet ?? false) {
@@ -181,7 +181,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
             _buildSideBarItem(
                 index: 6,
-                icon: AppConstants.logoutIcon,
+                icon: AppConstants.mail,
                 title: 'Logout',
                 onTap: () {
                   UserPreferences.loginData = {};

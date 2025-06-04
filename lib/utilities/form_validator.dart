@@ -36,21 +36,21 @@ String? validateEmail(value) {
   }
   return msg;
 }
-String? validatePIN(String? value) {
+String? validatePassword(String? value) {
   String? msg;
   if (value!.isEmpty) {
-    msg = "4-digit PIN is required";
+    msg = "Password is required";
   } else if (value.length < 4) {
-    msg = "PIN must be at least 4 digits long";
+    msg = "Password must be at least 4 characters long";
   }
   return msg;
 }
-String? validateConfirmPIN(String? pwd, String? confirmPwd) {
+String? validateConfirmPassword(String? pwd, String? confirmPwd) {
   String? msg;
   if (confirmPwd!.isEmpty) {
-    msg = "4-digit PIN is required";
+    msg = "Confirm Password is required";
   } else if (pwd != confirmPwd) {
-    msg = "Confirm PIN does not matched.";
+    msg = "Confirm Password does not matched.";
   }
   return msg;
 }

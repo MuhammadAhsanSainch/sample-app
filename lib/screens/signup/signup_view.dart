@@ -1,21 +1,20 @@
-import 'package:path_to_water/screens/signup/signup_binding.dart';
-import 'package:path_to_water/screens/signup/signup_view.dart';
+import 'package:path_to_water/screens/login/login_view.dart';
 
 import '../../utilities/app_exports.dart';
-import '../forgot-password/forgot_password_binding.dart';
-import '../forgot-password/views/password_recovery_view.dart';
-import 'login_controller.dart';
+import 'signup_controller.dart';
 
-class LoginView extends StatelessWidget {
-  LoginView({super.key});
+class SignupView extends StatelessWidget {
+  SignupView({super.key});
 
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     
-    return GetBuilder<LoginController>(
-      init: LoginController.to,
+    // Check if the device is a tablet
+    bool isTablet = Get.context?.isTablet ?? false;
+    return GetBuilder<SignupController>(
+      init: SignupController.to,
       builder:
           (controller) => Obx(
             () => CustomLoader(
@@ -27,8 +26,8 @@ class LoginView extends StatelessWidget {
                     image: DecorationImage(
                       image: AssetImage(
                         AppGlobals.isDarkMode.value
-                            ? AppConstants.singInBgDark
-                            : AppConstants.singInBgLight,
+                            ? AppConstants.singUpBgDark
+                            : AppConstants.singUpBgLight,
                       ),
                     ),
                   ),
@@ -38,9 +37,12 @@ class LoginView extends StatelessWidget {
                       key: loginFormKey,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment:
+                            isTablet
+                                ? CrossAxisAlignment.center
+                                : CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: Get.height * 0.3),
+                          SizedBox(height: Get.height * 0.1),
                           GestureDetector(
                             onTap: () {
                               if (kDebugMode) {
@@ -50,11 +52,39 @@ class LoginView extends StatelessWidget {
                               }
                             },
                             child: CustomText(
-                              "Welcome to Path To Water",
+                              "Create an Account",
                               style: AppTextTheme.headlineSmall,
                             ),
                           ),
 
+                          ///Full Name
+                          CustomTextFormField(
+                            controller: controller.fullNameTFController,
+                            prefixIcon: SvgPicture.asset(AppConstants.profile),
+                            upperLabel: "Full Name",
+                            upperLabelReqStar: "*",
+                            hintValue: "Enter Full Name",
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Full Name is required';
+                              }
+                              return null; // Return null if the input is valid
+                            },
+                          ),
+                          ///User Name
+                          CustomTextFormField(
+                            controller: controller.userNameTFController,
+                            prefixIcon: SvgPicture.asset(AppConstants.profile),
+                            upperLabel: "User Name",
+                            upperLabelReqStar: "*",
+                            hintValue: "Enter User Name",
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'User Name is required';
+                              }
+                              return null; // Return null if the input is valid
+                            },
+                          ),
                           ///Email
                           CustomTextFormField(
                             controller: controller.emailTFController,
@@ -71,7 +101,6 @@ class LoginView extends StatelessWidget {
                               ),
                             ],
                           ),
-
                           ///Password
                           CustomTextFormField(
                             controller: controller.passwordTFController,
@@ -89,32 +118,25 @@ class LoginView extends StatelessWidget {
                               return null; // Return null if the input is valid
                             },
                           ),
-                          SizedBox(height: Get.height * 0.01),
-
-                          ///Forgot Password TextButton
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: InkWell(
-                              onTap: () {
-                                Get.to(
-                                  () => PasswordRecoveryView(),
-                                  binding: ForgotPasswordBinding(),
-                                );
-                              },
-                              child: CustomText(
-                                'Forgot Password?',
-                                style: AppTextTheme.bodyMedium.copyWith(
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                            ),
+                          ///Confirm Password
+                          CustomTextFormField(
+                            controller: controller.confirmPasswordTFController,
+                            upperLabel: "Confirm Password",
+                            upperLabelReqStar: "*",
+                            hintValue: "Enter Confirm Password",
+                            prefixIcon: SvgPicture.asset(AppConstants.lock),
+                            enableInteractiveSelection: true,
+                            enableSuggestions: false,
+                            obscureText: true,
+                            validator: (confirmPwd)=> validateConfirmPassword(controller.passwordTFController.text, confirmPwd),
                           ),
-                          SizedBox(height: Get.height * 0.02),
 
-                          ///Sign In Button
+                          SizedBox(height: Get.height * 0.025),
+
+                          ///Sign Up Button
                           CustomRectangleButton(
                             width: Get.width,
-                            text: "Login",
+                            text: "Create Account",
                             onTap: () {
                               AppGlobals.isDarkMode.toggle();
                               Get.changeThemeMode(
@@ -162,7 +184,7 @@ class LoginView extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: Get.height * 0.025),
+        SizedBox(height: Get.height * 0.02),
         // "Or Continue With" text with lines
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0.0),
@@ -178,7 +200,7 @@ class LoginView extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: Get.height * 0.015),
+        SizedBox(height: Get.height * 0.02),
 
         // Google and Apple Sign-in Buttons
         Row(
@@ -212,24 +234,23 @@ class LoginView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomText(
-              "Don't have an account? ",
+             CustomText(
+              "Already Have An Account? ",
               style: AppTextTheme.bodyLarge,
             ),
             GestureDetector(
               onTap: () {
-                Get.to(()=>SignupView(),binding: SignupBinding());
+                Get.off(()=>LoginView());
               },
               child: CustomText(
-                "Sign Up",
+                "Sign In",
                 style: TextStyle(
-                  color: AppColors.textSecondary,
-                  // Or your app's primary color
+                  color: AppColors.textSecondary, // Or your app's primary color
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   decoration: TextDecoration.underline,
                   decorationColor: AppColors.textSecondary,
-                  fontFamily: AppFonts.primary,
+                  fontFamily: AppFonts.primary
                 ),
               ),
             ),

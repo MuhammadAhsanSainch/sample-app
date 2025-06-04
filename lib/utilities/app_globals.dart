@@ -6,6 +6,8 @@ import 'app_exports.dart';
 
 class AppGlobals {
   static RxBool isLoading = false.obs;
+  static RxBool isDarkMode = false.obs; // Observable boolean for dark mode
+
 
   ///
   /// VARIABLES
@@ -391,8 +393,8 @@ class AppGlobals {
                       decoration:
                           BoxDecoration(color: AppColors.secondary,shape: BoxShape.circle),
                       child: SvgPicture.asset(title == 'Activated'
-                          ? AppConstants.done
-                          : AppConstants.warning),
+                          ? AppConstants.mail
+                          : AppConstants.mail),
                     ),
                     SizedBox(
                       height: 60,
