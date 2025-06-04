@@ -51,7 +51,7 @@ class ProfilePicture extends StatelessWidget {
               },
             )
           : Image.asset(
-              AppConstants.person,
+              AppConstants.profileIcon,
               height: size,
               width: size,
             ),

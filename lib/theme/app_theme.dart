@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:path_to_water/utilities/app_exports.dart';
 
 class AppTheme {
   // Private constructor to prevent instantiation
@@ -15,7 +15,9 @@ class AppTheme {
       elevation: 0,
       centerTitle: true,
       backgroundColor: AppColors.scaffoldBackground,
-      titleTextStyle: AppTextTheme.headlineMedium.copyWith(color: AppColors.textPrimary),
+      titleTextStyle: AppTextTheme.headlineMedium.copyWith(
+        color: AppColors.textPrimary,
+      ),
       iconTheme: IconThemeData(color: AppColors.textPrimary),
     ),
     colorScheme: ColorScheme.light(
@@ -37,7 +39,9 @@ class AppTheme {
       elevation: 0,
       centerTitle: true,
       backgroundColor: AppColors.scaffoldBackground,
-      titleTextStyle: AppTextTheme.headlineMedium.copyWith(color: AppColors.textPrimary),
+      titleTextStyle: AppTextTheme.headlineMedium.copyWith(
+        color: AppColors.textPrimary,
+      ),
       iconTheme: IconThemeData(color: AppColors.textPrimary),
     ),
     colorScheme: ColorScheme.dark(
@@ -51,11 +55,14 @@ class AppTheme {
 
 class AppColors {
   // Primary Color
-  static bool isDark = false;
-  static Color get primary => isDark ? Color(0xFF589987) : Color(0xFF589987);
+  static bool get isDarkMode => AppGlobals.isDarkMode.value;
+
+  static Color get primary =>
+      isDarkMode ? Color(0xFF589987) : Color(0xFF589987);
 
   // Secondary Color
-  static Color get secondary => isDark ? Color(0xFF03DAC6) : Color(0xFF03DAC6);
+  static Color get secondary =>
+      isDarkMode ? Color(0xFF03DAC6) : Color(0xFF03DAC6);
 
   // Status Colors
   static const Color success = Color(0xFF4CAF50);
@@ -64,13 +71,34 @@ class AppColors {
   static const Color info = Color(0xFF2196F3);
 
   // Background Colors
-  static Color get scaffoldBackground => isDark ? Color(0xFFFFFFFF) : Color(0xFF101010);
+  static Color get scaffoldBackground =>
+      isDarkMode ? Color(0xFF101010): Color(0xFFFFFFFF) ;
+
+  static Color get homeScreenCardBgColor => isDarkMode ? grey700 : lightColor;
+
+  // Dialog Colors
+  static Color get dialogBgColor => isDarkMode ? grey700 : lightColor;
+
+  // Drawer Colors
+  static Color get drawerBgColor => isDarkMode ? Color(0xFF101010) : primary;
+
+
 
   // Surface Colors
-  static Color get surface => isDark ? Color(0xFFFFFFFF) : Color(0xFF1E1E1E);
+  static Color get surface =>
+      isDarkMode ? Color(0xFFFFFFFF) : Color(0xFF1E1E1E);
 
   // Text Colors
-  static Color get textPrimary => isDark ? Color(0xFF000000) : Color(0xFFFFFFFF);
+  static Color get textPrimary =>
+      isDarkMode ? Color(0xFFFFFFFF) : Color(0xFF0D0F1F);
+
+  static Color get textSecondary => Color(0xFF589981);
+
+  static Color get textFieldFillColor =>
+      isDarkMode ? Color(0xFF171717) : Color(0xFFFFFFFF);
+
+  static Color get textFieldBorderColor =>
+      isDarkMode ? Color(0xFF252525) : Color(0xFFE9E9E9);
 
   // Border Colors
   static const Color borderLight = Color(0xFFE0E0E0);
@@ -83,6 +111,19 @@ class AppColors {
   // Other Colors
   static const Color dividerLight = Color(0xFFEEEEEE);
   static const Color dividerDark = Color(0xFF303030);
+  static const Color lightColor = Color(0xFFFFFFFF);
+  static const Color dark = Color(0xFF101010);
+  static const Color grey = Color(0xFF0D0F1F);
+  static const Color grey500 = Color(0xFF86878F);
+  static const Color grey700 = Color(0xFF171717);
+  static const Color favoriteColor = Color(0xFFFFC300);
+  static const Color strokeColor = Color(0xFFD3D3D3);
+  static const Color strokeDarkGreyColor = Color(0xFF2A2A2A);
+  static const Color greenStrokeColor = Color(0xFF40876D);
+  static const Color greyTextColor = Color(0xFFA1A2A5);
+  static const Color greyColor = Color(0xFF70787D);
+
+
 
   // Material Color from primary color
   static MaterialColor get primaryMaterialColor {
@@ -114,124 +155,107 @@ class AppTextTheme {
   static const FontWeight semiBold = FontWeight.w600;
   static const FontWeight bold = FontWeight.w700;
 
-  // Font Sizes
-  static const double displayLargeSize = 57.0;
-  static const double displayMediumSize = 45.0;
-  static const double displaySmallSize = 36.0;
-  static const double headlineLargeSize = 32.0;
-  static const double headlineMediumSize = 28.0;
-  static const double headlineSmallSize = 24.0;
-  static const double titleLargeSize = 22.0;
-  static const double titleMediumSize = 16.0;
-  static const double titleSmallSize = 14.0;
-  static const double bodyLargeSize = 16.0;
-  static const double bodyMediumSize = 14.0;
-  static const double bodySmallSize = 12.0;
-  static const double labelLargeSize = 14.0;
-  static const double labelMediumSize = 12.0;
-  static const double labelSmallSize = 11.0;
-
   // Text Styles
-  static TextStyle displayLarge = TextStyle(
-    fontSize: displayLargeSize,
+  static TextStyle get displayLarge => TextStyle(
+    fontSize: 57.0,
     fontWeight: light,
     letterSpacing: -0.25,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle displayMedium = TextStyle(
-    fontSize: displayMediumSize,
+  static TextStyle get displayMedium => TextStyle(
+    fontSize: 45.0,
     fontWeight: light,
     letterSpacing: 0,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle displaySmall = TextStyle(
-    fontSize: displaySmallSize,
+  static TextStyle get displaySmall => TextStyle(
+    fontSize: 36.0,
     fontWeight: regular,
     letterSpacing: 0,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle headlineLarge = TextStyle(
-    fontSize: headlineLargeSize,
+  static TextStyle get headlineLarge => TextStyle(
+    fontSize: 32.0,
     fontWeight: regular,
     letterSpacing: 0,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle headlineMedium = TextStyle(
-    fontSize: headlineMediumSize,
+  static TextStyle get headlineMedium => TextStyle(
+    fontSize: 28.0,
     fontWeight: regular,
     letterSpacing: 0.25,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle headlineSmall = TextStyle(
-    fontSize: headlineSmallSize,
+  static TextStyle get headlineSmall => TextStyle(
+    fontSize: 24.0,
     fontWeight: medium,
     letterSpacing: 0,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle titleLarge = TextStyle(
-    fontSize: titleLargeSize,
+  static TextStyle get titleLarge => TextStyle(
+    fontSize: 22.0,
     fontWeight: medium,
     letterSpacing: 0,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle titleMedium = TextStyle(
-    fontSize: titleMediumSize,
+  static TextStyle get titleMedium => TextStyle(
+    fontSize: 16.0,
     fontWeight: medium,
     letterSpacing: 0.15,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle titleSmall = TextStyle(
-    fontSize: titleSmallSize,
+  static TextStyle get titleSmall => TextStyle(
+    fontSize: 14.0,
     fontWeight: medium,
     letterSpacing: 0.1,
-    color: AppColors.textPrimary,
+    color: Colors.white,
   );
 
-  static TextStyle bodyLarge = TextStyle(
-    fontSize: bodyLargeSize,
+  static TextStyle get bodyLarge => TextStyle(
+    fontSize: 16.0,
     fontWeight: regular,
     letterSpacing: 0.5,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle bodyMedium = TextStyle(
-    fontSize: bodyMediumSize,
+  static TextStyle get bodyMedium => TextStyle(
+    fontSize: 14.0,
     fontWeight: regular,
     letterSpacing: 0.25,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle bodySmall = TextStyle(
-    fontSize: bodySmallSize,
+  static TextStyle get bodySmall => TextStyle(
+    fontSize: 12.0,
     fontWeight: regular,
     letterSpacing: 0.4,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle labelLarge = TextStyle(
-    fontSize: labelLargeSize,
+  static TextStyle get labelLarge => TextStyle(
+    fontSize: 14.0,
     fontWeight: medium,
     letterSpacing: 0.1,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle labelMedium = TextStyle(
-    fontSize: labelMediumSize,
+  static TextStyle get labelMedium => TextStyle(
+    fontSize: 12.0,
     fontWeight: medium,
     letterSpacing: 0.5,
     color: AppColors.textPrimary,
   );
 
-  static TextStyle labelSmall = TextStyle(
-    fontSize: labelSmallSize,
+  static TextStyle get labelSmall => TextStyle(
+    fontSize: 11.0,
     fontWeight: medium,
     letterSpacing: 0.5,
     color: AppColors.textPrimary,

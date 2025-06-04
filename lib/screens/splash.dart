@@ -1,10 +1,9 @@
 import 'dart:async';
+
 import '../network/models/auth_model.dart';
 import '../utilities/app_exports.dart';
 import 'home/home_binding.dart';
 import 'home/home_view.dart';
-import 'login/login_binding.dart';
-import 'login/login_view.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -30,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         });
         Get.offAll(()=>HomeView(),binding: HomeBinding());
       } else {
-        Get.offAll(() => LoginView(), binding: LoginBinding());
+        Get.offAll(()=>HomeView(),binding: HomeBinding());
       }
     });
   }
@@ -42,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
       decoration:  BoxDecoration(
         color: AppColors.primary,
       ),
-      child: SvgPicture.asset(AppConstants.appLogoWhite),
+      child: Image.asset(AppConstants.logo),
     );
   }
 }

@@ -6,6 +6,7 @@ import 'app_exports.dart';
 
 class AppGlobals {
   static RxBool isLoading = false.obs;
+  static RxBool isDarkMode = false.obs;
 
   ///
   /// VARIABLES
@@ -390,9 +391,10 @@ class AppGlobals {
                       padding: EdgeInsets.all(16),
                       decoration:
                           BoxDecoration(color: AppColors.secondary,shape: BoxShape.circle),
-                      child: SvgPicture.asset(title == 'Activated'
-                          ? AppConstants.done
-                          : AppConstants.warning),
+                      // child: SvgPicture.asset(title == 'Activated'
+                      //     ? AppConstants.done
+                      //     : AppConstants.warning,
+                      //     ),
                     ),
                     SizedBox(
                       height: 60,

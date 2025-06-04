@@ -65,8 +65,9 @@ class _ThemeSwitcherState extends State<ThemeSwitcher> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SvgPicture.asset(AppConstants.light),
-                SvgPicture.asset(AppConstants.dark),
+                //Will work on later
+                // SvgPicture.asset(AppConstants.light),
+                // SvgPicture.asset(AppConstants.dark),
               ],
             ),
           ],

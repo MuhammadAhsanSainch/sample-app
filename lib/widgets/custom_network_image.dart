@@ -19,7 +19,7 @@ class CustomProfileImage extends StatelessWidget {
       // If profile URL is null or empty, show the empty profile picture
       return CircleAvatar(
         radius: size / 2, // CircleAvatar uses radius
-        backgroundImage: AssetImage(AppConstants.emptyProfilePicture),
+        backgroundImage: AssetImage(AppConstants.profileIcon),
       );
     } else {
       // If profile URL exists, try to load the network image
@@ -45,7 +45,7 @@ class CustomProfileImage extends StatelessWidget {
           errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
             // If network image fails to load, show the empty profile picture
             return Image.asset(
-              AppConstants.emptyProfilePicture,
+              AppConstants.profileIcon,
               width: size,
               height: size,
               fit: BoxFit.cover,
