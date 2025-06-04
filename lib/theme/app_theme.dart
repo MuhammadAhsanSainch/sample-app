@@ -72,7 +72,7 @@ class AppColors {
 
   // Background Colors
   static Color get scaffoldBackground =>
-      isDarkMode ? Color(0xFFFFFFFF) : Color(0xFF101010);
+      isDarkMode ? Color(0xFF101010) : Color(0xFFFFFFFF);
 
   // Surface Colors
   static Color get surface =>

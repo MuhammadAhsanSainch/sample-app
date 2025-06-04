@@ -14,8 +14,6 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    // Check if the device is a tablet
-    bool isTablet = Get.context?.isTablet ?? false;
     return GetBuilder<LoginController>(
       init: LoginController.to,
       builder:
@@ -40,10 +38,7 @@ class LoginView extends StatelessWidget {
                       key: loginFormKey,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment:
-                            isTablet
-                                ? CrossAxisAlignment.center
-                                : CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: Get.height * 0.3),
                           GestureDetector(
