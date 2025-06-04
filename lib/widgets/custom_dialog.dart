@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
-import 'package:path_to_water/widgets/custom_image_view.dart';
 
 class CustomDialog extends StatelessWidget {
   final String title;

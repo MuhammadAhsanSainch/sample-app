@@ -19,7 +19,6 @@ export '../widgets/custom_text_form_field.dart';
 export '../widgets/custom_text.dart';
 export '../widgets/custom_pagination_widget.dart';
 export '../widgets/custom_loader.dart';
-export '../widgets/custom_drawer.dart';
 export '../widgets/custom_search_field.dart';
 export '../widgets/custom_app_bar.dart';
 export '../network/app_url.dart';
