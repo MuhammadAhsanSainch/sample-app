@@ -1,5 +1,6 @@
+import 'package:path_to_water/screens/forgot-password/views/reset_password_success_view.dart';
+
 import '../../../utilities/app_exports.dart';
-import '../../login/login_view.dart';
 import '../forgot_password_controller.dart';
 
 class ResetPasswordView extends StatelessWidget {
@@ -13,7 +14,7 @@ class ResetPasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ForgotPasswordController>(
       init: Get.put(ForgotPasswordController()),
-      builder: (controller) => CustomLoader(
+      builder: (controller) => Obx(()=>CustomLoader(
         isTrue: AppGlobals.isLoading.value,
         child: Scaffold(
           body: Container(
@@ -50,18 +51,18 @@ class ResetPasswordView extends StatelessWidget {
                     ),
                     SizedBox(height: Get.height * 0.01),
                     Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                "Forgot your Password? No worries!",
-                                style: AppTextTheme.bodyLarge,
-                              ),
-                              CustomText(
-                                "Reset It Now And Regain Access Instantly",
-                                style: AppTextTheme.bodyLarge,
-                              ),
-                            ],
-                          ),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          "Forgot your Password? No worries!",
+                          style: AppTextTheme.bodyLarge,
+                        ),
+                        CustomText(
+                          "Reset It Now And Regain Access Instantly",
+                          style: AppTextTheme.bodyLarge,
+                        ),
+                      ],
+                    ),
 
                     SizedBox(height: Get.height * 0.02),
 
@@ -77,12 +78,12 @@ class ResetPasswordView extends StatelessWidget {
                       validator: (value) => validatePassword(value),
                       inputFormatters: [
                         BlankSpaceInputFormatter(),
-                       ],
+                      ],
                     ),
 
                     ///Confirm Password
                     CustomTextFormField(
-                      outerPadding: EdgeInsets.zero,
+                      // outerPadding: EdgeInsets.zero,
                       controller: controller.confirmPasswordTFController,
                       upperLabel: "Confirm Password".tr,
                       upperLabelReqStar: "*",
@@ -93,7 +94,7 @@ class ResetPasswordView extends StatelessWidget {
                           value, controller.passwordTFController.text),
                       inputFormatters: [
                         BlankSpaceInputFormatter(),
-                       ],
+                      ],
                     ),
 
                     SizedBox(height: Get.height * 0.02),
@@ -112,9 +113,8 @@ class ResetPasswordView extends StatelessWidget {
                             "pin": controller.confirmPasswordTFController.text,
                           }).then((value) {
                             if(value['status']){
-                              Get.offAll(() => LoginView());
+                              Get.to(() => ResetPasswordSuccessView());
                             }
-
                           });
                         }),
                     SizedBox(height: Get.height * 0.02),
@@ -124,7 +124,7 @@ class ResetPasswordView extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      )),
     );
   }
 }
