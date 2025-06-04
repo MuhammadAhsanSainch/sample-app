@@ -36,12 +36,12 @@ String? validateEmail(value) {
   }
   return msg;
 }
-String? validatePIN(String? value) {
+String? validatePassword(String? value) {
   String? msg;
   if (value!.isEmpty) {
-    msg = "4-digit PIN is required";
+    msg = "Password is required";
   } else if (value.length < 4) {
-    msg = "PIN must be at least 4 digits long";
+    msg = "Password must be at least 4 characters long";
   }
   return msg;
 }

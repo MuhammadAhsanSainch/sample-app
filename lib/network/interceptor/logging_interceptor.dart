@@ -36,7 +36,7 @@ class Logging extends Interceptor {
         (response.data['status'] == false && response.data['data'] == null)) {
       AppGlobals.isLoading(false);
       AppGlobals.showAlertDialog(
-          heading: response.data['code'] == 'BAD_REQUEST'
+          heading: response.data['code'] == 'BAD_REQUEST' || response.data['code'] == 'NOT_FOUND'
               ? 'Error'
               : response.data['code'],
           message: response.data['message'].toString());
