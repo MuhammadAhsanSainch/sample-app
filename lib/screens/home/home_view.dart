@@ -1,4 +1,5 @@
 import 'package:path_to_water/screens/home/home_controller.dart';
+import 'package:path_to_water/utilities/app_helper.dart';
 import 'package:path_to_water/widgets/custom_advanced_drawer.dart';
 import 'package:path_to_water/widgets/custom_image_view.dart';
 
@@ -14,6 +15,7 @@ class HomeView extends StatelessWidget {
     final size = MediaQuery.sizeOf(context);
     return CustomAdvancedDrawer(
       controller: controller.drawerController,
+      homeController: controller,
       child: GetX(
         init: controller,
         builder: (_) {
@@ -50,63 +52,60 @@ class HomeView extends StatelessWidget {
                   topRight: Radius.circular(24),
                 ),
                 child: BottomAppBar(
-                  height: 85.h,
+                  height: Helper.getNormDim(95.h, 85.h),
                   clipBehavior: Clip.antiAlias,
                   shape: CircularNotchedRectangle(),
                   color: AppColors.primary,
                   surfaceTintColor: AppColors.primary,
                   child: Obx(() {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              controller.currentTabIndex.value = 0;
-                            },
-                            icon: buildSvgIconWidget(
-                              assetName: AppConstants.homeIcon,
-                              label: "Home",
-                              isSelected: controller.currentTabIndex.value == 0,
-                            ),
+                    return Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            controller.currentTabIndex.value = 0;
+                          },
+                          child: buildSvgIconWidget(
+                            assetName: AppConstants.homeIcon,
+                            label: "Home",
+                            isSelected: controller.currentTabIndex.value == 0,
                           ),
-                          IconButton(
-                            onPressed: () {
-                              controller.currentTabIndex.value = 1;
-                            },
-                            icon: buildSvgIconWidget(
-                              assetName: AppConstants.calendarIcon,
-                              label: "Reminder",
-                              isSelected: controller.currentTabIndex.value == 1,
-                            ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            controller.currentTabIndex.value = 1;
+                          },
+                          child: buildSvgIconWidget(
+                            assetName: AppConstants.calendarIcon,
+                            label: "Reminder",
+                            isSelected: controller.currentTabIndex.value == 1,
                           ),
-                          IconButton(
-                            onPressed: () {
-                              controller.currentTabIndex.value = 2;
-                            },
-                            icon: buildSvgIconWidget(
-                              assetName: AppConstants.clockIcon,
-                              label: "Calendar",
-                              isSelected: controller.currentTabIndex.value == 2,
-                            ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            controller.currentTabIndex.value = 2;
+                          },
+                          child: buildSvgIconWidget(
+                            assetName: AppConstants.clockIcon,
+                            label: "Calendar",
+                            isSelected: controller.currentTabIndex.value == 2,
                           ),
-                          IconButton(
-                            onPressed: () {
-                              // controller.currentTabIndex.value = 3;
-                              controller.showLoginDialog();
-                              
-                            },
-                            icon: buildSvgIconWidget(
-                              assetName: AppConstants.profileIcon,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // controller.currentTabIndex.value = 3;
+                            controller.showLoginDialog();
                             
-                              label: "Profile",
-                              isSelected: controller.currentTabIndex.value == 3,
-                            ),
+                          },
+                          child: buildSvgIconWidget(
+                            assetName: AppConstants.profileIcon,
+                          
+                            label: "Profile",
+                            isSelected: controller.currentTabIndex.value == 3,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     );
                   }),
                 ),
@@ -121,7 +120,6 @@ class HomeView extends StatelessWidget {
   Widget buildSvgIconWidget({
     required String assetName,
     required String label,
-    EdgeInsetsGeometry? padding,
 
     bool isSelected = false,
   }) {
@@ -130,10 +128,10 @@ class HomeView extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       children: [
         Container(
-          padding: padding ?? const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
           decoration: BoxDecoration(
             color: isSelected ? AppColors.lightColor : Colors.transparent,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(18),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,

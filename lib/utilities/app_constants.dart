@@ -26,6 +26,13 @@ class AppConstants {
   static const String passResetSuccessBgDark = '$images/pass_reset_bg_dark.png';
   static const String resetPassBgLight = '$images/reset_pass_bg_light.png';
   static const String resetPassBgDark = '$images/reset_pass_bg_dark.png';
+  static const String homeBgImage = '$images/home_bg_image.png';
+  static const String homeBgDarImage = '$images/home_bg_dark_image.png';
+  static const String homeTileBgImage = '$images/home_tile_bg_image.png';
+  static const String homeTileBgDarkImage = '$images/home_tile_bg_dark_image.png';
+  static const String welcomeBannerImage = '$images/welcome_banner_image.png';
+  static const String customDialogBgImage = '$images/custom_dialog_bg_image.png';
+  static const String customDialogBgDarkImage = '$images/custom_dialog_bg_dark_image.png';
 
   ///Icons
   static const String profile = '$icons/profile-circle.svg';
@@ -37,16 +44,6 @@ class AppConstants {
   static const String eyeSlash = '$icons/eye-slash.svg';
   static const String leftLine = '$icons/left-line.svg';
   static const String rightLine = '$icons/right-line.svg';
-
-  static const String homeBgImage = '$images/home_bg_image.png';
-  static const String homeBgDarImage = '$images/home_bg_dark_image.png';
-  static const String homeTileBgImage = '$images/home_tile_bg_image.png';
-  static const String homeTileBgDarkImage = '$images/home_tile_bg_dark_image.png';
-  static const String welcomeBannerImage = '$images/welcome_banner_image.png';
-  static const String customDialogBgImage = '$images/custom_dialog_bg_image.png';
-  static const String customDialogBgDarkImage = '$images/custom_dialog_bg_dark_image.png';
-
-  ///Icons
 
   static const String logo = '$icons/app_logo.png';
 
@@ -75,6 +72,10 @@ class AppConstants {
   static const String logoutIcon = '$icons/logout_icon.png';
   static const String notificationIcon = '$icons/notification_icon.png';
   static const String favoriteIcon = '$icons/favorite_icon.png';
+  static const String searchIcon = '$icons/search_icon.png';
+  static const String favoriteFillIcon = '$icons/favorite_filled_icon.png';
+  static const String favoriteUnFillIcon = '$icons/favorite_unfilled_icon.png';
+   static const String trashIcon = '$icons/trash_icon.png';
 
   // text-fields input whitelisting
 

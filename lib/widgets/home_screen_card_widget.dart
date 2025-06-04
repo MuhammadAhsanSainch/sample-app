@@ -1,5 +1,4 @@
 import 'package:path_to_water/utilities/app_exports.dart';
-import 'package:path_to_water/widgets/custom_image_view.dart';
 import 'package:path_to_water/widgets/custom_quran_info_dialog.dart';
 
 class HomeScreenCardWidget extends StatelessWidget {
@@ -16,6 +15,7 @@ class HomeScreenCardWidget extends StatelessWidget {
   final DateTime? dateTime;
   final int? maxLine;
   final void Function()? onInfoTap;
+  final void Function()? onFavoriteIconTap;
   const HomeScreenCardWidget({
     super.key,
     required this.icon,
@@ -31,6 +31,7 @@ class HomeScreenCardWidget extends StatelessWidget {
     this.maxLine,
     this.onInfoTap,
     this.showSahihText = true,
+    this.onFavoriteIconTap,
   });
 
   @override
@@ -75,12 +76,14 @@ class HomeScreenCardWidget extends StatelessWidget {
                   child: Icon(Icons.info_outline, color: AppColors.primary),
                 ),
                 Spacer(),
-                Icon(
-                  isFavorite == true
-                      ? Icons.star_rate_rounded
-                      : Icons.star_border_purple500_rounded,
+                CustomImageView(
+                  imagePath:
+                      isFavorite == true
+                          ? AppConstants.favoriteFillIcon
+                          : AppConstants.favoriteUnFillIcon,
                   color: AppColors.favoriteColor,
-                  size: 28.sp,
+                  height: 24.sp,
+                  onTap: onFavoriteIconTap,
                 ),
               ],
             ),

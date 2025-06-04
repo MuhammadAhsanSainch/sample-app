@@ -113,7 +113,7 @@ class AppColors {
   static const Color dividerDark = Color(0xFF303030);
   static const Color lightColor = Color(0xFFFFFFFF);
   static const Color dark = Color(0xFF101010);
-  static const Color grey = Color(0xFF0D0F1F);
+  static const Color grey = Color(0xFF808080);
   static const Color grey500 = Color(0xFF86878F);
   static const Color grey700 = Color(0xFF171717);
   static const Color favoriteColor = Color(0xFFFFC300);

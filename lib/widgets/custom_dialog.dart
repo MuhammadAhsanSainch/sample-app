@@ -50,8 +50,8 @@ class CustomDialog extends StatelessWidget {
                     ),
                   ),
                   alignment: Alignment.center,
-                  padding: EdgeInsets.only(top: 8.h),
-                  child: CustomImageView(imagePath: imageIcon, height: 55.h),
+                  padding: EdgeInsets.only(top: 12.h),
+                  child: CustomImageView(imagePath: imageIcon, height: 50.h),
                 ),
 
                 8.verticalSpace,

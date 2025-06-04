@@ -1,5 +1,6 @@
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:path_to_water/screens/dashboard/dashboard_view.dart';
+import 'package:path_to_water/screens/favorite_screen/favorite_screen.dart';
 import 'package:path_to_water/screens/home/widgets/banner_dialog_widget.dart';
 import 'package:path_to_water/screens/login/login_binding.dart';
 import 'package:path_to_water/screens/login/login_view.dart';
@@ -10,7 +11,7 @@ import '../../utilities/app_exports.dart';
 class HomeController extends GetxController {
   var currentTabIndex = 0.obs;
 
-  final AdvancedDrawerController drawerController  = AdvancedDrawerController();
+  final AdvancedDrawerController drawerController = AdvancedDrawerController();
 
   static HomeController get find {
     try {
@@ -20,13 +21,32 @@ class HomeController extends GetxController {
     }
   }
 
-  var pageTitle = <String>["Home", "Reminder", "Calendar", "Profile"];
+  var pageTitle = <String>[
+    "Home",
+    "Reminder",
+    "Calendar",
+    "Profile",
+    "Today Quiz",
+    "Quiz History",
+    "Journal",
+    "Notification",
+    "Subscription",
+    "Favorites",
+    "Settings",
+  ];
 
   var pages = <Widget>[
     DashboardView(),
     Center(child: Text("Reminder")),
     Center(child: Text("Calendar")),
     Center(child: Text("Profile")),
+    Center(child: Text("Today Quiz")),
+    Center(child: Text("Quiz History")),
+    Center(child: Text("Journal")),
+    Center(child: Text("Notification")),
+    Center(child: Text("Subscription")),
+    FavoriteScreen(),
+    Center(child: Text("Settings")),
   ];
 
   @override
@@ -44,8 +64,8 @@ class HomeController extends GetxController {
         message: "Please sign in to access your personalized settings and features.",
         imageIcon: AppConstants.personIcon,
         btnText: "Login",
-        onButtonTap: (){
-          Get.offAll(()=> LoginView(),binding: LoginBinding());
+        onButtonTap: () {
+          Get.offAll(() => LoginView(), binding: LoginBinding());
         },
       ),
     );

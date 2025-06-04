@@ -15,6 +15,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool enableInteractiveSelection;
   final bool enableSuggestions;
   final int? maxLength;
+  final Color? borderColor;
 
   const CustomTextFormField({
     super.key,
@@ -32,6 +33,7 @@ class CustomTextFormField extends StatefulWidget {
     this.enableInteractiveSelection = true, // Default to true
     this.enableSuggestions = true, // Default to true
     this.maxLength,
+    this.borderColor,
   });
 
   @override
@@ -106,19 +108,19 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                       )
                       : null,
               border: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.textFieldBorderColor),
+                borderSide: BorderSide(color: widget.borderColor ?? AppColors.textFieldBorderColor),
                 borderRadius: BorderRadius.circular(8),
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.textFieldBorderColor),
+                borderSide: BorderSide(color: widget.borderColor ?? AppColors.textFieldBorderColor),
                 borderRadius: BorderRadius.circular(8),
               ),
               disabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.textFieldBorderColor),
+                borderSide: BorderSide(color: widget.borderColor ?? AppColors.textFieldBorderColor),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.textFieldBorderColor),
+                borderSide: BorderSide(color: widget.borderColor ?? AppColors.textFieldBorderColor),
                 borderRadius: BorderRadius.circular(8),
               )
             ),
