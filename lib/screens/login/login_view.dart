@@ -13,7 +13,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    
     return GetBuilder<LoginController>(
       init: LoginController.to,
       builder:
@@ -22,7 +22,7 @@ class LoginView extends StatelessWidget {
               isTrue: AppGlobals.isLoading.value,
               child: Scaffold(
                 body: Container(
-                  height: size.height,
+                  height: Get.height,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
@@ -45,7 +45,7 @@ class LoginView extends StatelessWidget {
                             onTap: () {
                               if (kDebugMode) {
                                 controller.emailTFController.text =
-                                    "yousuf.ali@futurbyte.ae";
+                                    "ahsan@mailinator.com";
                                 controller.passwordTFController.text = "1235";
                               }
                             },
@@ -113,7 +113,7 @@ class LoginView extends StatelessWidget {
 
                           ///Sign In Button
                           CustomRectangleButton(
-                            width: size.width,
+                            width: Get.width,
                             text: "Login",
                             onTap: () {
                               AppGlobals.isDarkMode.toggle();

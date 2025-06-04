@@ -14,6 +14,12 @@ class AppConstants {
   static const String singUpBgDark = '$images/sign_up_bg_dark.png';
   static const String forgetPassBgLight = '$images/forget_pass_bg_light.png';
   static const String forgetPassBgDark = '$images/forget_pass_bg_dark.png';
+  static const String otpCodeBgLight = '$images/otp_code_bg_light.png';
+  static const String otpCodeBgDark = '$images/otp_code_bg_dark.png';
+  static const String passResetBgLight = '$images/pass_reset_bg_light.png';
+  static const String passResetBgDark = '$images/pass_reset_bg_dark.png';
+  static const String resetPassBgLight = '$images/reset_pass_bg_light.png';
+  static const String resetPassBgDark = '$images/reset_pass_bg_dark.png';
 
   ///Icons
   static const String profile = '$icons/profile-circle.svg';

@@ -9,7 +9,6 @@ class PasswordRecoveryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return GetBuilder<ForgotPasswordController>(
       init: Get.put(ForgotPasswordController()),
       builder:
@@ -21,7 +20,7 @@ class PasswordRecoveryView extends StatelessWidget {
                 body: Stack(
                   children: [
                     Container(
-                      height: size.height,
+                      height: Get.height,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
@@ -44,8 +43,7 @@ class PasswordRecoveryView extends StatelessWidget {
                                 onTap: () {
                                   if (kDebugMode) {
                                     controller.emailTFController.text =
-                                        'yousuf.ali@futurbyte.ae';
-                                    controller.updateSendOTPButton();
+                                        'ahsan@mailinator.com';
                                   }
                                 },
                                 child: CustomText(
@@ -75,9 +73,6 @@ class PasswordRecoveryView extends StatelessWidget {
                                     allow: true,
                                   ),
                                 ],
-                                onChanged:
-                                    (String value) =>
-                                        controller.updateSendOTPButton(),
                               ),
                               SizedBox(height: Get.height * 0.02),
 

@@ -10,7 +10,7 @@ class SignupView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    
     // Check if the device is a tablet
     bool isTablet = Get.context?.isTablet ?? false;
     return GetBuilder<SignupController>(
@@ -21,7 +21,7 @@ class SignupView extends StatelessWidget {
               isTrue: AppGlobals.isLoading.value,
               child: Scaffold(
                 body: Container(
-                  height: size.height,
+                  height: Get.height,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
@@ -47,7 +47,7 @@ class SignupView extends StatelessWidget {
                             onTap: () {
                               if (kDebugMode) {
                                 controller.emailTFController.text =
-                                    "yousuf.ali@futurbyte.ae";
+                                    "ahsan@mailinator.com";
                                 controller.passwordTFController.text = "1235";
                               }
                             },
@@ -135,7 +135,7 @@ class SignupView extends StatelessWidget {
 
                           ///Sign Up Button
                           CustomRectangleButton(
-                            width: size.width,
+                            width: Get.width,
                             text: "Create Account",
                             onTap: () {
                               AppGlobals.isDarkMode.toggle();

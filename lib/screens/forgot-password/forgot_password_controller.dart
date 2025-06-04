@@ -20,34 +20,7 @@ class ForgotPasswordController extends GetxController {
   var otp = ''.obs; // For storing the OTP value
   var timerSeconds = 30.obs; // Timer for countdown
   Timer? _timer;
-  var enableSendOTPButton = false.obs;
-  var enableVerifyOTPButton = false.obs;
-  var enableUpdatePasswordButton = false.obs;
 
-  updateSendOTPButton() {
-    if (emailTFController.text.isNotEmpty) {
-      enableSendOTPButton(true);
-    } else {
-      enableSendOTPButton(false);
-    }
-  }
-
-  updateVerifyOTPButton() {
-    if (otpTFController.text.isNotEmpty) {
-      enableVerifyOTPButton(true);
-    } else {
-      enableVerifyOTPButton(false);
-    }
-  }
-
-  updateUpdatePasswordButton() {
-    if (passwordTFController.text.isNotEmpty &&
-        confirmPasswordTFController.text.isNotEmpty) {
-      enableUpdatePasswordButton(true);
-    } else {
-      enableUpdatePasswordButton(false);
-    }
-  }
 
   // Starts the countdown timer
   void startTimer() {
