@@ -8,7 +8,7 @@ class CustomTextFormField extends StatefulWidget {
   final String upperLabelReqStar;
   final String hintValue;
   final String? Function(String?)? validator;
-  final TextInputType type;
+  final TextInputType? type;
   final List<TextInputFormatter>? inputFormatters;
   final ValueChanged<String>? onChanged;
   final bool obscureText;
@@ -25,7 +25,7 @@ class CustomTextFormField extends StatefulWidget {
     required this.upperLabelReqStar,
     required this.hintValue,
     this.validator,
-    required this.type,
+    this.type,
     this.inputFormatters,
     this.onChanged,
     this.obscureText = false, // Default to not obscure
@@ -52,7 +52,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return Padding(
       padding: widget.outerPadding ?? EdgeInsets.only(left: 2.0.w, top: 10.h),
       child: Column(
-        spacing: 10,
+        spacing: 5,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -80,7 +80,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             decoration: InputDecoration(
               prefixIconConstraints: BoxConstraints(minWidth: 50),
               hintText: widget.hintValue,
-              hintStyle: AppTextTheme.bodyLarge,
+              hintStyle: AppTextTheme.bodyLarge.copyWith(color: Colors.grey),
               filled: true,
               fillColor: AppColors.textFieldFillColor,
               prefixIcon: Padding(

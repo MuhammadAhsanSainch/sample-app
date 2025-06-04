@@ -45,12 +45,12 @@ String? validatePIN(String? value) {
   }
   return msg;
 }
-String? validateConfirmPIN(String? pwd, String? confirmPwd) {
+String? validateConfirmPassword(String? pwd, String? confirmPwd) {
   String? msg;
   if (confirmPwd!.isEmpty) {
-    msg = "4-digit PIN is required";
+    msg = "Confirm Password is required";
   } else if (pwd != confirmPwd) {
-    msg = "Confirm PIN does not matched.";
+    msg = "Confirm Password does not matched.";
   }
   return msg;
 }

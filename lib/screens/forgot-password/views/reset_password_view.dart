@@ -87,7 +87,7 @@ class ResetPasswordView extends StatelessWidget {
                   hintValue: ('•' * 4).tr,
                   obscureText: true,
                   prefixIcon: SvgPicture.asset(AppConstants.lock),
-                  validator: (value) => validateConfirmPIN(
+                  validator: (value) => validateConfirmPassword(
                       value, controller.passwordTFController.text),
                   type: TextInputType.number,
                   maxLength: 4,

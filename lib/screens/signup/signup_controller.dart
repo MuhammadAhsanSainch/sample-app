@@ -1,9 +1,13 @@
 import '../../network/models/auth_model.dart';
 import '../../utilities/app_exports.dart';
 
-class LoginController extends GetxController {
+class SignupController extends GetxController {
+  final TextEditingController fullNameTFController = TextEditingController();
+  final TextEditingController userNameTFController = TextEditingController();
   final TextEditingController emailTFController = TextEditingController();
   final TextEditingController passwordTFController = TextEditingController();
+  final TextEditingController confirmPasswordTFController = TextEditingController();
+
 
   @override
   void dispose() {
@@ -12,15 +16,15 @@ class LoginController extends GetxController {
     super.dispose();
   }
 
-  static LoginController get to {
+  static SignupController get to {
     try {
-      return Get.find<LoginController>();
+      return Get.find<SignupController>();
     } catch (e) {
-      return Get.put(LoginController());
+      return Get.put(SignupController());
     }
   }
 
-  Future<AuthModel?> logIn(reqBody) {
+  Future<AuthModel?> singUp(reqBody) {
     return NetworkService.handleApiCall<GeneralMapResponse>(
       AppUrl.apiService.signIn(reqBody),
       errorMessagePrefix: 'signIn',
