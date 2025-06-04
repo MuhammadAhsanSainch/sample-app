@@ -1,13 +1,16 @@
+import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:path_to_water/screens/dashboard/dashboard_view.dart';
+import 'package:path_to_water/screens/home/widgets/banner_dialog_widget.dart';
+import 'package:path_to_water/widgets/custom_dialog.dart';
+
 import '../../utilities/app_exports.dart';
+
 class HomeController extends GetxController {
-  var mobileSelectedIndex = 2.obs;
-  var tabletSelectedIndex = 0.obs;
-  var tabletScreenHeading='Dashboard'.obs;
+  var currentTabIndex = 0.obs;
 
-  void updateIndex(int index) => mobileSelectedIndex.value = index;
+  final AdvancedDrawerController drawerController  = AdvancedDrawerController();
 
-
-  static HomeController get to {
+  static HomeController get find {
     try {
       return Get.find<HomeController>();
     } catch (e) {
@@ -15,18 +18,32 @@ class HomeController extends GetxController {
     }
   }
 
-  var mobilePages = <Widget>[
-    Center(child: Text("Home")),
+  var pageTitle = <String>["Home", "Reminder", "Calendar", "Profile"];
+
+  var pages = <Widget>[
+    DashboardView(),
     Center(child: Text("Reminder")),
     Center(child: Text("Calendar")),
     Center(child: Text("Profile")),
-  ].obs;
+  ];
 
+  @override
+  void onInit() {
+    Future.delayed(Duration(seconds: 2), () {
+      Get.dialog(BannerDialogWidget());
+    });
+    super.onInit();
+  }
 
-  var tabletPages = <Widget>[
-    Center(child: Text("Home")),
-    Center(child: Text("Reminder")),
-    Center(child: Text("Calendar")),
-    Center(child: Text("Profile")),
-  ].obs;
+  showLoginDialog() {
+    Get.dialog(
+      CustomDialog(
+        title: "Login to your account.",
+        message: "Please sign in to access your personalized settings and features.",
+        imageIcon: AppConstants.personIcon,
+        btnText: "Login",
+        onButtonTap: (){},
+      ),
+    );
+  }
 }

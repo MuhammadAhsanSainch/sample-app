@@ -8,6 +8,7 @@ class CustomText extends StatelessWidget {
   final TextAlign? textAlign;
   final FontWeight? fontWeight;
   final TextStyle? style;
+  final TextDirection? textDirection;
 
   const CustomText(
     this.text, {
@@ -18,6 +19,7 @@ class CustomText extends StatelessWidget {
     this.fontWeight = FontWeight.normal,
     this.textAlign,
     this.style,
+    this.textDirection,
   });
 
   @override
@@ -37,6 +39,7 @@ class CustomText extends StatelessWidget {
       maxLines: maxLine,
       softWrap: true,
       textAlign: textAlign ?? TextAlign.start,
+      textDirection: textDirection,
     );
   }
 }

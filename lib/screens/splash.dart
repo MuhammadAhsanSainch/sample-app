@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import '../network/models/auth_model.dart';
 import '../utilities/app_exports.dart';
 import 'login/login_binding.dart';
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
         // Get.offAll(()=>HomeView(),binding: HomeBinding());
         Get.offAll(() => LoginView(), binding: LoginBinding());
       } else {
-        Get.offAll(() => LoginView(), binding: LoginBinding());
+        Get.offAll(()=>HomeView(),binding: HomeBinding());
       }
     });
   }

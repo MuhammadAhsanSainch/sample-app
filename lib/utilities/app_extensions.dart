@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+import 'package:path_to_water/utilities/app_constants.dart';
 
 extension StringExtensionNotNull on String {
   bool get isNotNullAndNotEmpty => isNotEmpty;
@@ -108,5 +110,12 @@ void main() {
 
   bool isBetweenExclusive({required DateTime from, required DateTime to}) {
     return isAfter(from) && isBefore(to);
+  }
+}
+
+extension DateTimeExtension2 on DateTime? {
+  String toFormatDateTime({String format = ''}) {
+    if (this == null) return "";
+    return DateFormat(format.isEmpty ? AppConstants.dateFormat : format).format(this!);
   }
 }

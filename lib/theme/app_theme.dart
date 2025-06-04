@@ -101,6 +101,19 @@ class AppColors {
   // Other Colors
   static const Color dividerLight = Color(0xFFEEEEEE);
   static const Color dividerDark = Color(0xFF303030);
+  static const Color lightColor = Color(0xFFFFFFFF);
+  static const Color dark = Color(0xFF101010);
+  static const Color grey = Color(0xFF0D0F1F);
+  static const Color grey500 = Color(0xFF86878F);
+  static const Color grey700 = Color(0xFF171717);
+  static const Color favoriteColor = Color(0xFFFFC300);
+  static const Color strokeColor = Color(0xFFD3D3D3);
+  static const Color strokeDarkGreyColor = Color(0xFF2A2A2A);
+  static const Color greenStrokeColor = Color(0xFF40876D);
+  static const Color greyTextColor = Color(0xFFA1A2A5);
+  static const Color greyColor = Color(0xFF70787D);
+
+
 
   // Material Color from primary color
   static MaterialColor get primaryMaterialColor {

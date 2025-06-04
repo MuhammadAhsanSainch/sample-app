@@ -1,50 +1,155 @@
+import 'package:path_to_water/screens/home/home_controller.dart';
+import 'package:path_to_water/widgets/custom_advanced_drawer.dart';
+import 'package:path_to_water/widgets/custom_image_view.dart';
+
 import '../../utilities/app_exports.dart';
-import '../../widgets/custom_bottom_bar.dart';
-import 'home_controller.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
+  HomeController get controller => Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
-        init: HomeController.to,
-        builder: (controller) => (Get.context?.isTablet ?? false)
-            ? buildTabletView(context, controller)
-            : buildMobileView(context, controller));
-  }
-
-  Widget buildTabletView(context, HomeController controller) {
-    return Scaffold(
-      body: Row(
-        children: [
-          NavigationDrawerWidget(),
-          Expanded(
-              child: Column(
-            children: [
-              Obx(() => TabletAppBar(
-                    title: controller.tabletScreenHeading.value,
-                  )),
-              Obx(() => Expanded(
-                    child: controller.tabletPages.elementAt(
-                      controller.tabletSelectedIndex.value,
-                    ),
-                  )),
-            ],
-          ))
-        ],
+    final size = MediaQuery.sizeOf(context);
+    return CustomAdvancedDrawer(
+      controller: controller.drawerController,
+      child: GetX(
+        init: controller,
+        builder: (_) {
+          return Scaffold(
+            appBar: CustomAppBar(
+              text: controller.pageTitle[controller.currentTabIndex.value],
+              showMenuIcon: true,
+              centerTitle: true,
+              bgColor: Colors.transparent,
+              onMenuPressed: () {
+                
+                controller.drawerController.showDrawer();
+              },
+            ),
+            extendBodyBehindAppBar: controller.currentTabIndex.value == 0,
+            extendBody: controller.currentTabIndex.value == 0,
+            backgroundColor: AppColors.scaffoldBackground,
+            body: SizedBox(
+              height: size.height,
+              width: size.width,
+      
+              child: controller.pages[controller.currentTabIndex.value],
+            ),
+            bottomNavigationBar: Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
+                child: BottomAppBar(
+                  height: 85.h,
+                  clipBehavior: Clip.antiAlias,
+                  shape: CircularNotchedRectangle(),
+                  color: AppColors.primary,
+                  surfaceTintColor: AppColors.primary,
+                  child: Obx(() {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              controller.currentTabIndex.value = 0;
+                            },
+                            icon: buildSvgIconWidget(
+                              assetName: AppConstants.homeIcon,
+                              label: "Home",
+                              isSelected: controller.currentTabIndex.value == 0,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              controller.currentTabIndex.value = 1;
+                            },
+                            icon: buildSvgIconWidget(
+                              assetName: AppConstants.calendarIcon,
+                              label: "Reminder",
+                              isSelected: controller.currentTabIndex.value == 1,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              controller.currentTabIndex.value = 2;
+                            },
+                            icon: buildSvgIconWidget(
+                              assetName: AppConstants.clockIcon,
+                              label: "Calendar",
+                              isSelected: controller.currentTabIndex.value == 2,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              // controller.currentTabIndex.value = 3;
+                              controller.showLoginDialog();
+                              
+                            },
+                            icon: buildSvgIconWidget(
+                              assetName: AppConstants.profileIcon,
+                            
+                              label: "Profile",
+                              isSelected: controller.currentTabIndex.value == 3,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget buildMobileView(context, HomeController controller) {
-    return Scaffold(
-      body: Obx(
-          () => controller.mobilePages[controller.mobileSelectedIndex.value]),
-      bottomNavigationBar: Obx(() => CustomBottomBar(
-            selectedIndex: controller.mobileSelectedIndex.value,
-            onTap: controller.updateIndex,
-          )),
+  Widget buildSvgIconWidget({
+    required String assetName,
+    required String label,
+    EdgeInsetsGeometry? padding,
+
+    bool isSelected = false,
+  }) {
+    return Stack(
+      fit: StackFit.loose,
+      alignment: Alignment.bottomCenter,
+      children: [
+        Container(
+          padding: padding ?? const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.lightColor : Colors.transparent,
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomImageView(
+                imagePath: assetName,
+                height: 22,
+                width: 22,
+                color: isSelected ? AppColors.primary : AppColors.lightColor,
+              ),
+              4.verticalSpace,
+              CustomText(label, color: isSelected ? AppColors.primary : AppColors.lightColor),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
