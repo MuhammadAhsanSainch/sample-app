@@ -76,6 +76,9 @@ class AppColors {
   
   static Color get homeScreenCardBgColor => isDarkMode ? grey700 : lightColor;
 
+  //AppBar Color
+  static Color get appBarBgColor => isDarkMode ? Color(0xff262626) : lightColor;
+
 
   // Surface Colors
   static Color get surface =>
@@ -109,10 +112,15 @@ class AppColors {
 
   // Divider Color
   static Color get dividerColor => isDarkMode ?  Color(0xFF303030) : Color(0xFFEEEEEE);
+  //Journal Colors
+   static Color get journalBackgroundColor =>
+      isDarkMode ? Color(0xFF101010) : Color(0xFFFAFAFA);
+
 
   static const Color lightColor = Color(0xFFFFFFFF);
   static const Color dark = Color(0xFF101010);
   static const Color grey = Color(0xFF808080);
+  static const Color grey100 = Color(0xFFF0F0F0);
   static const Color grey500 = Color(0xFF86878F);
   static const Color grey700 = Color(0xFF171717);
   static const Color favoriteColor = Color(0xFFFFC300);
@@ -121,6 +129,7 @@ class AppColors {
   static const Color greenStrokeColor = Color(0xFF40876D);
   static const Color greyTextColor = Color(0xFFA1A2A5);
   static const Color greyColor = Color(0xFF70787D);
+
 
 
 

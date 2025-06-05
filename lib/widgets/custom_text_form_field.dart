@@ -4,6 +4,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController controller;
   final EdgeInsetsGeometry? outerPadding;
   final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final String upperLabel;
   final String upperLabelReqStar;
   final String hintValue;
@@ -17,7 +18,9 @@ class CustomTextFormField extends StatefulWidget {
   final bool readOnly;
   final bool isDatePicker;
   final bool enableSuggestions;
+  final bool? enable;
   final int? maxLength;
+  final int? maxLines;
   final Color? borderColor;
 
   const CustomTextFormField({
@@ -25,6 +28,7 @@ class CustomTextFormField extends StatefulWidget {
     required this.controller,
     this.outerPadding,
     this.prefixIcon,
+    this.suffixIcon,
     required this.upperLabel,
     required this.upperLabelReqStar,
     required this.hintValue,
@@ -39,7 +43,9 @@ class CustomTextFormField extends StatefulWidget {
     this.readOnly=false,
     this.isDatePicker=false,
     this.maxLength,
+    this.maxLines,
     this.borderColor,
+    this.enable,
   });
 
   @override
@@ -79,25 +85,28 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             readOnly: widget.readOnly,
             obscureText: obscureText,
             obscuringCharacter: '*',
+            enabled: widget.enable,
             keyboardType: widget.type,
             inputFormatters: widget.inputFormatters,
             validator: widget.validator,
             onChanged: widget.onChanged,
+            maxLines: widget.maxLines,
             enableInteractiveSelection: widget.enableInteractiveSelection,
             enableSuggestions: widget.enableSuggestions,
             maxLength: widget.maxLength,
             style: AppTextTheme.bodyLarge,
             decoration: InputDecoration(
               prefixIconConstraints: BoxConstraints(minWidth: 50),
+              suffixIconConstraints: BoxConstraints(minWidth: 50),
               hintText: widget.hintValue,
               hintStyle: AppTextTheme.bodyLarge.copyWith(color: Colors.grey),
               filled: true,
               fillColor: AppColors.textFieldFillColor,
-              prefixIcon: Padding(
+              prefixIcon: widget.prefixIcon != null ?  Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: widget.prefixIcon,
-              ),
-              suffixIcon:
+              ) : null,
+              suffixIcon: widget.suffixIcon ?? (
                   (widget.obscureText)
                       ? GestureDetector(
                         onTap: () {
@@ -114,7 +123,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                           ),
                         ),
                       )
-                      : null,
+                      : null),
+                      
               border: OutlineInputBorder(
                 borderSide: BorderSide(color: widget.borderColor ?? AppColors.textFieldBorderColor),
                 borderRadius: BorderRadius.circular(8),
@@ -130,8 +140,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: widget.borderColor ?? AppColors.textFieldBorderColor),
                 borderRadius: BorderRadius.circular(8),
-              )
+              ),
+              
             ),
+            onTapOutside: (event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
           ),
         ],
       ),

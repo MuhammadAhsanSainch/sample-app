@@ -32,7 +32,14 @@ class CustomAdvancedDrawer extends StatelessWidget {
               ),
               _DrawerItem(label: "Today Quiz", pngIcon: AppConstants.quizDrawerIcon),
               _DrawerItem(label: "Quiz History", pngIcon: AppConstants.calendarIcon),
-              _DrawerItem(label: "Journal", pngIcon: AppConstants.journalDrawerIcon),
+              _DrawerItem(
+                label: "Journal",
+                pngIcon: AppConstants.journalDrawerIcon,
+                onTap: () {
+                  controller.hideDrawer();
+                  homeController.currentTabIndex(6);
+                },
+              ),
               _DrawerItem(label: "Notification", pngIcon: AppConstants.notificationIcon),
               _DrawerItem(label: "Subscription", pngIcon: AppConstants.subscriptionIcon),
               _DrawerItem(label: "Dark Mode", pngIcon: AppConstants.themeIcon, showSwitch: true),

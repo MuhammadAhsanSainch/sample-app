@@ -110,6 +110,10 @@ class CustomRectangleButton extends StatelessWidget {
 
   final VoidCallback? onTap;
 
+  final IconAlignment? iconAlignment;
+  
+  final Widget? iconWidget;
+
   const CustomRectangleButton({
 
     super.key,
@@ -126,6 +130,10 @@ class CustomRectangleButton extends StatelessWidget {
 
     this.icon,
 
+    this.iconAlignment,
+
+    this.iconWidget,
+
   });
 
   @override
@@ -140,7 +148,8 @@ class CustomRectangleButton extends StatelessWidget {
 
         onPressed: onTap,
 
-        icon: (icon != null && icon != '') ? SvgPicture.asset(icon!) : null,
+        icon: iconWidget ?? ((icon != null && icon != '') ? SvgPicture.asset(icon!) : null),
+        iconAlignment: iconAlignment,
         label: CustomText(text, style: AppTextTheme.titleSmall.copyWith(fontWeight: FontWeight.w600)),
         style: ElevatedButton.styleFrom(
 
