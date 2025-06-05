@@ -158,7 +158,7 @@ class AppGlobals {
                   ],
                 ),
                 // Divider
-                Divider(color: AppColors.dividerDark),
+                Divider(color: AppColors.dividerColor),
                 Flexible(child: content),
                 const SizedBox(height: 16),
                 // Footer
@@ -324,7 +324,7 @@ class AppGlobals {
                     ),
                   ],
                 ),
-                Divider(color: AppColors.dividerDark),
+                Divider(color: AppColors.dividerColor),
                 const SizedBox(height: 16),
                 Text(
                   msg ??

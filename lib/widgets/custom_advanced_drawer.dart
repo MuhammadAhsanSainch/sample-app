@@ -1,7 +1,6 @@
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:path_to_water/screens/home/home_controller.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
-import 'package:path_to_water/widgets/custom_image_view.dart';
 import 'package:path_to_water/widgets/custom_switch_widget.dart';
 
 class CustomAdvancedDrawer extends StatelessWidget {
@@ -45,7 +44,10 @@ class CustomAdvancedDrawer extends StatelessWidget {
                   homeController.currentTabIndex(9);
                 },
               ),
-              _DrawerItem(label: "Settings", pngIcon: AppConstants.settingIcon),
+              _DrawerItem(label: "Settings", pngIcon: AppConstants.settingIcon, onTap: () {
+                controller.hideDrawer();
+                homeController.currentTabIndex(10);
+              },),
               _DrawerItem(label: "Sign Out", pngIcon: AppConstants.logoutIcon),
             ],
           ),

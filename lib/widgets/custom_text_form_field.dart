@@ -13,6 +13,9 @@ class CustomTextFormField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final bool obscureText;
   final bool enableInteractiveSelection;
+  final bool enabled;
+  final bool readOnly;
+  final bool isDatePicker;
   final bool enableSuggestions;
   final int? maxLength;
   final Color? borderColor;
@@ -32,6 +35,9 @@ class CustomTextFormField extends StatefulWidget {
     this.obscureText = false, // Default to not obscure
     this.enableInteractiveSelection = true, // Default to true
     this.enableSuggestions = true, // Default to true
+    this.enabled=true,
+    this.readOnly=false,
+    this.isDatePicker=false,
     this.maxLength,
     this.borderColor,
   });
@@ -69,6 +75,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           ),
           TextFormField(
             controller: widget.controller,
+            enabled: widget.enabled,
+            readOnly: widget.readOnly,
             obscureText: obscureText,
             obscuringCharacter: '*',
             keyboardType: widget.type,

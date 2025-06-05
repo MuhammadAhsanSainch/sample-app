@@ -1,6 +1,6 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
-import 'package:path_to_water/widgets/custom_image_view.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? bgColor;
@@ -48,10 +48,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               )
               : showBackIcon == true
-              ? IconButton(
-                onPressed: onPressed,
-                icon: Icon(Icons.arrow_back, color: AppColors.dark),
-              )
+              ? GestureDetector(
+            onTap: ()=>Get.back(),
+            child: Container(
+              decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primary),
+              margin: EdgeInsets.only(left: 8),
+              padding: EdgeInsets.all(10),
+              height: 20,
+              width: 20,
+              child: Icon(CupertinoIcons.chevron_left,color: Colors.white,),
+            ),
+          )
               : null),
       title: CustomText(text, fontSize: 18, fontWeight: FontWeight.w500),
     );
