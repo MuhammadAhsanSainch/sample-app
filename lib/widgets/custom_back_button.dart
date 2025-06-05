@@ -10,13 +10,13 @@ class CustomBackButton extends StatelessWidget {
     return GestureDetector(
       onTap: ()=>Navigator.pop(context),
       child: Container(
-        margin: EdgeInsets.only(left: 10),
+        margin: EdgeInsets.only(left: 2),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: AppColors.primary,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(8.0),
           child: Icon(
             CupertinoIcons.back,
             color: Colors.white,

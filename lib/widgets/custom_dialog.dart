@@ -5,13 +5,16 @@ class CustomDialog extends StatelessWidget {
   final String message;
   final String imageIcon;
   final String btnText;
+  final bool? showCloseIcon;
   final void Function()? onButtonTap;
+
   const CustomDialog({
     super.key,
     required this.message,
     required this.imageIcon,
     required this.title,
     required this.btnText,
+    this.showCloseIcon,
     this.onButtonTap,
   });
 
@@ -53,19 +56,33 @@ class CustomDialog extends StatelessWidget {
                 ),
 
                 8.verticalSpace,
-                CustomText(title, fontSize: 20.sp, fontWeight: FontWeight.w600),
+                CustomText(
+                  title,
+                  style: AppTextTheme.headlineSmall,
+                  maxLine: 2,
+                  textAlign: TextAlign.center,
+                ),
                 8.verticalSpace,
                 CustomText(
                   message,
+                  fontSize: 16,
                   fontWeight: FontWeight.w400,
                   textAlign: TextAlign.center,
-                  color: AppGlobals.isDarkMode.value ? AppColors.lightColor : AppColors.grey500,
+                  color:
+                      AppGlobals.isDarkMode.value
+                          ? AppColors.lightColor
+                          : AppColors.grey500,
                   maxLine: 4,
                 ),
                 12.verticalSpace,
                 Row(
                   children: [
-                    Expanded(child: CustomRectangleButton(text: btnText, onTap: onButtonTap)),
+                    Expanded(
+                      child: CustomRectangleButton(
+                        text: btnText,
+                        onTap: onButtonTap,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -74,17 +91,23 @@ class CustomDialog extends StatelessWidget {
           Positioned(
             top: 33.h,
             right: 23.h,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(30),
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-                  child: Icon(Icons.close, color: Colors.white, size: 20),
+            child: Visibility(
+              visible: showCloseIcon ?? false,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(30),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(Icons.close, color: Colors.white, size: 20),
+                  ),
                 ),
               ),
             ),

@@ -1,7 +1,10 @@
+import '../../../widgets/custom_dialog.dart';
 import '../settings_controller.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../widgets/custom_switch_widget.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
+
+import 'change_password_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -21,6 +24,7 @@ class SettingsScreen extends StatelessWidget {
             contentPadding: EdgeInsets.zero,
             title: CustomText('Change Password', style: AppTextTheme.bodyLarge),
             trailing: Icon(CupertinoIcons.chevron_right,color: AppColors.primary,),
+            onTap: ()=> Get.to(()=>ChangePasswordScreen()),
           ),
           Divider(color: AppColors.dividerColor, thickness: 2.5),
           ListTile(
@@ -45,7 +49,20 @@ class SettingsScreen extends StatelessWidget {
             leading: SvgPicture.asset(AppConstants.deleteAccount),
             contentPadding: EdgeInsets.zero,
             title: CustomText('Delete Account', style: AppTextTheme.bodyLarge.copyWith(color: AppColors.error)),
-            onTap: (){},
+            onTap: (){
+              Get.dialog(
+                CustomDialog(
+                  title: "Delete Account",
+                  message: "Are you sure to delete your account? All your data will be deleted",
+                  imageIcon: AppConstants.trashIcon,
+                  btnText: "Yes",
+                  showCloseIcon: true,
+                  onButtonTap: () {
+                    Get.close(0);
+                  },
+                ),
+              );
+            },
           ),
         ],
       ),

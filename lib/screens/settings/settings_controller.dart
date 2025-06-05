@@ -9,6 +9,9 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
   final TextEditingController emailTFController = TextEditingController();
   final TextEditingController dOBTFController = TextEditingController();
   final TextEditingController genderTFController = TextEditingController();
+  final TextEditingController currentPassTFController = TextEditingController();
+  final TextEditingController newPassTFController = TextEditingController();
+  final TextEditingController confirmNewTFController = TextEditingController();
 
   // Function to pick an image
   File? imageFile;
