@@ -4,6 +4,8 @@ import 'package:path_to_water/screens/favorite_screen/favorite_screen.dart';
 import 'package:path_to_water/screens/home/widgets/banner_dialog_widget.dart';
 import 'package:path_to_water/screens/login/login_binding.dart';
 import 'package:path_to_water/screens/login/login_view.dart';
+import 'package:path_to_water/screens/settings/views/profile_screen.dart';
+import 'package:path_to_water/screens/settings/views/settings_screen.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
 
 import '../../utilities/app_exports.dart';
@@ -25,7 +27,7 @@ class HomeController extends GetxController {
     "Home",
     "Reminder",
     "Calendar",
-    "Profile",
+    "My Profile",
     "Today Quiz",
     "Quiz History",
     "Journal",
@@ -39,14 +41,14 @@ class HomeController extends GetxController {
     DashboardView(),
     Center(child: Text("Reminder")),
     Center(child: Text("Calendar")),
-    Center(child: Text("Profile")),
+    ProfileScreen(),
     Center(child: Text("Today Quiz")),
     Center(child: Text("Quiz History")),
     Center(child: Text("Journal")),
     Center(child: Text("Notification")),
     Center(child: Text("Subscription")),
     FavoriteScreen(),
-    Center(child: Text("Settings")),
+    SettingsScreen()
   ];
 
   @override

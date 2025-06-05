@@ -26,7 +26,6 @@ class HomeView extends StatelessWidget {
               centerTitle: true,
               bgColor: Colors.transparent,
               onMenuPressed: () {
-                
                 controller.drawerController.showDrawer();
               },
             ),
@@ -36,7 +35,7 @@ class HomeView extends StatelessWidget {
             body: SizedBox(
               height: size.height,
               width: size.width,
-      
+
               child: controller.pages[controller.currentTabIndex.value],
             ),
             bottomNavigationBar: Container(
@@ -94,13 +93,14 @@ class HomeView extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            // controller.currentTabIndex.value = 3;
-                            controller.showLoginDialog();
-                            
+                            // UserPreferences.isLogin
+                            //     ? controller.currentTabIndex.value = 3
+                            //     : controller.showLoginDialog();
+                            controller.currentTabIndex.value=3;
                           },
                           child: buildSvgIconWidget(
                             assetName: AppConstants.profileIcon,
-                          
+
                             label: "Profile",
                             isSelected: controller.currentTabIndex.value == 3,
                           ),
@@ -143,7 +143,10 @@ class HomeView extends StatelessWidget {
                 color: isSelected ? AppColors.primary : AppColors.lightColor,
               ),
               4.verticalSpace,
-              CustomText(label, color: isSelected ? AppColors.primary : AppColors.lightColor),
+              CustomText(
+                label,
+                color: isSelected ? AppColors.primary : AppColors.lightColor,
+              ),
             ],
           ),
         ),

@@ -33,17 +33,24 @@ class AppConstants {
   static const String welcomeBannerImage = '$images/welcome_banner_image.png';
   static const String customDialogBgImage = '$images/custom_dialog_bg_image.png';
   static const String customDialogBgDarkImage = '$images/custom_dialog_bg_dark_image.png';
+  static const String profileBgLight = '$images/profile_bg_light.png';
+  static const String profileBgDark = '$images/profile_bg_dark.png';
 
   ///Icons
   static const String profile = '$icons/profile-circle.svg';
   static const String mail = '$icons/mail.svg';
   static const String lock = '$icons/lock.svg';
+  static const String calendar = '$icons/calendar.svg';
+  static const String gender = '$icons/gender_icon.svg';
   static const String apple = '$icons/apple.svg';
   static const String google = '$icons/google.svg';
   static const String eye = '$icons/eye.svg';
   static const String eyeSlash = '$icons/eye-slash.svg';
   static const String leftLine = '$icons/left-line.svg';
   static const String rightLine = '$icons/right-line.svg';
+  static const String notification = '$icons/notification.svg';
+  static const String deleteAccount = '$icons/delete_account_icon.svg';
+  static const String profilePlaceHolder = '$icons/profile_placeholder.png';
 
   static const String logo = '$icons/app_logo.png';
 

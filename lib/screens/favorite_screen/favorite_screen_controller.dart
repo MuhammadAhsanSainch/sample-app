@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
+
 
 class FavoriteScreenController extends GetxController with GetSingleTickerProviderStateMixin {
   late TabController tabController;
@@ -27,3 +26,5 @@ class FavoriteScreenController extends GetxController with GetSingleTickerProvid
     );
   }
 }
+
+

@@ -66,7 +66,7 @@ class AppColors {
 
   // Status Colors
   static const Color success = Color(0xFF4CAF50);
-  static const Color error = Color(0xFFDA2326);
+  static const Color error = Color(0xFFD00B0E);
   static const Color warning = Color(0xFFFFC107);
   static const Color info = Color(0xFF2196F3);
 
@@ -107,10 +107,9 @@ class AppColors {
   // Dialog Colors
   static Color get dialogBgColor => isDarkMode ? grey700 : lightColor;
 
+  // Divider Color
+  static Color get dividerColor => isDarkMode ?  Color(0xFF303030) : Color(0xFFEEEEEE);
 
-  // Other Colors
-  static const Color dividerLight = Color(0xFFEEEEEE);
-  static const Color dividerDark = Color(0xFF303030);
   static const Color lightColor = Color(0xFFFFFFFF);
   static const Color dark = Color(0xFF101010);
   static const Color grey = Color(0xFF808080);
