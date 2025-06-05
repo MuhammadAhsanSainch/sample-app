@@ -85,7 +85,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             readOnly: widget.readOnly,
             obscureText: obscureText,
             obscuringCharacter: '*',
-            enabled: widget.enable,
             keyboardType: widget.type,
             inputFormatters: widget.inputFormatters,
             validator: widget.validator,
