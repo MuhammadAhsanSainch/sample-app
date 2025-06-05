@@ -31,7 +31,7 @@ class HomeView extends StatelessWidget {
               },
             ),
             extendBodyBehindAppBar: controller.currentTabIndex.value == 0,
-            extendBody: controller.currentTabIndex.value == 0,
+            extendBody: controller.currentTabIndex.value == 0 || controller.currentTabIndex.value == 6,
             backgroundColor: AppColors.scaffoldBackground,
             body: SizedBox(
               height: size.height,

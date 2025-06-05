@@ -384,6 +384,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  hijri:
+    dependency: "direct main"
+    description:
+      name: hijri
+      sha256: "203eb7341e32789af6429877e88411b1526ef44c5d157ce4d3b930dd32c37ef1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   http:
     dependency: transitive
     description:
@@ -416,6 +424,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.5.4"
+  infinite_carousel:
+    dependency: "direct main"
+    description:
+      name: infinite_carousel
+      sha256: "572967b028f4803e5f4be9adee5760b6c4834eb6912b0f2292f2d93a51912ba0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   intl:
     dependency: "direct main"
     description:

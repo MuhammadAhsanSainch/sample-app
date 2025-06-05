@@ -1,0 +1,367 @@
+import 'package:hijri/hijri_calendar.dart';
+import 'package:infinite_carousel/infinite_carousel.dart';
+import 'package:path_to_water/screens/journal/controllers/journal_listing_controller.dart';
+import 'package:path_to_water/screens/journal/models/calendar_entry_model.dart';
+import 'package:path_to_water/screens/journal/views/calendar_screen.dart';
+import 'package:path_to_water/utilities/app_exports.dart';
+import 'package:path_to_water/utilities/dummy_content.dart';
+import 'package:path_to_water/widgets/custom_dialog.dart';
+import 'package:path_to_water/widgets/custom_quran_info_dialog.dart';
+import 'package:path_to_water/widgets/custom_tab_widget.dart';
+
+class JournalListingScreen extends StatelessWidget {
+  const JournalListingScreen({super.key});
+
+  JournalListingController get controller => Get.put(JournalListingController());
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder(
+      init: controller,
+      builder: (_) {
+        return Column(
+          children: [
+            10.verticalSpace,
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.all(16.r),
+              decoration: BoxDecoration(
+                color: AppGlobals.isDarkMode.value ? AppColors.dark : AppColors.grey100,
+                borderRadius: BorderRadius.circular(8.r),
+                border: Border.all(color: AppColors.primary),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CustomText(
+                        controller.isEnglishCalendar
+                            ? controller.focusedMonth.toFormatDateTime(format: "MMMM, yyyy")
+                            : controller.focusedHijriMonthText,
+                      ),
+                      8.horizontalSpace,
+                      GestureDetector(
+                        onTap: () {
+                          // showDualCalendarSheet(context);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: AppColors.primary),
+                            borderRadius: BorderRadius.circular(3.r),
+                            color: Colors.transparent,
+                          ),
+                          child: Icon(
+                            Icons.keyboard_arrow_down,
+                            color: AppColors.primary,
+                            size: 12.h,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  12.verticalSpace,
+                  _buildHorizontalCalendar(controller),
+                  16.verticalSpace,
+                  _buildCalendarToggle(controller),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: CustomTextFormField(
+                controller: controller.searchController,
+                upperLabel: "",
+                upperLabelReqStar: "",
+                hintValue: "Search",
+                borderColor: AppColors.primary,
+                outerPadding: EdgeInsets.zero,
+                prefixIcon: CustomImageView(
+                  imagePath: AppConstants.searchIcon,
+                  height: 24.h,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            16.verticalSpace,
+            Expanded(
+              child:
+                  DummyContent.allEntries.isEmpty
+                      ? Center(
+                        child: Text(
+                          'No entries for this date.',
+                          style: TextStyle(color: Colors.grey[600]),
+                        ),
+                      )
+                      : _buildEntriesList(DummyContent.allEntries, context),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildHorizontalCalendar(JournalListingController controller) {
+    final double _itemExtent = 80.w;
+    return SizedBox(
+      height: 75.h,
+      child: InfiniteCarousel.builder(
+        itemCount: controller.visibleDates.length,
+        itemExtent: _itemExtent,
+        center: true,
+        loop: false,
+        anchor: 0.0,
+        velocityFactor: 0.2,
+        onIndexChanged: (index) {},
+        controller: controller.infiniteScrollController,
+        axisDirection: Axis.horizontal,
+        itemBuilder: (context, index, realIndex) {
+          final currentOffset = _itemExtent * realIndex;
+          final date = controller.visibleDates[index];
+          return AnimatedBuilder(
+            animation: controller.infiniteScrollController,
+            builder: (context, child) {
+              final diff = (controller.infiniteScrollController.offset - currentOffset);
+              const maxPadding = 5.0;
+              final carouselRatio = _itemExtent / maxPadding;
+
+              return Padding(
+                padding: EdgeInsets.only(
+                  top: (diff / carouselRatio).abs(),
+                  bottom: (diff / carouselRatio).abs(),
+                ),
+                child: child,
+              );
+            },
+            child: _buildDateItem(date, controller),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildDateItem(DateTime date, JournalListingController controller) {
+    final bool isSelected =
+        date.year == controller.selectedDate.year &&
+        date.month == controller.selectedDate.month &&
+        date.day == controller.selectedDate.day;
+
+    String dayNumber;
+    String dayName;
+
+    if (controller.isEnglishCalendar) {
+      dayNumber = DateFormat('d').format(date);
+      dayName = DateFormat('E').format(date); // Short day name (Sun, Mon)
+    } else {
+      HijriCalendar hijri = HijriCalendar.fromDate(date);
+      // HijriCalendar.setLocal('ar'); // For Arabic day names/numbers
+      dayNumber = hijri.hDay.toString();
+      dayName = hijri.getDayName().substring(0, 3);
+    }
+
+    return GestureDetector(
+      onTap: () => controller.onDateSelected(date),
+      child: Container(
+        width: 60.w, // Fixed width for each date item
+        margin: EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.primary : AppColors.dialogBgColor,
+          borderRadius: BorderRadius.circular(12),
+          border: isSelected ? null : Border.all(color: AppColors.primary.withAlpha(100)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomText(dayName, color: isSelected ? AppColors.lightColor : AppColors.grey500),
+            6.verticalSpace,
+            CustomText(
+              dayNumber,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: isSelected ? Colors.white : AppColors.grey500,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCalendarToggle(JournalListingController controller) {
+    return GetBuilder(
+      init: controller,
+      builder: (c_) {
+        return Container(
+          height: 48.h,
+          decoration: BoxDecoration(
+            color: AppColors.scaffoldBackground,
+            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(color: AppColors.primary, width: 1),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: DefaultTabController(
+              length: 2,
+              child: TabBar(
+                dividerColor: Colors.transparent,
+                labelPadding: EdgeInsets.zero,
+                tabs: [
+                  CustomTab(title: "English Calendar", isSelected: controller.isEnglishCalendar),
+                  CustomTab(
+                    title: "Arabic Calendar",
+                    isSelected: controller.isEnglishCalendar == false,
+                  ),
+                ],
+                isScrollable: false,
+                indicator: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                onTap: (value) {
+                  controller.isEnglishCalendar = value == 0;
+                  controller.update();
+                },
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildEntriesList(List<CalendarEntry> list, BuildContext context) {
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      itemCount: list.length,
+      itemBuilder: (context, index) {
+        final entry = list[index];
+        bool isLast = index == list.length - 1;
+        return _buildEntryItem(entry, isLast, context);
+      },
+    );
+  }
+
+  Widget _buildEntryItem(CalendarEntry entry, bool isLast, BuildContext context) {
+    final timeFormatted = DateFormat('hh:mm a').format(entry.time); // e.g., 10:30 PM
+
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
+                child: CustomText(timeFormatted, color: Colors.white, fontSize: 11),
+              ),
+              Expanded(
+                child: Container(
+                  width: 1, // Line thickness
+                  margin: isLast ? EdgeInsets.only(bottom: 16.h) : null,
+                  color: AppColors.primary, // Spacing around line
+                ),
+              ),
+            ],
+          ),
+          22.horizontalSpace,
+          // Content Card
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                showQuranInfoDialog(
+                  context,
+                  quranDialogTitle: "Journal Entry",
+                  contentTitle: entry.title,
+                  englishContent: entry.content,
+                  showLanguageSelectionButton: false,
+                  date: entry.time,
+                );
+              },
+              child: Card(
+                elevation: 0,
+                margin: EdgeInsets.only(bottom: 16, top: 2), // Card margin
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                  side: BorderSide(color: AppColors.strokeColor),
+                ),
+                color: AppColors.dialogBgColor,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: CustomText(entry.title, fontWeight: FontWeight.w500)),
+                          PopupMenuButton<String>(
+                            icon: Icon(Icons.more_vert, color: AppColors.primary),
+                            onSelected: (value) {},
+                            color:
+                                AppGlobals.isDarkMode.value ? AppColors.grey700 : AppColors.grey100,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              side: BorderSide(color: AppColors.greenStrokeColor),
+                            ),
+                            itemBuilder:
+                                (BuildContext context) => <PopupMenuEntry<String>>[
+                                  PopupMenuItem<String>(
+                                    height: 30.h,
+                                    value: 'edit',
+                                    child: Row(
+                                      children: [
+                                        CustomImageView(
+                                          svgPath: AppConstants.editSvgIcon,
+                                          height: 14.h,
+                                          color: AppColors.surface,
+                                        ),
+                                        SizedBox(width: 8),
+                                        CustomText('Edit', fontSize: 12),
+                                      ],
+                                    ),
+                                  ),
+                                  PopupMenuItem<String>(
+                                    height: 30.h,
+                                    value: 'delete',
+                                    child: Row(
+                                      children: [
+                                        CustomImageView(
+                                          svgPath: AppConstants.trashSvgIcon,
+                                          height: 14.h,
+                                          color: Colors.redAccent,
+                                        ),
+                                        SizedBox(width: 8),
+                                        CustomText('Delete', fontSize: 12),
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      Get.dialog(
+                                        CustomDialog(
+                                          message: "Are you sure you want to delete?",
+                                          imageIcon: AppConstants.trashIcon,
+                                          title: "Delete Journal Entry",
+                                          btnText: "Delete",
+                                          onButtonTap: () {},
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                          ),
+                        ],
+                      ),
+                      CustomText(entry.content, fontSize: 14, maxLine: 10),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

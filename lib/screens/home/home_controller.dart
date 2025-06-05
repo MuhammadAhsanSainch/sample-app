@@ -2,6 +2,8 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:path_to_water/screens/dashboard/dashboard_view.dart';
 import 'package:path_to_water/screens/favorite_screen/favorite_screen.dart';
 import 'package:path_to_water/screens/home/widgets/banner_dialog_widget.dart';
+import 'package:path_to_water/screens/journal/views/journal_listing_screen.dart';
+import 'package:path_to_water/screens/journal/views/journal_screen.dart';
 import 'package:path_to_water/screens/login/login_binding.dart';
 import 'package:path_to_water/screens/login/login_view.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
@@ -42,7 +44,7 @@ class HomeController extends GetxController {
     Center(child: Text("Profile")),
     Center(child: Text("Today Quiz")),
     Center(child: Text("Quiz History")),
-    Center(child: Text("Journal")),
+    JournalScreen(),
     Center(child: Text("Notification")),
     Center(child: Text("Subscription")),
     FavoriteScreen(),

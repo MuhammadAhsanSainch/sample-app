@@ -1,6 +1,5 @@
 
 import 'package:path_to_water/utilities/app_exports.dart';
-import 'package:path_to_water/widgets/custom_image_view.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? bgColor;
@@ -9,7 +8,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool? showMenuIcon;
   final bool? centerTitle;
   final String text;
-  final void Function()? onPressed;
+  final void Function()? onBackPressed;
   final void Function()? onMenuPressed;
   const CustomAppBar({
     super.key,
@@ -19,7 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.showMenuIcon,
     this.centerTitle,
     required this.text,
-    this.onPressed,
+    this.onBackPressed,
     this.onMenuPressed,
   });
 
@@ -29,7 +28,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       systemOverlayStyle: AppGlobals.isDarkMode.value? SystemUiOverlayStyle.light: SystemUiOverlayStyle.dark,
       centerTitle: centerTitle,
       backgroundColor: bgColor ?? AppColors.lightColor,
-      forceMaterialTransparency: true,
+      forceMaterialTransparency: bgColor == null,
       surfaceTintColor: AppColors.lightColor,
       elevation: 0,
       leadingWidth: 50,
@@ -48,9 +47,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               )
               : showBackIcon == true
-              ? IconButton(
-                onPressed: onPressed,
-                icon: Icon(Icons.arrow_back, color: AppColors.dark),
+              ? GestureDetector(
+                onTap: onBackPressed ?? () => Get.back(),
+                child: Container(
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primary),
+                    margin: EdgeInsets.only(left: 8),
+                    padding: EdgeInsets.all(10),
+                    height: 20,
+                    width: 20,
+                  child:  Icon(Icons.arrow_back, color: AppColors.lightColor),
+                ),
               )
               : null),
       title: CustomText(text, fontSize: 18, fontWeight: FontWeight.w500),

@@ -33,6 +33,11 @@ class AppConstants {
   static const String welcomeBannerImage = '$images/welcome_banner_image.png';
   static const String customDialogBgImage = '$images/custom_dialog_bg_image.png';
   static const String customDialogBgDarkImage = '$images/custom_dialog_bg_dark_image.png';
+  static const String createJournalBgDarkImage = '$images/create_journal_bg_dark_image.png';
+  static const String createJournalBgImage = '$images/create_journal_bg_image.png';
+  static const String journalBgDarkImage = '$images/journal_bg_dark_image_.png';
+  static const String journalBgImage = '$images/journal_bg_image_.png';
+
 
   ///Icons
   static const String profile = '$icons/profile-circle.svg';
@@ -75,7 +80,15 @@ class AppConstants {
   static const String searchIcon = '$icons/search_icon.png';
   static const String favoriteFillIcon = '$icons/favorite_filled_icon.png';
   static const String favoriteUnFillIcon = '$icons/favorite_unfilled_icon.png';
-   static const String trashIcon = '$icons/trash_icon.png';
+  static const String trashIcon = '$icons/trash_icon.png';
+  static const String celebrationIcon = '$icons/celebration_icon.png';
+  static const String journalBookIcon = '$icons/journal_book_icon.png';
+  static const String journalBookIconTwo = '$icons/journal_book_icon_2.png';
+  static const String clockSvgIcon = '$icons/clock.svg';
+  static const String calendarSvgIcon = '$icons/calendar.svg';
+  static const String personalCardSvgIcon = '$icons/personal_card.svg';
+  static const String editSvgIcon = '$icons/edit-2.svg';
+  static const String trashSvgIcon = '$icons/trash.svg';
 
   // text-fields input whitelisting
 
