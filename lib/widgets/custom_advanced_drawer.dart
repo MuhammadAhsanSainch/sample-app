@@ -1,5 +1,7 @@
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:path_to_water/screens/home/home_controller.dart';
+import 'package:path_to_water/screens/notification/binding/notification_binding.dart';
+import 'package:path_to_water/screens/notification/view/notification_screen.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_switch_widget.dart';
 
@@ -43,7 +45,9 @@ class CustomAdvancedDrawer extends StatelessWidget {
                   homeController.currentTabIndex(6);
                 },
               ),
-              _DrawerItem(label: "Notification", pngIcon: AppConstants.notificationIcon),
+              _DrawerItem(label: "Notification", pngIcon: AppConstants.notificationIcon, onTap: () {
+                Get.to(()=> NotificationScreen(),binding: NotificationBinding());
+              },),
               _DrawerItem(label: "Subscription", pngIcon: AppConstants.subscriptionIcon),
               _DrawerItem(label: "Dark Mode", pngIcon: AppConstants.themeIcon, showSwitch: true),
               _DrawerItem(

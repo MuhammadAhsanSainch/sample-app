@@ -237,12 +237,9 @@ class _DualCalendarViewState extends State<DualCalendarView> {
     return GestureDetector(
       onTap: () {
         if (isCurrentMonth) {
-          // Only allow selecting days in the current month
           setState(() {
             _selectedDate = date;
           });
-          widget.onDateSelected?.call(date);
-          // Optionally close: Navigator.pop(context);
         }
       },
       child: Container(
