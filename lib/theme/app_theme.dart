@@ -129,6 +129,7 @@ class AppColors {
   static const Color greenStrokeColor = Color(0xFF40876D);
   static const Color greyTextColor = Color(0xFFA1A2A5);
   static const Color greyColor = Color(0xFF70787D);
+  static const Color orangeColor = Color(0xFFFF9500);
 
 
 

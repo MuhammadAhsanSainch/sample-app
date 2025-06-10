@@ -139,7 +139,6 @@ class HomeView extends StatelessWidget {
   Widget buildSvgIconWidget({
     required String assetName,
     required String label,
-
     bool isSelected = false,
   }) {
     return Stack(

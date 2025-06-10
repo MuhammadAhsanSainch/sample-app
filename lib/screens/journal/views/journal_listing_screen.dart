@@ -55,6 +55,8 @@ class JournalListingScreen extends StatelessWidget {
                             selectedDate: controller.selectedDate,
                             onDateSelected: (date) {
                               controller.onDateSelected(date);
+                              controller.generateVisibleDates(date);
+                              controller.scrollToSelectedDate(infiniteScrollController);
                             },
                           );
                         },
