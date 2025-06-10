@@ -26,6 +26,8 @@ class AppConstants {
   static const String passResetSuccessBgDark = '$images/pass_reset_bg_dark.png';
   static const String resetPassBgLight = '$images/reset_pass_bg_light.png';
   static const String resetPassBgDark = '$images/reset_pass_bg_dark.png';
+  static const String quizBgLight = '$images/quiz_bg_light.png';
+  static const String quizBgDark = '$images/quiz_bg_dark.png';
   static const String homeBgImage = '$images/home_bg_image.png';
   static const String homeBgDarImage = '$images/home_bg_dark_image.png';
   static const String homeTileBgImage = '$images/home_tile_bg_image.png';

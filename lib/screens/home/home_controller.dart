@@ -6,6 +6,7 @@ import 'package:path_to_water/screens/journal/views/journal_listing_screen.dart'
 import 'package:path_to_water/screens/journal/views/journal_screen.dart';
 import 'package:path_to_water/screens/login/login_binding.dart';
 import 'package:path_to_water/screens/login/login_view.dart';
+import 'package:path_to_water/screens/quiz/views/daily_quiz_view.dart';
 import 'package:path_to_water/screens/settings/views/profile_screen.dart';
 import 'package:path_to_water/screens/settings/views/settings_screen.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
@@ -30,7 +31,7 @@ class HomeController extends GetxController {
     "Reminder",
     "Calendar",
     "My Profile",
-    "Today Quiz",
+    "Daily Quiz",
     "Quiz History",
     "Journal",
     "Notification",
@@ -44,7 +45,7 @@ class HomeController extends GetxController {
     Center(child: Text("Reminder")),
     Center(child: Text("Calendar")),
     ProfileScreen(),
-    Center(child: Text("Today Quiz")),
+    DailyQuizView(),
     Center(child: Text("Quiz History")),
     JournalScreen(),
     Center(child: Text("Notification")),

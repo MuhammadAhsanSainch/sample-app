@@ -89,7 +89,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             inputFormatters: widget.inputFormatters,
             validator: widget.validator,
             onChanged: widget.onChanged,
-            maxLines: widget.maxLines,
+            maxLines: obscureText?1: widget.maxLines,
             enableInteractiveSelection: widget.enableInteractiveSelection,
             enableSuggestions: widget.enableSuggestions,
             maxLength: widget.maxLength,

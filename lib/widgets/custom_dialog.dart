@@ -92,7 +92,7 @@ class CustomDialog extends StatelessWidget {
             top: 33.h,
             right: 23.h,
             child: Visibility(
-              visible: showCloseIcon ?? false,
+              visible: showCloseIcon ?? true,
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
