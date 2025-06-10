@@ -1,7 +1,10 @@
 import 'package:path_to_water/screens/home/home_controller.dart';
+import 'package:path_to_water/screens/journal/binding/create_journal_screen_binding.dart';
+import 'package:path_to_water/screens/journal/views/create_journal_screen.dart';
+import 'package:path_to_water/screens/reminder/bindings/create_reminder_screen_binding.dart';
+import 'package:path_to_water/screens/reminder/views/create_reminder_screen.dart';
 import 'package:path_to_water/utilities/app_helper.dart';
 import 'package:path_to_water/widgets/custom_advanced_drawer.dart';
-import 'package:path_to_water/widgets/custom_image_view.dart';
 
 import '../../utilities/app_exports.dart';
 
@@ -30,7 +33,7 @@ class HomeView extends StatelessWidget {
               },
             ),
             extendBodyBehindAppBar: controller.currentTabIndex.value == 0,
-            extendBody: controller.currentTabIndex.value == 0 || controller.currentTabIndex.value == 6,
+            extendBody: [0, 1, 6].contains(controller.currentTabIndex.value),
             backgroundColor: AppColors.scaffoldBackground,
             body: SizedBox(
               height: size.height,
@@ -96,7 +99,7 @@ class HomeView extends StatelessWidget {
                             // UserPreferences.isLogin
                             //     ? controller.currentTabIndex.value = 3
                             //     : controller.showLoginDialog();
-                            controller.currentTabIndex.value=3;
+                            controller.currentTabIndex.value = 3;
                           },
                           child: buildSvgIconWidget(
                             assetName: AppConstants.profileIcon,
@@ -109,6 +112,22 @@ class HomeView extends StatelessWidget {
                     );
                   }),
                 ),
+              ),
+            ),
+            floatingActionButton: Visibility(
+              visible:
+                  controller.currentTabIndex.value == 6 || controller.currentTabIndex.value == 1,
+              child: FloatingActionButton(
+                onPressed: () {
+                  if (controller.currentTabIndex.value == 1) {
+                    Get.to(() => CreateReminderScreen(), binding: CreateReminderScreenBinding());
+                  } else if (controller.currentTabIndex.value == 6) {
+                    Get.to(() => CreateJournalScreen(), binding: CreateJournalScreenBinding());
+                  }
+                },
+                shape: CircleBorder(),
+                backgroundColor: AppColors.primary,
+                child: const Icon(Icons.add, color: Colors.white),
               ),
             ),
           );
@@ -143,10 +162,7 @@ class HomeView extends StatelessWidget {
                 color: isSelected ? AppColors.primary : AppColors.lightColor,
               ),
               4.verticalSpace,
-              CustomText(
-                label,
-                color: isSelected ? AppColors.primary : AppColors.lightColor,
-              ),
+              CustomText(label, color: isSelected ? AppColors.primary : AppColors.lightColor),
             ],
           ),
         ),

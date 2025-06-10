@@ -1,27 +1,28 @@
 import 'package:hijri/hijri_calendar.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
-import 'package:path_to_water/screens/journal/controllers/journal_listing_controller.dart';
 import 'package:path_to_water/screens/journal/models/calendar_entry_model.dart';
 import 'package:path_to_water/screens/journal/views/calendar_screen.dart';
+import 'package:path_to_water/screens/reminder/controller/reminder_listing_controller.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/utilities/dummy_content.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
 import 'package:path_to_water/widgets/custom_quran_info_dialog.dart';
 import 'package:path_to_water/widgets/custom_tab_widget.dart';
 
-class JournalListingScreen extends StatelessWidget {
-  JournalListingScreen({super.key});
+class ReminderListingScreen extends StatelessWidget {
+  ReminderListingScreen({super.key});
 
-  JournalListingController get controller => Get.put(JournalListingController());
+  ReminderListingController get controller => Get.put(ReminderListingController());
 
-  final InfiniteScrollController infiniteScrollController = InfiniteScrollController();
+  final InfiniteScrollController scrollController = InfiniteScrollController();
+  final double _itemExtent = 70.w;
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
       init: controller,
       initState: (state) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          controller.scrollToSelectedDate(infiniteScrollController);
+          controller.scrollToSelectedDate(scrollController);
         });
       },
       builder: (_) {
@@ -74,9 +75,88 @@ class JournalListingScreen extends StatelessWidget {
                     ],
                   ),
                   8.verticalSpace,
-                  _buildHorizontalCalendar(controller, infiniteScrollController),
+                  SizedBox(
+                    height: 70.h,
+                    child: InfiniteCarousel.builder(
+                      itemCount: controller.visibleDates.length,
+                      itemExtent: _itemExtent,
+                      center: true,
+                      loop: false,
+                      anchor: 0.0,
+                      velocityFactor: 0.2,
+                      onIndexChanged: (index) {},
+                      controller: scrollController,
+                      axisDirection: Axis.horizontal,
+                      itemBuilder: (context, index, realIndex) {
+                        final currentOffset = _itemExtent * realIndex;
+                        final date = controller.visibleDates[index];
+                        return AnimatedBuilder(
+                          animation: scrollController,
+                          builder: (context, child) {
+                            if (scrollController.hasClients) {
+                              final diff = (scrollController.offset - currentOffset);
+                              const maxPadding = 4.0;
+                              final carouselRatio = _itemExtent / maxPadding;
+
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  top: (diff / carouselRatio).abs(),
+                                  bottom: (diff / carouselRatio).abs(),
+                                ),
+                                child: child,
+                              );
+                            }
+                            return child!;
+                          },
+                          child: _buildDateItem(date, controller),
+                        );
+                      },
+                    ),
+                  ),
                   10.verticalSpace,
-                  _buildCalendarToggle(controller),
+                  GetBuilder(
+                    init: controller,
+                    builder: (c_) {
+                      return Container(
+                        height: 48.h,
+                        decoration: BoxDecoration(
+                          color: AppColors.scaffoldBackground,
+                          borderRadius: BorderRadius.circular(12.r),
+                          border: Border.all(color: AppColors.primary, width: 1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: DefaultTabController(
+                            length: 2,
+                            initialIndex: controller.isEnglishCalendar ? 0 : 1,
+                            child: TabBar(
+                              dividerColor: Colors.transparent,
+                              labelPadding: EdgeInsets.zero,
+                              tabs: [
+                                CustomTab(
+                                  title: "English Calendar",
+                                  isSelected: controller.isEnglishCalendar,
+                                ),
+                                CustomTab(
+                                  title: "Arabic Calendar",
+                                  isSelected: controller.isEnglishCalendar == false,
+                                ),
+                              ],
+                              isScrollable: false,
+                              indicator: BoxDecoration(
+                                color: AppColors.primary,
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              onTap: (value) {
+                                controller.isEnglishCalendar = value == 0;
+                                controller.update();
+                              },
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -115,53 +195,7 @@ class JournalListingScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHorizontalCalendar(
-    JournalListingController controller,
-    InfiniteScrollController scrollController,
-  ) {
-    final double _itemExtent = 70.w;
-
-    return SizedBox(
-      height: 70.h,
-      child: InfiniteCarousel.builder(
-        itemCount: controller.visibleDates.length,
-        itemExtent: _itemExtent,
-        center: true,
-        loop: false,
-        anchor: 0.0,
-        velocityFactor: 0.2,
-        onIndexChanged: (index) {},
-        controller: scrollController,
-        axisDirection: Axis.horizontal,
-        itemBuilder: (context, index, realIndex) {
-          final currentOffset = _itemExtent * realIndex;
-          final date = controller.visibleDates[index];
-          return AnimatedBuilder(
-            animation: scrollController,
-            builder: (context, child) {
-              if (scrollController.hasClients) {
-                final diff = (scrollController.offset - currentOffset);
-                const maxPadding = 4.0;
-                final carouselRatio = _itemExtent / maxPadding;
-
-                return Padding(
-                  padding: EdgeInsets.only(
-                    top: (diff / carouselRatio).abs(),
-                    bottom: (diff / carouselRatio).abs(),
-                  ),
-                  child: child,
-                );
-              }
-              return child!;
-            },
-            child: _buildDateItem(date, controller),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildDateItem(DateTime date, JournalListingController controller) {
+  Widget _buildDateItem(DateTime date, ReminderListingController controller) {
     final bool isSelected =
         date.year == controller.selectedDate.year &&
         date.month == controller.selectedDate.month &&
@@ -193,7 +227,12 @@ class JournalListingScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FittedBox(child: CustomText(dayName, color: isSelected ? AppColors.lightColor : AppColors.grey500)),
+            FittedBox(
+              child: CustomText(
+                dayName,
+                color: isSelected ? AppColors.lightColor : AppColors.grey500,
+              ),
+            ),
             6.verticalSpace,
             FittedBox(
               child: CustomText(
@@ -206,48 +245,6 @@ class JournalListingScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildCalendarToggle(JournalListingController controller) {
-    return GetBuilder(
-      init: controller,
-      builder: (c_) {
-        return Container(
-          height: 48.h,
-          decoration: BoxDecoration(
-            color: AppColors.scaffoldBackground,
-            borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: AppColors.primary, width: 1),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: DefaultTabController(
-              length: 2,
-              child: TabBar(
-                dividerColor: Colors.transparent,
-                labelPadding: EdgeInsets.zero,
-                tabs: [
-                  CustomTab(title: "English Calendar", isSelected: controller.isEnglishCalendar),
-                  CustomTab(
-                    title: "Arabic Calendar",
-                    isSelected: controller.isEnglishCalendar == false,
-                  ),
-                ],
-                isScrollable: false,
-                indicator: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                onTap: (value) {
-                  controller.isEnglishCalendar = value == 0;
-                  controller.update();
-                },
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 
@@ -297,7 +294,7 @@ class JournalListingScreen extends StatelessWidget {
               onTap: () {
                 showQuranInfoDialog(
                   context,
-                  quranDialogTitle: "Journal Entry",
+                  quranDialogTitle: "Reminder",
                   contentTitle: entry.title,
                   englishContent: entry.content,
                   showLanguageSelectionButton: false,
@@ -364,9 +361,9 @@ class JournalListingScreen extends StatelessWidget {
                                     onTap: () {
                                       Get.dialog(
                                         CustomDialog(
-                                          message: "Are you sure you want to delete?",
+                                          message: "Are you sure you want to delete this reminder?",
                                           imageIcon: AppConstants.trashIcon,
-                                          title: "Delete Journal Entry",
+                                          title: "Delete Reminder",
                                           btnText: "Delete",
                                           onButtonTap: () {},
                                         ),

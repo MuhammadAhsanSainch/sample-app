@@ -1,16 +1,16 @@
-import 'package:path_to_water/screens/journal/controllers/create_journal_screen_controller.dart';
+import 'package:path_to_water/screens/reminder/controller/create_reminder_screen_controller.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
 
-class CreateJournalScreen extends StatelessWidget {
-  const CreateJournalScreen({super.key});
+class CreateReminderScreen extends StatelessWidget {
+  const CreateReminderScreen({super.key});
 
-  CreateJournalScreenController get controller => Get.put(CreateJournalScreenController());
+  CreateReminderScreenController get controller => Get.put(CreateReminderScreenController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        text: "Create Journal",
+        text: "Create Reminder",
         centerTitle: true,
         showBackIcon: true,
         bgColor: AppColors.appBarBgColor,
@@ -31,15 +31,15 @@ class CreateJournalScreen extends StatelessWidget {
             children: [
               50.verticalSpace,
               CustomImageView(
-                imagePath: AppConstants.journalBookIcon,
+                imagePath: AppConstants.reminderCalendarIcon,
                 height: 80.h,
                 fit: BoxFit.contain,
               ),
               40.verticalSpace,
               CustomTextFormField(
                 upperLabel: "Title",
-                controller: controller.journalTitleController,
-                hintValue: "Enter journal title",
+                controller: controller.reminderTitleController,
+                hintValue: "Enter Reminder title",
                 upperLabelReqStar: "",
                 outerPadding: EdgeInsets.zero,
                 maxLines: 1,
@@ -53,7 +53,7 @@ class CreateJournalScreen extends StatelessWidget {
                 upperLabel: "Select Date",
                 enable: false,
                 controller: controller.selectedDateController,
-                hintValue: "Select Journal Date",
+                hintValue: "Select Reminder Date",
                 upperLabelReqStar: "",
                 outerPadding: EdgeInsets.zero,
                 suffixIcon: CustomImageView(svgPath: AppConstants.calendarSvgIcon, height: 20.h),
@@ -64,7 +64,7 @@ class CreateJournalScreen extends StatelessWidget {
                 upperLabel: "Select Time",
                 controller: controller.selectedTimeController,
                 enable: false,
-                hintValue: "Select journal time",
+                hintValue: "Select reminder time",
                 upperLabelReqStar: "",
                 outerPadding: EdgeInsets.zero,
                 suffixIcon: CustomImageView(svgPath: AppConstants.clockSvgIcon, height: 20.h),
@@ -74,7 +74,7 @@ class CreateJournalScreen extends StatelessWidget {
               CustomTextFormField(
                 upperLabel: "Description",
                 controller: controller.descriptionController,
-                hintValue: "Enter journal description",
+                hintValue: "Enter reminder description",
                 upperLabelReqStar: "",
                 outerPadding: EdgeInsets.zero,
                 maxLines: 4,
@@ -89,13 +89,14 @@ class CreateJournalScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(16.r),
           child: CustomRectangleButton(
-            text: "Create",
+            text: "Create Reminder",
             onTap: () {
               Get.dialog(
                 CustomDialog(
-                  message: "Your journal entry has been successfully created.",
+                  message:
+                      "Your reminder has been saved successfully. We’ll notify you at the scheduled time.",
                   imageIcon: AppConstants.celebrationIcon,
-                  title: "Journal Created",
+                  title: "Reminder Saved",
                   btnText: "Close",
                   showCloseIcon: false,
                   onButtonTap: () {
