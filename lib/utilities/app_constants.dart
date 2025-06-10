@@ -39,8 +39,10 @@ class AppConstants {
   static const String profileBgDark = '$images/profile_bg_dark.png';
   static const String createJournalBgDarkImage = '$images/create_journal_bg_dark_image.png';
   static const String createJournalBgImage = '$images/create_journal_bg_image.png';
-  static const String journalBgDarkImage = '$images/journal_bg_dark_image_.png';
-  static const String journalBgImage = '$images/journal_bg_image_.png';
+  static const String journalBgDarkImage = '$images/journal_bg_dark_image.png';
+  static const String journalBgImage = '$images/journal_bg_image.png';
+  static const String reminderBgImage = '$images/reminder_bg_image.png';
+  static const String reminderBgDarkImage = '$images/reminder_bg_dark_image.png';
 
 
   ///Icons
@@ -98,6 +100,7 @@ class AppConstants {
   static const String personalCardSvgIcon = '$icons/personal_card.svg';
   static const String editSvgIcon = '$icons/edit-2.svg';
   static const String trashSvgIcon = '$icons/trash.svg';
+  static const String reminderCalendarIcon = '$icons/reminder_calendar_icon.png';
 
   // text-fields input whitelisting
 
