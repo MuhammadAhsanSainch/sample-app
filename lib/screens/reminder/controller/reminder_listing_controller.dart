@@ -2,7 +2,7 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 
-class JournalListingController extends GetxController with GetSingleTickerProviderStateMixin {
+class ReminderListingController extends GetxController {
   DateTime focusedMonth = DateTime.now(); // For month/year display
   DateTime selectedDate = DateTime.now(); // For month/year display
   String get focusedHijriMonthText =>
@@ -11,7 +11,6 @@ class JournalListingController extends GetxController with GetSingleTickerProvid
   bool isEnglishCalendar = true;
   List<DateTime> visibleDates = [];
   final TextEditingController searchController = TextEditingController();
-
 
   @override
   void onInit() {

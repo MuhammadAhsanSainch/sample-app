@@ -2,11 +2,11 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:path_to_water/screens/dashboard/dashboard_view.dart';
 import 'package:path_to_water/screens/favorite_screen/favorite_screen.dart';
 import 'package:path_to_water/screens/home/widgets/banner_dialog_widget.dart';
-import 'package:path_to_water/screens/journal/views/journal_listing_screen.dart';
 import 'package:path_to_water/screens/journal/views/journal_screen.dart';
 import 'package:path_to_water/screens/login/login_binding.dart';
 import 'package:path_to_water/screens/login/login_view.dart';
 import 'package:path_to_water/screens/quiz/views/daily_quiz_view.dart';
+import 'package:path_to_water/screens/reminder/views/reminder_screen.dart';
 import 'package:path_to_water/screens/settings/views/profile_screen.dart';
 import 'package:path_to_water/screens/settings/views/settings_screen.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
@@ -42,7 +42,7 @@ class HomeController extends GetxController {
 
   var pages = <Widget>[
     DashboardView(),
-    Center(child: Text("Reminder")),
+    ReminderScreen(),
     Center(child: Text("Calendar")),
     ProfileScreen(),
     DailyQuizView(),
@@ -51,7 +51,7 @@ class HomeController extends GetxController {
     Center(child: Text("Notification")),
     Center(child: Text("Subscription")),
     FavoriteScreen(),
-    SettingsScreen()
+    SettingsScreen(),
   ];
 
   @override

@@ -6,6 +6,8 @@ import 'package:path_to_water/screens/quiz/quiz_binding.dart';
 import 'package:path_to_water/screens/quiz/views/daily_quiz_view.dart';
 import 'package:path_to_water/screens/settings/settings_binding.dart';
 import 'package:path_to_water/screens/settings/views/settings_screen.dart';
+import 'package:path_to_water/screens/notification/binding/notification_binding.dart';
+import 'package:path_to_water/screens/notification/view/notification_screen.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_switch_widget.dart';
 
@@ -49,7 +51,9 @@ class CustomAdvancedDrawer extends StatelessWidget {
                   homeController.currentTabIndex(6);
                 },
               ),
-              _DrawerItem(label: "Notification", pngIcon: AppConstants.notificationIcon),
+              _DrawerItem(label: "Notification", pngIcon: AppConstants.notificationIcon, onTap: () {
+                Get.to(()=> NotificationScreen(),binding: NotificationBinding());
+              },),
               _DrawerItem(label: "Subscription", pngIcon: AppConstants.subscriptionIcon),
               _DrawerItem(label: "Dark Mode", pngIcon: AppConstants.themeIcon, showSwitch: true),
               _DrawerItem(
