@@ -1,10 +1,10 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? bgColor;
   final Widget? leadingWidget;
+  final Widget? trailingWidget;
   final bool? showBackIcon;
   final bool? showMenuIcon;
   final bool? centerTitle;
@@ -15,6 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.bgColor,
     this.leadingWidget,
+    this.trailingWidget,
     this.showBackIcon,
     this.showMenuIcon,
     this.centerTitle,
@@ -56,11 +57,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     padding: EdgeInsets.all(10),
                     height: 20,
                     width: 20,
-                  child:  Icon(Icons.arrow_back, color: AppColors.lightColor),
+                  child:  Icon(CupertinoIcons.chevron_left, color: AppColors.lightColor),
                 ),
               )
               : null),
       title: CustomText(text, fontSize: 18, fontWeight: FontWeight.w500),
+      actions: [
+        trailingWidget??SizedBox.shrink()
+      ],
     );
   }
 

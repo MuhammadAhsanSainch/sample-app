@@ -1,18 +1,19 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:path_to_water/theme/app_theme.dart';
+
+import 'custom_text.dart';
 
 class CustomArcSlider extends StatefulWidget {
-  final int minValue;
-  final int maxValue;
   final int initialValue;
+  // final Function(int) onNextButtonTap;
   final ValueChanged<int>? onChanged;
 
   const CustomArcSlider({
     super.key,
-    this.minValue = 1,
-    this.maxValue = 5,
     this.initialValue = 1,
     this.onChanged,
+    // required this.onNextButtonTap,
   });
 
   @override
@@ -23,24 +24,27 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
   late int _currentValue;
 
   // Constants for styling
-  final Color _activeColor = const Color(0xFF589981); // Green
-  final Color _inactiveColor = const Color(0xFFE0E0E0); // Light Grey
-  final Color _textColor = const Color(0xFF53577B); // Dark Blue for min/max
+  final Color _activeColor = AppColors.textSecondary; // Green
+  final Color _inactiveColor = AppColors.indicatorColor; // Light Grey
   final double _arcStrokeWidth = 12.0;
   final double _thumbRadius = 16.0;
   final double _centerCircleRadius = 40.0;
-  final double _arrowButtonRadius = 28.0;
+  final double _arrowButtonRadius = 10.0;
+  final int minValue=1;
+  final int maxValue=5;
 
   @override
   void initState() {
     super.initState();
-    _currentValue = widget.initialValue.clamp(widget.minValue, widget.maxValue);
+    _currentValue=widget.initialValue;
+    // _currentValue = widget.initialValue.clamp(minValue, maxValue);
+    // widget.onNextButtonTap();
   }
 
   void _updateValue(int newValue) {
     if (newValue != _currentValue) {
       setState(() {
-        _currentValue = newValue.clamp(widget.minValue, widget.maxValue);
+        _currentValue = newValue.clamp(minValue, maxValue);
       });
       widget.onChanged?.call(_currentValue);
     }
@@ -51,6 +55,16 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
   }
 
   @override
+  void didUpdateWidget(covariant CustomArcSlider oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    if(oldWidget.initialValue!= widget.initialValue){
+      setState(() {
+        _currentValue = widget.initialValue;
+      });
+    }
+  }
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -59,8 +73,8 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
 
         return Center(
           child: SizedBox(
-            width: diameter,
-            height: diameter * 0.9, // Adjust height to fit the arc comfortably
+            width: diameter-70,
+            height: diameter * 0.7, // Adjust height to fit the arc comfortably
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
@@ -68,8 +82,8 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
                 Positioned.fill(
                   child: CustomPaint(
                     painter: _ArcSliderPainter(
-                      minValue: widget.minValue,
-                      maxValue: widget.maxValue,
+                      minValue: minValue,
+                      maxValue: maxValue,
                       currentValue: _currentValue,
                       activeColor: _activeColor,
                       inactiveColor: _inactiveColor,
@@ -118,7 +132,7 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
                         if (progress > 1) progress = 1;
 
 
-                        final int newValue = (progress * (widget.maxValue - widget.minValue) + widget.minValue).round();
+                        final int newValue = (progress * (maxValue - minValue) + minValue).round();
                         _updateValue(newValue);
                       },
                     ),
@@ -127,27 +141,19 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
 
                 // Min/Max Value Text
                 Positioned(
-                  left: 0,
-                  bottom: diameter * 0.15 - _arcStrokeWidth * 1.5, // Adjust positioning
-                  child: Text(
-                    widget.minValue.toString().padLeft(2, '0'),
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: _textColor,
-                    ),
+                  left: 7,
+                  bottom: diameter * 0.12 - _arcStrokeWidth * 1.5, // Adjust positioning
+                  child: CustomText(
+                    minValue.toString().padLeft(2, '0'),
+                    style: AppTextTheme.bodyLarge,
                   ),
                 ),
                 Positioned(
-                  right: 0,
-                  bottom: diameter * 0.15 - _arcStrokeWidth * 1.5, // Adjust positioning
-                  child: Text(
-                    widget.maxValue.toString().padLeft(2, '0'),
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: _textColor,
-                    ),
+                  right: 7,
+                  bottom: diameter * 0.12 - _arcStrokeWidth * 1.5, // Adjust positioning
+                  child: CustomText(
+                    maxValue.toString().padLeft(2, '0'),
+                    style: AppTextTheme.bodyLarge,
                   ),
                 ),
 
@@ -155,8 +161,8 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
                 Positioned(
                   bottom: diameter * 0.4 / 2 - _centerCircleRadius / 2 - _arcStrokeWidth, // Center aligned with arc bottom
                   child: Container(
-                    width: _centerCircleRadius * 2,
-                    height: _centerCircleRadius * 2,
+                    width: 56,
+                    height: 56,
                     decoration: BoxDecoration(
                       color: _activeColor,
                       shape: BoxShape.circle,
@@ -169,65 +175,61 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
                       ],
                     ),
                     child: Center(
-                      child: Text(
+                      child: CustomText(
                         _currentValue.toString().padLeft(2, '0'),
-                        style: const TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                        style: AppTextTheme.bodyLarge.copyWith(fontWeight: FontWeight.w600,color: Colors.white),
                       ),
                     ),
                   ),
                 ),
 
-                // Navigation Arrows
-                Positioned(
-                  bottom: diameter * 0.2 / 2 - _arrowButtonRadius / 2 - _arcStrokeWidth,
-                  left: radius - _centerCircleRadius - _arrowButtonRadius - 20, // Adjust left position
-                  child: GestureDetector(
-                    onTap: () => _stepValue(-1),
-                    child: Container(
-                      width: _arrowButtonRadius * 2,
-                      height: _arrowButtonRadius * 2,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 6,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: const Icon(Icons.arrow_back, color: Colors.grey),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: diameter * 0.2 / 2 - _arrowButtonRadius / 2 - _arcStrokeWidth,
-                  right: radius - _centerCircleRadius - _arrowButtonRadius - 20, // Adjust right position
-                  child: GestureDetector(
-                    onTap: () => _stepValue(1),
-                    child: Container(
-                      width: _arrowButtonRadius * 2,
-                      height: _arrowButtonRadius * 2,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 6,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: const Icon(Icons.arrow_forward, color: Colors.grey),
-                    ),
-                  ),
-                ),
+                // // Navigation Arrows
+                // Positioned(
+                //   bottom: diameter * 0.2 / 2 - _arrowButtonRadius / 2 - _arcStrokeWidth,
+                //   left: radius - _centerCircleRadius - _arrowButtonRadius - 20, // Adjust left position
+                //   child: GestureDetector(
+                //     onTap: () => _stepValue(-1),
+                //     child: Container(
+                //       width: _arrowButtonRadius * 2,
+                //       height: _arrowButtonRadius * 2,
+                //       decoration: BoxDecoration(
+                //         color: Colors.white,
+                //         shape: BoxShape.circle,
+                //         boxShadow: [
+                //           BoxShadow(
+                //             color: Colors.black.withValues(alpha: 0.1),
+                //             blurRadius: 6,
+                //             offset: const Offset(0, 3),
+                //           ),
+                //         ],
+                //       ),
+                //       child: const Icon(Icons.arrow_back, color: Colors.grey),
+                //     ),
+                //   ),
+                // ),
+                // Positioned(
+                //   bottom: diameter * 0.2 / 2 - _arrowButtonRadius / 2 - _arcStrokeWidth,
+                //   right: radius - _centerCircleRadius - _arrowButtonRadius - 20, // Adjust right position
+                //   child: GestureDetector(
+                //     onTap: () => _stepValue(1),
+                //     child: Container(
+                //       width: _arrowButtonRadius * 2,
+                //       height: _arrowButtonRadius * 2,
+                //       decoration: BoxDecoration(
+                //         color: Colors.white,
+                //         shape: BoxShape.circle,
+                //         boxShadow: [
+                //           BoxShadow(
+                //             color: Colors.black.withValues(alpha: 0.1),
+                //             blurRadius: 6,
+                //             offset: const Offset(0, 3),
+                //           ),
+                //         ],
+                //       ),
+                //       child: const Icon(Icons.arrow_forward, color: Colors.grey),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
