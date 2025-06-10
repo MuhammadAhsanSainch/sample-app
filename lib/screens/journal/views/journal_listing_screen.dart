@@ -10,13 +10,20 @@ import 'package:path_to_water/widgets/custom_quran_info_dialog.dart';
 import 'package:path_to_water/widgets/custom_tab_widget.dart';
 
 class JournalListingScreen extends StatelessWidget {
-  const JournalListingScreen({super.key});
+  JournalListingScreen({super.key});
 
   JournalListingController get controller => Get.put(JournalListingController());
+
+  final InfiniteScrollController infiniteScrollController = InfiniteScrollController();
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
       init: controller,
+      initState: (state) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          controller.scrollToSelectedDate(infiniteScrollController);
+        });
+      },
       builder: (_) {
         return Column(
           children: [
@@ -42,7 +49,14 @@ class JournalListingScreen extends StatelessWidget {
                       8.horizontalSpace,
                       GestureDetector(
                         onTap: () {
-                          // showDualCalendarSheet(context);
+                          showDualCalendarSheet(
+                            context,
+                            initialDate: controller.selectedDate,
+                            selectedDate: controller.selectedDate,
+                            onDateSelected: (date) {
+                              controller.onDateSelected(date);
+                            },
+                          );
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -59,9 +73,9 @@ class JournalListingScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  12.verticalSpace,
-                  _buildHorizontalCalendar(controller),
-                  16.verticalSpace,
+                  8.verticalSpace,
+                  _buildHorizontalCalendar(controller, infiniteScrollController),
+                  10.verticalSpace,
                   _buildCalendarToggle(controller),
                 ],
               ),
@@ -82,7 +96,7 @@ class JournalListingScreen extends StatelessWidget {
                 ),
               ),
             ),
-            16.verticalSpace,
+            12.verticalSpace,
             Expanded(
               child:
                   DummyContent.allEntries.isEmpty
@@ -94,16 +108,21 @@ class JournalListingScreen extends StatelessWidget {
                       )
                       : _buildEntriesList(DummyContent.allEntries, context),
             ),
+            120.verticalSpace,
           ],
         );
       },
     );
   }
 
-  Widget _buildHorizontalCalendar(JournalListingController controller) {
-    final double _itemExtent = 80.w;
+  Widget _buildHorizontalCalendar(
+    JournalListingController controller,
+    InfiniteScrollController scrollController,
+  ) {
+    final double _itemExtent = 70.w;
+
     return SizedBox(
-      height: 75.h,
+      height: 70.h,
       child: InfiniteCarousel.builder(
         itemCount: controller.visibleDates.length,
         itemExtent: _itemExtent,
@@ -112,25 +131,28 @@ class JournalListingScreen extends StatelessWidget {
         anchor: 0.0,
         velocityFactor: 0.2,
         onIndexChanged: (index) {},
-        controller: controller.infiniteScrollController,
+        controller: scrollController,
         axisDirection: Axis.horizontal,
         itemBuilder: (context, index, realIndex) {
           final currentOffset = _itemExtent * realIndex;
           final date = controller.visibleDates[index];
           return AnimatedBuilder(
-            animation: controller.infiniteScrollController,
+            animation: scrollController,
             builder: (context, child) {
-              final diff = (controller.infiniteScrollController.offset - currentOffset);
-              const maxPadding = 5.0;
-              final carouselRatio = _itemExtent / maxPadding;
+              if (scrollController.hasClients) {
+                final diff = (scrollController.offset - currentOffset);
+                const maxPadding = 4.0;
+                final carouselRatio = _itemExtent / maxPadding;
 
-              return Padding(
-                padding: EdgeInsets.only(
-                  top: (diff / carouselRatio).abs(),
-                  bottom: (diff / carouselRatio).abs(),
-                ),
-                child: child,
-              );
+                return Padding(
+                  padding: EdgeInsets.only(
+                    top: (diff / carouselRatio).abs(),
+                    bottom: (diff / carouselRatio).abs(),
+                  ),
+                  child: child,
+                );
+              }
+              return child!;
             },
             child: _buildDateItem(date, controller),
           );
@@ -171,13 +193,15 @@ class JournalListingScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomText(dayName, color: isSelected ? AppColors.lightColor : AppColors.grey500),
+            FittedBox(child: CustomText(dayName, color: isSelected ? AppColors.lightColor : AppColors.grey500)),
             6.verticalSpace,
-            CustomText(
-              dayNumber,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: isSelected ? Colors.white : AppColors.grey500,
+            FittedBox(
+              child: CustomText(
+                dayNumber,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: isSelected ? Colors.white : AppColors.grey500,
+              ),
             ),
           ],
         ),

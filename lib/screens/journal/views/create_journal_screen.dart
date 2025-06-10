@@ -1,5 +1,6 @@
 import 'package:path_to_water/screens/journal/controllers/create_journal_screen_controller.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
+import 'package:path_to_water/widgets/custom_dialog.dart';
 
 class CreateJournalScreen extends StatelessWidget {
   const CreateJournalScreen({super.key});
@@ -87,7 +88,24 @@ class CreateJournalScreen extends StatelessWidget {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16.r),
-          child: CustomRectangleButton(text: "Create", onTap: () {})),
+          child: CustomRectangleButton(
+            text: "Create",
+            onTap: () {
+              Get.dialog(
+                CustomDialog(
+                  message: "Your journal entry has been successfully created.",
+                  imageIcon: AppConstants.celebrationIcon,
+                  title: "Journal Created",
+                  btnText: "Close",
+                  showCloseIcon: false,
+                  onButtonTap: () {
+                    Get.close(2);
+                  },
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }
