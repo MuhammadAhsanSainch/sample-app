@@ -28,33 +28,37 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
   final double _thumbRadius = 16.0;
   final double _centerCircleRadius = 40.0;
   final int minValue = 1;
-  int get maxValue => widget.maxValue;
 
+  int get maxValue => widget.maxValue;
 
   @override
   void initState() {
     super.initState();
-    _currentValue=widget.initialValue;
+    _currentValue = widget.initialValue;
   }
 
   @override
   void didUpdateWidget(covariant CustomArcSlider oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
-    if(oldWidget.initialValue!= widget.initialValue){
+    if (oldWidget.initialValue != widget.initialValue) {
       setState(() {
         _currentValue = widget.initialValue;
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final double diameter = min(constraints.maxWidth, constraints.maxHeight);
+        final double diameter = min(
+          constraints.maxWidth,
+          constraints.maxHeight,
+        );
         return Center(
           child: SizedBox(
-            width: diameter-70,
+            width: diameter - 70,
             height: diameter * 0.7, // Adjust height to fit the arc comfortably
             child: Stack(
               alignment: Alignment.bottomCenter,
@@ -73,11 +77,17 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
                     ),
                     child: GestureDetector(
                       onPanUpdate: (details) {
-                        final RenderBox renderBox = context.findRenderObject() as RenderBox;
-                        final Offset localPosition = renderBox.globalToLocal(details.globalPosition);
+                        final RenderBox renderBox =
+                            context.findRenderObject() as RenderBox;
+                        final Offset localPosition = renderBox.globalToLocal(
+                          details.globalPosition,
+                        );
 
                         // Calculate angle based on touch position
-                        final Offset center = Offset(diameter / 2, diameter * 0.7 - _arcStrokeWidth); // Adjusted center for bottom aligned arc
+                        final Offset center = Offset(
+                          diameter / 2,
+                          diameter * 0.7 - _arcStrokeWidth,
+                        ); // Adjusted center for bottom aligned arc
                         final double dx = localPosition.dx - center.dx;
                         final double dy = localPosition.dy - center.dy;
 
@@ -111,7 +121,6 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
                         double progress = normalizedAngle / sweepAngleRad;
                         if (progress < 0) progress = 0;
                         if (progress > 1) progress = 1;
-
                       },
                     ),
                   ),
@@ -120,7 +129,8 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
                 // Min/Max Value Text
                 Positioned(
                   left: 7,
-                  bottom: diameter * 0.12 - _arcStrokeWidth * 1.5, // Adjust positioning
+                  bottom: diameter * 0.12 - _arcStrokeWidth * 1.5,
+                  // Adjust positioning
                   child: CustomText(
                     minValue.toString().padLeft(2, '0'),
                     style: AppTextTheme.bodyLarge,
@@ -128,7 +138,8 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
                 ),
                 Positioned(
                   right: 7,
-                  bottom: diameter * 0.12 - _arcStrokeWidth * 1.5, // Adjust positioning
+                  bottom: diameter * 0.12 - _arcStrokeWidth * 1.5,
+                  // Adjust positioning
                   child: CustomText(
                     maxValue.toString().padLeft(2, '0'),
                     style: AppTextTheme.bodyLarge,
@@ -137,7 +148,10 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
 
                 // Center Value Display
                 Positioned(
-                  bottom: diameter * 0.4 / 2 - _centerCircleRadius / 2 - _arcStrokeWidth, // Center aligned with arc bottom
+                  bottom:
+                      diameter * 0.4 / 2 -
+                      _centerCircleRadius / 2 -
+                      _arcStrokeWidth, // Center aligned with arc bottom
                   child: Container(
                     width: 56,
                     height: 56,
@@ -155,7 +169,10 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
                     child: Center(
                       child: CustomText(
                         _currentValue.toString().padLeft(2, '0'),
-                        style: AppTextTheme.bodyLarge.copyWith(fontWeight: FontWeight.w600,color: Colors.white),
+                        style: AppTextTheme.bodyLarge.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -190,20 +207,26 @@ class _ArcSliderPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double radius = min(size.width, size.height) / 1.7 - arcStrokeWidth / 2;
-    final Offset center = Offset(size.width / 2, size.height - arcStrokeWidth / 2); // Adjusted center for bottom aligned arc
+    final double radius =
+        min(size.width, size.height) / 1.7 - arcStrokeWidth / 2;
+    final Offset center = Offset(
+      size.width / 2,
+      size.height - arcStrokeWidth / 2,
+    ); // Adjusted center for bottom aligned arc
 
-    final Paint inactivePaint = Paint()
-      ..color = inactiveColor
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = arcStrokeWidth;
+    final Paint inactivePaint =
+        Paint()
+          ..color = inactiveColor
+          ..style = PaintingStyle.stroke
+          ..strokeCap = StrokeCap.round
+          ..strokeWidth = arcStrokeWidth;
 
-    final Paint activePaint = Paint()
-      ..color = activeColor
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = arcStrokeWidth;
+    final Paint activePaint =
+        Paint()
+          ..color = activeColor
+          ..style = PaintingStyle.stroke
+          ..strokeCap = StrokeCap.round
+          ..strokeWidth = arcStrokeWidth;
 
     // The arc starts at 225 degrees (5 * pi / 4) and sweeps 270 degrees (3 * pi / 2)
     const double startAngle = 8 * pi / 7; // 225 degrees
@@ -219,7 +242,10 @@ class _ArcSliderPainter extends CustomPainter {
     );
 
     // Calculate progress
-    final double progress = (currentValue - minValue) / (maxValue - minValue);
+    final double progress =
+        currentValue == minValue
+            ? (0.5) / (maxValue - minValue)
+            : (currentValue - minValue) / (maxValue - minValue);
     final double activeSweepAngle = sweepAngle * progress;
 
     // Draw active progress
@@ -237,11 +263,16 @@ class _ArcSliderPainter extends CustomPainter {
     final double thumbY = center.dy + radius * sin(thumbAngle);
 
     // Thumb background circle (white with shadow)
-    final Paint thumbBackgroundPaint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
+    final Paint thumbBackgroundPaint =
+        Paint()
+          ..color = Colors.white
+          ..style = PaintingStyle.fill;
 
-    canvas.drawCircle(Offset(thumbX, thumbY), thumbRadius, thumbBackgroundPaint);
+    canvas.drawCircle(
+      Offset(thumbX, thumbY),
+      thumbRadius,
+      thumbBackgroundPaint,
+    );
 
     // Add shadow to the thumb
     canvas.drawCircle(
@@ -253,9 +284,10 @@ class _ArcSliderPainter extends CustomPainter {
     );
 
     // Thumb foreground circle (green dot)
-    final Paint thumbDotPaint = Paint()
-      ..color = activeColor
-      ..style = PaintingStyle.fill;
+    final Paint thumbDotPaint =
+        Paint()
+          ..color = activeColor
+          ..style = PaintingStyle.fill;
     canvas.drawCircle(Offset(thumbX, thumbY), thumbRadius * 0.3, thumbDotPaint);
   }
 

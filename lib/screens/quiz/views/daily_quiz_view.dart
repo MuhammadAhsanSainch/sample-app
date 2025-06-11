@@ -2,6 +2,7 @@ import 'package:path_to_water/screens/quiz/quiz_controller.dart';
 
 import '../../../utilities/app_exports.dart';
 import '../../../widgets/custom_arc_slider.dart';
+import '../../../widgets/custom_quiz_answer_dialog.dart';
 
 class DailyQuizView extends StatefulWidget {
   const DailyQuizView({super.key});
@@ -24,14 +25,27 @@ class _DailyQuizViewState extends State<DailyQuizView> {
             text: 'Daily Quiz',
             showBackIcon: true,
             trailingWidget: Visibility(
-              visible: (controller.currentQuestionIndex < controller.questions.length-1),
+              visible: (controller.currentQuestionIndex < controller.questions.length-1) && (controller.selectedAnswer?.isNotEmpty??false),
               child: IconButton(
                 onPressed: () {
-                  setState(() {
-                    controller.currentQuestionIndex++;
-                  });
-                  controller.onInitialValueChanged(
-                    controller.initialValue + 1,
+                  Get.dialog(
+                    CustomQuizAnswerDialog(
+                      question: currentQuestion['question'],
+                      givenAnswer: controller.selectedAnswer??'',
+                      actualAnswer: currentQuestion['correctAnswer'],
+                      explanation: currentQuestion['explanation'],
+                      onNextButtonTap: () {
+                        Navigator.pop(context);
+                        setState(() {
+                          controller.currentQuestionIndex++;
+                        });
+                        controller.onInitialValueChanged(
+                          controller.initialValue + 1,
+                        );
+                        controller.selectedAnswer='';
+                        controller.update();
+                      },
+                    ),
                   );
                 },
                 icon: Row(
@@ -102,8 +116,6 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                         >((entry) {
                           int index = entry.key;
                           String option = entry.value;
-                          bool isCorrect =
-                              option == currentQuestion['correctAnswer'];
                           bool isSelected = controller.selectedAnswer == option;
 
                           String? label;
@@ -121,23 +133,13 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                               label = 'D';
                               break;
                           }
-                          Color? buttonColor;
-                          // if (answerSubmitted) {
-                          //   if (isSelected && isCorrect) {
-                          //     buttonColor = Colors.green;
-                          //   } else if (isSelected && !isCorrect) {
-                          //     buttonColor = Colors.red;
-                          //   } else if (isCorrect) {
-                          //     buttonColor = Colors.green;
-                          //   }
-                          // }
-
                           return GestureDetector(
                             onTap:
                                 controller.answerSubmitted
                                     ? null
                                     : () {
                                       setState(() {
+                                        controller.selectedLabel=label;
                                         controller.selectedAnswer = option;
                                       });
                                     },
@@ -206,62 +208,6 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                             ),
                           );
                         }).toList(),
-                        /* if (answerSubmitted) ...[
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.blue[50],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Explanation:',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue[800],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            currentQuestion['explanation'],
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],*/
-                        // const SizedBox(height: 20),
-                        // ElevatedButton(
-                        //   onPressed: selectedAnswer != null && !answerSubmitted
-                        //       ? _submitAnswer
-                        //       : null,
-                        //   style: ElevatedButton.styleFrom(
-                        //     padding: const EdgeInsets.symmetric(vertical: 16),
-                        //   ),
-                        //   child: Text(
-                        //     answerSubmitted ? 'Continue' : 'Submit',
-                        //     style: const TextStyle(fontSize: 16),
-                        //   ),
-                        // ),
-                        // if (currentQuestionIndex == questions.length - 1 &&
-                        //     answerSubmitted) ...[
-                        //   const SizedBox(height: 10),
-                        //   ElevatedButton(
-                        //     onPressed: _resetQuiz,
-                        //     style: ElevatedButton.styleFrom(
-                        //       backgroundColor: Colors.orange,
-                        //       padding: const EdgeInsets.symmetric(vertical: 16),
-                        //     ),
-                        //     child: const Text(
-                        //       'Restart Quiz',
-                        //       style: TextStyle(fontSize: 16),
-                        //     ),
-                        //   ),
-                        // ],
                       ],
                     ),
                   ),
