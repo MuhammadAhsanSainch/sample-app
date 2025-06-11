@@ -50,6 +50,7 @@ dependencies:
   dropdown_button2: ^2.3.9
   hijri: ^3.0.0
   infinite_carousel: ^1.1.1
+  device_calendar: ^4.3.3
 
 dev_dependencies:
   flutter_test:

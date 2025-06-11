@@ -159,6 +159,7 @@ class _QuranDialogContentState extends State<QuranDialogContent> {
                           textDirection:
                               _selectedLanguage == 'Arabic' ? TextDirection.rtl : TextDirection.ltr,
                           maxLine: 100,
+                          height: _selectedLanguage == 'Arabic' ? 2 : null,
                         ),
                       ),
                     ],

@@ -45,5 +45,8 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCalendarsUsageDescription</key>
+	<string>We need access to your calendar to help you track events.</string>
+
 </dict>
 </plist>

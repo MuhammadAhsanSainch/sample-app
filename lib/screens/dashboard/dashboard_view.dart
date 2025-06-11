@@ -1,8 +1,6 @@
 import 'package:path_to_water/screens/dashboard/dashboard_controller.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
-import 'package:path_to_water/utilities/app_helper.dart';
 import 'package:path_to_water/utilities/dummy_content.dart';
-import 'package:path_to_water/widgets/custom_image_view.dart';
 import 'package:path_to_water/widgets/custom_quran_info_dialog.dart';
 import 'package:path_to_water/widgets/custom_tab_widget.dart';
 import 'package:path_to_water/widgets/home_screen_card_widget.dart';
@@ -17,7 +15,7 @@ class DashboardView extends StatelessWidget {
     final size = MediaQuery.sizeOf(context);
 
     return Padding(
-      padding:  EdgeInsets.only(top: Helper.getNormDim(24, 50)),
+      padding:  EdgeInsets.only(top: kMinInteractiveDimension),
       child: Column(
         children: [
           Stack(
@@ -126,6 +124,7 @@ class DashboardView extends StatelessWidget {
                               englishContent: DummyContent.quranDialogDetail,
                               arabicContent: DummyContent.quranDialogDetailArabic,
                               date: DateTime.now(),
+                              showLanguageSelectionButton: false,
                             ),
                       );
                     case 2:
@@ -146,6 +145,7 @@ class DashboardView extends StatelessWidget {
                               englishContent: DummyContent.historyDetailText,
                               arabicContent: DummyContent.quranDialogDetailArabic,
                               date: DateTime.now(),
+                              showLanguageSelectionButton: false,
                             ),
                       );
                     default:

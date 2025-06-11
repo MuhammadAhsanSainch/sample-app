@@ -115,11 +115,11 @@ class HomeView extends StatelessWidget {
               ),
             ),
             floatingActionButton: Visibility(
-              visible:
-                  controller.currentTabIndex.value == 6 || controller.currentTabIndex.value == 1,
+              visible: [1, 2, 6].contains(controller.currentTabIndex.value),
               child: FloatingActionButton(
                 onPressed: () {
-                  if (controller.currentTabIndex.value == 1) {
+                  if (controller.currentTabIndex.value == 1 ||
+                      controller.currentTabIndex.value == 2) {
                     Get.to(() => CreateReminderScreen(), binding: CreateReminderScreenBinding());
                   } else if (controller.currentTabIndex.value == 6) {
                     Get.to(() => CreateJournalScreen(), binding: CreateJournalScreenBinding());
