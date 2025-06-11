@@ -1,5 +1,11 @@
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:path_to_water/screens/home/home_controller.dart';
+import 'package:path_to_water/screens/login/login_binding.dart';
+import 'package:path_to_water/screens/login/login_view.dart';
+import 'package:path_to_water/screens/quiz/quiz_binding.dart';
+import 'package:path_to_water/screens/quiz/views/daily_quiz_view.dart';
+import 'package:path_to_water/screens/settings/settings_binding.dart';
+import 'package:path_to_water/screens/settings/views/settings_screen.dart';
 import 'package:path_to_water/screens/notification/binding/notification_binding.dart';
 import 'package:path_to_water/screens/notification/view/notification_screen.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
@@ -34,7 +40,7 @@ class CustomAdvancedDrawer extends StatelessWidget {
               ),
               _DrawerItem(label: "Today Quiz", pngIcon: AppConstants.quizDrawerIcon,onTap: (){
                 controller.hideDrawer();
-                homeController.currentTabIndex(4);
+                Get.to(()=>DailyQuizView(),binding: QuizBinding());
               },),
               _DrawerItem(label: "Quiz History", pngIcon: AppConstants.calendarIcon),
               _DrawerItem(
@@ -60,9 +66,14 @@ class CustomAdvancedDrawer extends StatelessWidget {
               ),
               _DrawerItem(label: "Settings", pngIcon: AppConstants.settingIcon, onTap: () {
                 controller.hideDrawer();
-                homeController.currentTabIndex(10);
+                Get.to(()=>SettingsScreen(),binding: SettingsBinding());
               },),
-              _DrawerItem(label: "Sign Out", pngIcon: AppConstants.logoutIcon),
+              _DrawerItem(label: "Sign Out", pngIcon: AppConstants.logoutIcon,
+              onTap: (){
+                controller.hideDrawer();
+                Get.offAll(()=>LoginView(),binding: LoginBinding());
+              },
+              ),
             ],
           ),
         ),

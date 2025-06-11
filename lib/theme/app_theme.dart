@@ -63,6 +63,7 @@ class AppColors {
   // Secondary Color
   static Color get secondary =>
       isDarkMode ? Color(0xFF03DAC6) : Color(0xFF03DAC6);
+  
 
   // Status Colors
   static const Color success = Color(0xFF4CAF50);
@@ -87,6 +88,9 @@ class AppColors {
   // Text Colors
   static Color get textPrimary =>
       isDarkMode ? Color(0xFFFFFFFF) : Color(0xFF0D0F1F);
+  
+  // Indicator Colors
+  static Color get indicatorColor=> isDarkMode? Color(0xFF262626): Color(0xFFEFEFEF);
 
   static Color get textSecondary => Color(0xFF589981);
 
