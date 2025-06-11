@@ -2,6 +2,7 @@ import 'package:path_to_water/screens/quiz/quiz_controller.dart';
 
 import '../../../utilities/app_exports.dart';
 import '../../../widgets/custom_arc_slider.dart';
+import '../../../widgets/custom_quiz_answer_dialog.dart';
 
 class DailyQuizView extends StatefulWidget {
   const DailyQuizView({super.key});
@@ -15,7 +16,8 @@ class _DailyQuizViewState extends State<DailyQuizView> {
   Widget build(BuildContext context) {
     return GetX<QuizController>(
       builder: (controller) {
-        final currentQuestion = controller.questions[controller.currentQuestionIndex];
+        final currentQuestion =
+            controller.questions[controller.currentQuestionIndex];
         return Scaffold(
           extendBody: true,
           backgroundColor: AppColors.scaffoldBackground,
@@ -23,52 +25,45 @@ class _DailyQuizViewState extends State<DailyQuizView> {
             text: 'Daily Quiz',
             showBackIcon: true,
             trailingWidget: Visibility(
-              visible: controller.currentQuestionIndex <4,
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        controller.currentQuestionIndex--;
-                      });
-                      controller.onInitialValueChanged(controller.initialValue - 1);
-                    },
-                    icon: Row(
-                      spacing: 8,
-                      children: [
-                        Icon(Icons.arrow_back, color: AppColors.textSecondary),
-                        CustomText(
-                          'Previous',
-                          style: AppTextTheme.bodyLarge.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                      ],
+              visible: (controller.currentQuestionIndex < controller.questions.length-1) && (controller.selectedAnswer?.isNotEmpty??false),
+              child: IconButton(
+                onPressed: () {
+                  Get.dialog(
+                    CustomQuizAnswerDialog(
+                      question: currentQuestion['question'],
+                      givenAnswer: controller.selectedAnswer??'',
+                      actualAnswer: currentQuestion['correctAnswer'],
+                      explanation: currentQuestion['explanation'],
+                      onNextButtonTap: () {
+                        Navigator.pop(context);
+                        setState(() {
+                          controller.currentQuestionIndex++;
+                        });
+                        controller.onInitialValueChanged(
+                          controller.initialValue + 1,
+                        );
+                        controller.selectedAnswer='';
+                        controller.update();
+                      },
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        controller.currentQuestionIndex++;
-                      });
-                      controller.onInitialValueChanged(controller.initialValue + 1);
-                    },
-                    icon: Row(
-                      spacing: 8,
-                      children: [
-                        CustomText(
-                          'Next',
-                          style: AppTextTheme.bodyLarge.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                        Icon(Icons.arrow_forward, color: AppColors.textSecondary),
-                      ],
+                  );
+                },
+                icon: Row(
+                  spacing: 8,
+                  children: [
+                    CustomText(
+                      'Next',
+                      style: AppTextTheme.bodyLarge.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
-                  ),
-                ],
+                    Icon(
+                      Icons.arrow_forward,
+                      color: AppColors.textSecondary,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -83,9 +78,7 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                     AppGlobals.isDarkMode.value
                         ? AppConstants.quizBgDark
                         : AppConstants.quizBgLight,
-                    fit:
-                        BoxFit.cover, // Ensures the image covers the whole area
-                    // alignment: Alignment.center, // Optional: adjust alignment if needed
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -101,37 +94,28 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                       id: 'slider',
                       builder:
                           (controller) => CustomArcSlider(
-                        initialValue: controller.initialValue,
-                        onChanged: (newValue) {
-                          setState(() {
-                            if (newValue == 5) {
-                              controller.currentQuestionIndex = 4;
-                            } else {
-                              controller.currentQuestionIndex = newValue;
-                            }
-                          });
-                          print('Slider value changed to: $newValue');
-                        },
-                      ),
+                            maxValue: controller.questions.length,
+                            initialValue: controller.initialValue,
+                          ),
                     ),
                   ),
-                  Obx(()=>Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      20.verticalSpace,
-                      CustomText(
-                        currentQuestion['question'],
-                        style: AppTextTheme.headlineSmall,
-                        maxLine: 4,
-                        textAlign: TextAlign.center,
-                      ),
-                      10.verticalSpace,
-                      ...currentQuestion['options'].asMap().entries.map<Widget>(
-                            (entry) {
+                  Obx(
+                    () => Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        20.verticalSpace,
+                        CustomText(
+                          currentQuestion['question'],
+                          style: AppTextTheme.headlineSmall,
+                          maxLine: 4,
+                          textAlign: TextAlign.center,
+                        ),
+                        10.verticalSpace,
+                        ...currentQuestion['options'].asMap().entries.map<
+                          Widget
+                        >((entry) {
                           int index = entry.key;
                           String option = entry.value;
-                          bool isCorrect =
-                              option == currentQuestion['correctAnswer'];
                           bool isSelected = controller.selectedAnswer == option;
 
                           String? label;
@@ -149,26 +133,16 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                               label = 'D';
                               break;
                           }
-                          Color? buttonColor;
-                          // if (answerSubmitted) {
-                          //   if (isSelected && isCorrect) {
-                          //     buttonColor = Colors.green;
-                          //   } else if (isSelected && !isCorrect) {
-                          //     buttonColor = Colors.red;
-                          //   } else if (isCorrect) {
-                          //     buttonColor = Colors.green;
-                          //   }
-                          // }
-
                           return GestureDetector(
                             onTap:
-                            controller.answerSubmitted
-                                ? null
-                                : () {
-                              setState(() {
-                                controller.selectedAnswer = option;
-                              });
-                            },
+                                controller.answerSubmitted
+                                    ? null
+                                    : () {
+                                      setState(() {
+                                        controller.selectedLabel=label;
+                                        controller.selectedAnswer = option;
+                                      });
+                                    },
                             child: Container(
                               height: 48,
                               width: Get.width,
@@ -178,9 +152,9 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                               ),
                               decoration: BoxDecoration(
                                 color:
-                                isSelected
-                                    ? AppColors.primary
-                                    : AppColors.textFieldFillColor,
+                                    isSelected
+                                        ? AppColors.primary
+                                        : AppColors.textFieldFillColor,
                                 border: Border.all(
                                   color: AppColors.textFieldBorderColor,
                                 ),
@@ -197,14 +171,14 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color:
-                                      isSelected
-                                          ? Colors.white
-                                          : AppColors.textFieldFillColor,
+                                          isSelected
+                                              ? Colors.white
+                                              : AppColors.textFieldFillColor,
                                       border: Border.all(
                                         color:
-                                        isSelected
-                                            ? Colors.white
-                                            : AppColors.primary,
+                                            isSelected
+                                                ? Colors.white
+                                                : AppColors.primary,
                                       ),
                                     ),
                                     child: Center(
@@ -220,79 +194,23 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                                     child: CustomText(
                                       option,
                                       style:
-                                      isSelected
-                                          ? AppTextTheme.bodyLarge.copyWith(
-                                        color: Colors.white,
-                                      )
-                                          : AppTextTheme.bodyLarge.copyWith(
-                                        color: AppColors.primary,
-                                      ),
+                                          isSelected
+                                              ? AppTextTheme.bodyLarge.copyWith(
+                                                color: Colors.white,
+                                              )
+                                              : AppTextTheme.bodyLarge.copyWith(
+                                                color: AppColors.primary,
+                                              ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                           );
-                        },
-                      ).toList(),
-                      /* if (answerSubmitted) ...[
-                    const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.blue[50],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Explanation:',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue[800],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            currentQuestion['explanation'],
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
+                        }).toList(),
+                      ],
                     ),
-                  ],*/
-                      // const SizedBox(height: 20),
-                      // ElevatedButton(
-                      //   onPressed: selectedAnswer != null && !answerSubmitted
-                      //       ? _submitAnswer
-                      //       : null,
-                      //   style: ElevatedButton.styleFrom(
-                      //     padding: const EdgeInsets.symmetric(vertical: 16),
-                      //   ),
-                      //   child: Text(
-                      //     answerSubmitted ? 'Continue' : 'Submit',
-                      //     style: const TextStyle(fontSize: 16),
-                      //   ),
-                      // ),
-                      // if (currentQuestionIndex == questions.length - 1 &&
-                      //     answerSubmitted) ...[
-                      //   const SizedBox(height: 10),
-                      //   ElevatedButton(
-                      //     onPressed: _resetQuiz,
-                      //     style: ElevatedButton.styleFrom(
-                      //       backgroundColor: Colors.orange,
-                      //       padding: const EdgeInsets.symmetric(vertical: 16),
-                      //     ),
-                      //     child: const Text(
-                      //       'Restart Quiz',
-                      //       style: TextStyle(fontSize: 16),
-                      //     ),
-                      //   ),
-                      // ],
-                    ],
-                  )),
+                  ),
                 ],
               ),
             ],
