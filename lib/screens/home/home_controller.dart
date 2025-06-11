@@ -1,4 +1,5 @@
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:path_to_water/screens/calendar/view/calendar_screen.dart';
 import 'package:path_to_water/screens/dashboard/dashboard_view.dart';
 import 'package:path_to_water/screens/favorite_screen/favorite_screen.dart';
 import 'package:path_to_water/screens/home/widgets/banner_dialog_widget.dart';
@@ -43,7 +44,7 @@ class HomeController extends GetxController {
   var pages = <Widget>[
     DashboardView(),
     ReminderScreen(),
-    Center(child: Text("Calendar")),
+    CalendarScreen(),
     ProfileScreen(),
     DailyQuizView(),
     Center(child: Text("Quiz History")),

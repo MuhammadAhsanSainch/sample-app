@@ -2,7 +2,7 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:path_to_water/screens/journal/controllers/journal_listing_controller.dart';
 import 'package:path_to_water/screens/journal/models/calendar_entry_model.dart';
-import 'package:path_to_water/screens/journal/views/calendar_screen.dart';
+import 'package:path_to_water/widgets/custom_calendar.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/utilities/dummy_content.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
