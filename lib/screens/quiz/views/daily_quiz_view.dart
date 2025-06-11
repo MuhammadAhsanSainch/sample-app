@@ -15,7 +15,8 @@ class _DailyQuizViewState extends State<DailyQuizView> {
   Widget build(BuildContext context) {
     return GetX<QuizController>(
       builder: (controller) {
-        final currentQuestion = controller.questions[controller.currentQuestionIndex];
+        final currentQuestion =
+            controller.questions[controller.currentQuestionIndex];
         return Scaffold(
           extendBody: true,
           backgroundColor: AppColors.scaffoldBackground,
@@ -23,52 +24,32 @@ class _DailyQuizViewState extends State<DailyQuizView> {
             text: 'Daily Quiz',
             showBackIcon: true,
             trailingWidget: Visibility(
-              visible: controller.currentQuestionIndex <4,
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        controller.currentQuestionIndex--;
-                      });
-                      controller.onInitialValueChanged(controller.initialValue - 1);
-                    },
-                    icon: Row(
-                      spacing: 8,
-                      children: [
-                        Icon(Icons.arrow_back, color: AppColors.textSecondary),
-                        CustomText(
-                          'Previous',
-                          style: AppTextTheme.bodyLarge.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                      ],
+              visible: (controller.currentQuestionIndex < controller.questions.length-1),
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    controller.currentQuestionIndex++;
+                  });
+                  controller.onInitialValueChanged(
+                    controller.initialValue + 1,
+                  );
+                },
+                icon: Row(
+                  spacing: 8,
+                  children: [
+                    CustomText(
+                      'Next',
+                      style: AppTextTheme.bodyLarge.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        controller.currentQuestionIndex++;
-                      });
-                      controller.onInitialValueChanged(controller.initialValue + 1);
-                    },
-                    icon: Row(
-                      spacing: 8,
-                      children: [
-                        CustomText(
-                          'Next',
-                          style: AppTextTheme.bodyLarge.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                        Icon(Icons.arrow_forward, color: AppColors.textSecondary),
-                      ],
+                    Icon(
+                      Icons.arrow_forward,
+                      color: AppColors.textSecondary,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -83,9 +64,7 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                     AppGlobals.isDarkMode.value
                         ? AppConstants.quizBgDark
                         : AppConstants.quizBgLight,
-                    fit:
-                        BoxFit.cover, // Ensures the image covers the whole area
-                    // alignment: Alignment.center, // Optional: adjust alignment if needed
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -101,33 +80,26 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                       id: 'slider',
                       builder:
                           (controller) => CustomArcSlider(
-                        initialValue: controller.initialValue,
-                        onChanged: (newValue) {
-                          setState(() {
-                            if (newValue == 5) {
-                              controller.currentQuestionIndex = 4;
-                            } else {
-                              controller.currentQuestionIndex = newValue;
-                            }
-                          });
-                          print('Slider value changed to: $newValue');
-                        },
-                      ),
+                            maxValue: controller.questions.length,
+                            initialValue: controller.initialValue,
+                          ),
                     ),
                   ),
-                  Obx(()=>Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      20.verticalSpace,
-                      CustomText(
-                        currentQuestion['question'],
-                        style: AppTextTheme.headlineSmall,
-                        maxLine: 4,
-                        textAlign: TextAlign.center,
-                      ),
-                      10.verticalSpace,
-                      ...currentQuestion['options'].asMap().entries.map<Widget>(
-                            (entry) {
+                  Obx(
+                    () => Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        20.verticalSpace,
+                        CustomText(
+                          currentQuestion['question'],
+                          style: AppTextTheme.headlineSmall,
+                          maxLine: 4,
+                          textAlign: TextAlign.center,
+                        ),
+                        10.verticalSpace,
+                        ...currentQuestion['options'].asMap().entries.map<
+                          Widget
+                        >((entry) {
                           int index = entry.key;
                           String option = entry.value;
                           bool isCorrect =
@@ -162,13 +134,13 @@ class _DailyQuizViewState extends State<DailyQuizView> {
 
                           return GestureDetector(
                             onTap:
-                            controller.answerSubmitted
-                                ? null
-                                : () {
-                              setState(() {
-                                controller.selectedAnswer = option;
-                              });
-                            },
+                                controller.answerSubmitted
+                                    ? null
+                                    : () {
+                                      setState(() {
+                                        controller.selectedAnswer = option;
+                                      });
+                                    },
                             child: Container(
                               height: 48,
                               width: Get.width,
@@ -178,9 +150,9 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                               ),
                               decoration: BoxDecoration(
                                 color:
-                                isSelected
-                                    ? AppColors.primary
-                                    : AppColors.textFieldFillColor,
+                                    isSelected
+                                        ? AppColors.primary
+                                        : AppColors.textFieldFillColor,
                                 border: Border.all(
                                   color: AppColors.textFieldBorderColor,
                                 ),
@@ -197,14 +169,14 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color:
-                                      isSelected
-                                          ? Colors.white
-                                          : AppColors.textFieldFillColor,
+                                          isSelected
+                                              ? Colors.white
+                                              : AppColors.textFieldFillColor,
                                       border: Border.all(
                                         color:
-                                        isSelected
-                                            ? Colors.white
-                                            : AppColors.primary,
+                                            isSelected
+                                                ? Colors.white
+                                                : AppColors.primary,
                                       ),
                                     ),
                                     child: Center(
@@ -220,22 +192,21 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                                     child: CustomText(
                                       option,
                                       style:
-                                      isSelected
-                                          ? AppTextTheme.bodyLarge.copyWith(
-                                        color: Colors.white,
-                                      )
-                                          : AppTextTheme.bodyLarge.copyWith(
-                                        color: AppColors.primary,
-                                      ),
+                                          isSelected
+                                              ? AppTextTheme.bodyLarge.copyWith(
+                                                color: Colors.white,
+                                              )
+                                              : AppTextTheme.bodyLarge.copyWith(
+                                                color: AppColors.primary,
+                                              ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                           );
-                        },
-                      ).toList(),
-                      /* if (answerSubmitted) ...[
+                        }).toList(),
+                        /* if (answerSubmitted) ...[
                     const SizedBox(height: 20),
                     Container(
                       padding: const EdgeInsets.all(16),
@@ -263,36 +234,37 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                       ),
                     ),
                   ],*/
-                      // const SizedBox(height: 20),
-                      // ElevatedButton(
-                      //   onPressed: selectedAnswer != null && !answerSubmitted
-                      //       ? _submitAnswer
-                      //       : null,
-                      //   style: ElevatedButton.styleFrom(
-                      //     padding: const EdgeInsets.symmetric(vertical: 16),
-                      //   ),
-                      //   child: Text(
-                      //     answerSubmitted ? 'Continue' : 'Submit',
-                      //     style: const TextStyle(fontSize: 16),
-                      //   ),
-                      // ),
-                      // if (currentQuestionIndex == questions.length - 1 &&
-                      //     answerSubmitted) ...[
-                      //   const SizedBox(height: 10),
-                      //   ElevatedButton(
-                      //     onPressed: _resetQuiz,
-                      //     style: ElevatedButton.styleFrom(
-                      //       backgroundColor: Colors.orange,
-                      //       padding: const EdgeInsets.symmetric(vertical: 16),
-                      //     ),
-                      //     child: const Text(
-                      //       'Restart Quiz',
-                      //       style: TextStyle(fontSize: 16),
-                      //     ),
-                      //   ),
-                      // ],
-                    ],
-                  )),
+                        // const SizedBox(height: 20),
+                        // ElevatedButton(
+                        //   onPressed: selectedAnswer != null && !answerSubmitted
+                        //       ? _submitAnswer
+                        //       : null,
+                        //   style: ElevatedButton.styleFrom(
+                        //     padding: const EdgeInsets.symmetric(vertical: 16),
+                        //   ),
+                        //   child: Text(
+                        //     answerSubmitted ? 'Continue' : 'Submit',
+                        //     style: const TextStyle(fontSize: 16),
+                        //   ),
+                        // ),
+                        // if (currentQuestionIndex == questions.length - 1 &&
+                        //     answerSubmitted) ...[
+                        //   const SizedBox(height: 10),
+                        //   ElevatedButton(
+                        //     onPressed: _resetQuiz,
+                        //     style: ElevatedButton.styleFrom(
+                        //       backgroundColor: Colors.orange,
+                        //       padding: const EdgeInsets.symmetric(vertical: 16),
+                        //     ),
+                        //     child: const Text(
+                        //       'Restart Quiz',
+                        //       style: TextStyle(fontSize: 16),
+                        //     ),
+                        //   ),
+                        // ],
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ],

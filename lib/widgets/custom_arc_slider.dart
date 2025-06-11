@@ -6,14 +6,12 @@ import 'custom_text.dart';
 
 class CustomArcSlider extends StatefulWidget {
   final int initialValue;
-  // final Function(int) onNextButtonTap;
-  final ValueChanged<int>? onChanged;
+  final int maxValue;
 
   const CustomArcSlider({
     super.key,
     this.initialValue = 1,
-    this.onChanged,
-    // required this.onNextButtonTap,
+    required this.maxValue,
   });
 
   @override
@@ -29,29 +27,14 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
   final double _arcStrokeWidth = 12.0;
   final double _thumbRadius = 16.0;
   final double _centerCircleRadius = 40.0;
-  final double _arrowButtonRadius = 10.0;
-  final int minValue=1;
-  final int maxValue=5;
+  final int minValue = 1;
+  int get maxValue => widget.maxValue;
+
 
   @override
   void initState() {
     super.initState();
     _currentValue=widget.initialValue;
-    // _currentValue = widget.initialValue.clamp(minValue, maxValue);
-    // widget.onNextButtonTap();
-  }
-
-  void _updateValue(int newValue) {
-    if (newValue != _currentValue) {
-      setState(() {
-        _currentValue = newValue.clamp(minValue, maxValue);
-      });
-      widget.onChanged?.call(_currentValue);
-    }
-  }
-
-  void _stepValue(int step) {
-    _updateValue(_currentValue + step);
   }
 
   @override
@@ -69,8 +52,6 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final double diameter = min(constraints.maxWidth, constraints.maxHeight);
-        final double radius = diameter / 2.2;
-
         return Center(
           child: SizedBox(
             width: diameter-70,
@@ -131,9 +112,6 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
                         if (progress < 0) progress = 0;
                         if (progress > 1) progress = 1;
 
-
-                        final int newValue = (progress * (maxValue - minValue) + minValue).round();
-                        _updateValue(newValue);
                       },
                     ),
                   ),
@@ -182,54 +160,6 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
                     ),
                   ),
                 ),
-
-                // // Navigation Arrows
-                // Positioned(
-                //   bottom: diameter * 0.2 / 2 - _arrowButtonRadius / 2 - _arcStrokeWidth,
-                //   left: radius - _centerCircleRadius - _arrowButtonRadius - 20, // Adjust left position
-                //   child: GestureDetector(
-                //     onTap: () => _stepValue(-1),
-                //     child: Container(
-                //       width: _arrowButtonRadius * 2,
-                //       height: _arrowButtonRadius * 2,
-                //       decoration: BoxDecoration(
-                //         color: Colors.white,
-                //         shape: BoxShape.circle,
-                //         boxShadow: [
-                //           BoxShadow(
-                //             color: Colors.black.withValues(alpha: 0.1),
-                //             blurRadius: 6,
-                //             offset: const Offset(0, 3),
-                //           ),
-                //         ],
-                //       ),
-                //       child: const Icon(Icons.arrow_back, color: Colors.grey),
-                //     ),
-                //   ),
-                // ),
-                // Positioned(
-                //   bottom: diameter * 0.2 / 2 - _arrowButtonRadius / 2 - _arcStrokeWidth,
-                //   right: radius - _centerCircleRadius - _arrowButtonRadius - 20, // Adjust right position
-                //   child: GestureDetector(
-                //     onTap: () => _stepValue(1),
-                //     child: Container(
-                //       width: _arrowButtonRadius * 2,
-                //       height: _arrowButtonRadius * 2,
-                //       decoration: BoxDecoration(
-                //         color: Colors.white,
-                //         shape: BoxShape.circle,
-                //         boxShadow: [
-                //           BoxShadow(
-                //             color: Colors.black.withValues(alpha: 0.1),
-                //             blurRadius: 6,
-                //             offset: const Offset(0, 3),
-                //           ),
-                //         ],
-                //       ),
-                //       child: const Icon(Icons.arrow_forward, color: Colors.grey),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
