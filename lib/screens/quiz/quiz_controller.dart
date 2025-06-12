@@ -7,31 +7,31 @@ class QuizController extends GetxController {
   final TextEditingController searchController = TextEditingController();
   final List<QuizListingModel> quizList = [
     QuizListingModel(
-      title: "Lorem ipsum dolor sit amet.",
+      title: "Quiz Rating 5",
       date: DateTime.now(),
       totalQuestions: 5,
       rightAnswers: 4,
     ),
     QuizListingModel(
-      title: "Lorem ipsum dolor sit amet.",
+      title: "Quiz Rating 4",
       date: DateTime.now(),
       totalQuestions: 5,
       rightAnswers: 4,
     ),
     QuizListingModel(
-      title: "Lorem ipsum dolor sit amet.",
+      title: "Quiz Rating 3",
       date: DateTime.now(),
       totalQuestions: 5,
       rightAnswers: 4,
     ),
     QuizListingModel(
-      title: "Lorem ipsum dolor sit amet.",
+      title: "Quiz Rating 5",
       date: DateTime.now(),
       totalQuestions: 5,
       rightAnswers: 4,
     ),
     QuizListingModel(
-      title: "Lorem ipsum dolor sit amet.",
+      title: "Quiz Rating 5",
       date: DateTime.now(),
       totalQuestions: 5,
       rightAnswers: 4,
@@ -46,7 +46,6 @@ class QuizController extends GetxController {
   int currentQuestionIndex = 0;
   String? selectedLabel;
   String? selectedAnswer;
-  bool answerSubmitted = false;
   int score = 0;
 
   final List<Map<String, dynamic>> questions =
@@ -110,4 +109,16 @@ class QuizController extends GetxController {
               'Muharram is the first month of the Islamic Hijri calendar and is one of the four sacred months.',
         },
       ].obs;
+
+
+  // Observable RxInt to hold the selected question index
+  final RxInt _selectedQuestion = 1.obs;
+
+  // Getter to easily access the value
+  int get selectedQuestion => _selectedQuestion.value;
+
+  // Method to update the selected question
+  void setSelectedQuestion(int index) {
+    _selectedQuestion.value = index;
+  }
 }

@@ -24,8 +24,8 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
   // Constants for styling
   final Color _activeColor = AppColors.textSecondary; // Green
   final Color _inactiveColor = AppColors.indicatorColor; // Light Grey
-  final double _arcStrokeWidth = 12.0;
-  final double _thumbRadius = 16.0;
+  final double _arcStrokeWidth = 8.0;
+  final double _thumbRadius = 12.0;
   final double _centerCircleRadius = 40.0;
   final int minValue = 1;
 

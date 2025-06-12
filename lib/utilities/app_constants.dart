@@ -64,6 +64,7 @@ class AppConstants {
   static const String deleteAccount = '$icons/delete_account_icon.svg';
   static const String profilePlaceHolder = '$icons/profile_placeholder.png';
   static const String star= '$icons/star.svg';
+  static const String quizIcon2= '$icons/quiz_icon2.svg';
 
   static const String logo = '$icons/app_logo.png';
 

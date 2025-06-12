@@ -196,13 +196,13 @@ class CustomQuizAnswerDialog extends StatelessWidget {
 class CustomResultDialog extends StatelessWidget {
   final int totalQuestions;
   final int correctAnswers;
-  final void Function()? onNextButtonTap;
+  final void Function() onViewQuizHistoryButtonTap;
 
   const CustomResultDialog({
     super.key,
     required this.totalQuestions,
     required this.correctAnswers,
-    this.onNextButtonTap,
+    required this.onViewQuizHistoryButtonTap,
   });
 
   @override
@@ -224,7 +224,7 @@ class CustomResultDialog extends StatelessWidget {
         key: ValueKey('star_$index'), // Good practice for keys
         width: 24, // Optional: specify size
         height: 24, // Optional: specify size
-        colorFilter: ColorFilter.mode(Color(0xff6B6B6B), BlendMode.srcIn), // Optional: color the SVG
+        colorFilter: ColorFilter.mode(AppColors.darkGreenColor, BlendMode.srcIn), // Optional: color the SVG
       ),
     );
     return Dialog(
@@ -294,7 +294,7 @@ class CustomResultDialog extends StatelessWidget {
                   'Answer Right $correctAnswers',
                   style: AppTextTheme.titleMedium.copyWith(
                     fontSize: 18,
-                    color: Color(0xff119600),
+                    color: AppColors.greenColor,
                   ),
                   maxLine: 6,
                 ),
@@ -304,7 +304,7 @@ class CustomResultDialog extends StatelessWidget {
                     Expanded(
                       child: CustomRectangleButton(
                         text: 'View Quiz History',
-                        onTap: (){},
+                        onTap: onViewQuizHistoryButtonTap,
                       ),
                     ),
                   ],

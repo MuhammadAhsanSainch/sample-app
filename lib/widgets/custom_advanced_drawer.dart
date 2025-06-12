@@ -11,7 +11,7 @@ import 'package:path_to_water/screens/notification/view/notification_screen.dart
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_switch_widget.dart';
 
-import '../screens/quiz/views/daily_quiz_history.dart';
+import '../screens/quiz/views/daily_quiz_history_view.dart';
 
 class CustomAdvancedDrawer extends StatelessWidget {
   final Widget child;
@@ -46,7 +46,7 @@ class CustomAdvancedDrawer extends StatelessWidget {
               },),
               _DrawerItem(label: "Quiz History", pngIcon: AppConstants.calendarIcon,onTap: (){
                 controller.hideDrawer();
-                Get.to(()=>DailyQuizHistoryScreen(),binding: QuizBinding());
+                Get.to(()=>DailyQuizHistoryView(),binding: QuizBinding());
               },),
               _DrawerItem(
                 label: "Journal",
