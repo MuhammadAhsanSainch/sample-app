@@ -37,13 +37,14 @@ class SettingsScreen extends StatelessWidget {
               title: CustomText('Notifications Preferences', style: AppTextTheme.bodyLarge),
               trailing: Obx(() {
                 return CustomSwitchWidget(
-                  value: AppGlobals.isDarkMode.value,
+                  value: controller.isNotification.value,
                   onChanged: (value) {
-                    AppGlobals.isDarkMode.toggle();
-                    Get.changeThemeMode(
-                      AppGlobals.isDarkMode.value ? ThemeMode.light : ThemeMode.dark,
-                    );
-                    Get.forceAppUpdate();
+                    controller.isNotification.toggle();
+                    // AppGlobals.isDarkMode.toggle();
+                    // Get.changeThemeMode(
+                    //   AppGlobals.isDarkMode.value ? ThemeMode.light : ThemeMode.dark,
+                    // );
+                    // Get.forceAppUpdate();
                   },
                 );
               }),

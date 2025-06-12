@@ -38,10 +38,14 @@ class CustomAdvancedDrawer extends StatelessWidget {
                 pngIcon: AppConstants.homeIcon,
                 onTap: () => controller.hideDrawer(),
               ),
-              _DrawerItem(label: "Today Quiz", pngIcon: AppConstants.quizDrawerIcon,onTap: (){
-                controller.hideDrawer();
-                Get.to(()=>DailyQuizView(),binding: QuizBinding());
-              },),
+              _DrawerItem(
+                label: "Today Quiz",
+                pngIcon: AppConstants.quizDrawerIcon,
+                onTap: () {
+                  controller.hideDrawer();
+                  Get.to(() => DailyQuizView(), binding: QuizBinding());
+                },
+              ),
               _DrawerItem(label: "Quiz History", pngIcon: AppConstants.calendarIcon),
               _DrawerItem(
                 label: "Journal",
@@ -51,10 +55,21 @@ class CustomAdvancedDrawer extends StatelessWidget {
                   homeController.currentTabIndex(6);
                 },
               ),
-              _DrawerItem(label: "Notification", pngIcon: AppConstants.notificationIcon, onTap: () {
-                Get.to(()=> NotificationScreen(),binding: NotificationBinding());
-              },),
-              _DrawerItem(label: "Subscription", pngIcon: AppConstants.subscriptionIcon),
+              _DrawerItem(
+                label: "Notification",
+                pngIcon: AppConstants.notificationIcon,
+                onTap: () {
+                  Get.to(() => NotificationScreen(), binding: NotificationBinding());
+                },
+              ),
+              _DrawerItem(
+                label: "Subscription",
+                pngIcon: AppConstants.subscriptionIcon,
+                onTap: () {
+                  controller.hideDrawer();
+                  homeController.currentTabIndex(8);
+                },
+              ),
               _DrawerItem(label: "Dark Mode", pngIcon: AppConstants.themeIcon, showSwitch: true),
               _DrawerItem(
                 label: "Favorites",
@@ -64,15 +79,21 @@ class CustomAdvancedDrawer extends StatelessWidget {
                   homeController.currentTabIndex(9);
                 },
               ),
-              _DrawerItem(label: "Settings", pngIcon: AppConstants.settingIcon, onTap: () {
-                controller.hideDrawer();
-                Get.to(()=>SettingsScreen(),binding: SettingsBinding());
-              },),
-              _DrawerItem(label: "Sign Out", pngIcon: AppConstants.logoutIcon,
-              onTap: (){
-                controller.hideDrawer();
-                Get.offAll(()=>LoginView(),binding: LoginBinding());
-              },
+              _DrawerItem(
+                label: "Settings",
+                pngIcon: AppConstants.settingIcon,
+                onTap: () {
+                  controller.hideDrawer();
+                  Get.to(() => SettingsScreen(), binding: SettingsBinding());
+                },
+              ),
+              _DrawerItem(
+                label: "Sign Out",
+                pngIcon: AppConstants.logoutIcon,
+                onTap: () {
+                  controller.hideDrawer();
+                  Get.offAll(() => LoginView(), binding: LoginBinding());
+                },
               ),
             ],
           ),
