@@ -27,7 +27,8 @@ class QuizDetailView extends StatelessWidget {
             // Question & Answer Section
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Align( // Added Align for consistent left alignment
+              child: Align(
+                // Added Align for consistent left alignment
                 alignment: Alignment.centerLeft,
                 child: CustomText(
                   'Question & Answer',
@@ -39,14 +40,15 @@ class QuizDetailView extends StatelessWidget {
             // Question Navigation Tabs
             // 3. Use Obx to reactively rebuild the tabs when selectedQuestion changes
             Obx(
-                  () => _buildQuestionNavigationTabs(context, controller.selectedQuestion),
+              () => _buildQuestionNavigationTabs(
+                context,
+                controller.selectedQuestion,
+              ),
             ),
             const SizedBox(height: 10),
             // Question Answer Card
             // 3. Use Obx to reactively rebuild the card content when selectedQuestion changes
-            Obx(
-                  () => _buildQuestionAnswerCard(controller.selectedQuestion),
-            ),
+            Obx(() => _buildQuestionAnswerCard(controller.selectedQuestion)),
             const SizedBox(height: 20),
           ],
         ),
@@ -77,7 +79,10 @@ class QuizDetailView extends StatelessWidget {
     );
   }
 
-  Widget _buildQuestionNavigationTabs(BuildContext context, int currentSelectedQuestion) {
+  Widget _buildQuestionNavigationTabs(
+    BuildContext context,
+    int currentSelectedQuestion,
+  ) {
     // Get the controller instance to access its methods
     final QuizController controller = Get.find();
 
@@ -87,7 +92,7 @@ class QuizDetailView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
           5,
-              (index) => GestureDetector(
+          (index) => GestureDetector(
             onTap: () {
               // Call the controller's method to update the selected question
               controller.setSelectedQuestion(index + 1);
@@ -95,7 +100,9 @@ class QuizDetailView extends StatelessWidget {
             child: _buildQuestionTab(
               context,
               'Q.${index + 1}',
-              isSelected: (index + 1) == currentSelectedQuestion, // Use the passed value
+              isSelected:
+                  (index + 1) ==
+                  currentSelectedQuestion, // Use the passed value
             ),
           ),
         ),
@@ -104,28 +111,37 @@ class QuizDetailView extends StatelessWidget {
   }
 
   Widget _buildQuestionTab(
-      BuildContext context,
-      String text, {
-        bool isSelected = false,
-      }) {
+    BuildContext context,
+    String text, {
+    bool isSelected = false,
+  }) {
     return Container(
-      width: 45,
-      height: 45,
+      width: 50,
+      height: 50,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: isSelected ? Theme.of(context).primaryColor : Colors.grey[200],
-        // borderRadius: BorderRadius.circular(10),
+        color:
+            isSelected
+                ? AppColors.textSecondary
+                : AppGlobals.isDarkMode.value
+                ? Colors.transparent
+                : AppColors.lightColor,
         border: Border.all(
           color:
-          isSelected ? Theme.of(context).primaryColor : Colors.grey[300]!,
+              isSelected
+                  ? AppGlobals.isDarkMode.value
+                      ? Colors.transparent
+                      : AppColors.lightColor
+                  : AppColors.textSecondary,
         ),
       ),
       alignment: Alignment.center,
-      child: CustomText( // Assuming CustomText works with String directly
+      child: CustomText(
+        // Assuming CustomText works with String directly
         text,
-        style: TextStyle(
-          color: isSelected ? Colors.white : Colors.black87,
-          fontWeight: FontWeight.bold,
+        style: AppTextTheme.bodyLarge.copyWith(
+          fontWeight: FontWeight.w600,
+          color: isSelected ? AppColors.lightColor : AppColors.textSecondary,
         ),
       ),
     );
@@ -135,10 +151,13 @@ class QuizDetailView extends StatelessWidget {
   Widget _buildQuestionAnswerCard(int currentQuestionIndex) {
     // In a real application, you would fetch the question data based on currentQuestionIndex
     // For demonstration, we'll just update the question number.
-    String questionText = 'In which Islamic month was Prophet Muhammad (PBUH) born?';
-    String readMoreContent = 'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.';
+    String questionText =
+        'In which Islamic month was Prophet Muhammad (PBUH) born?';
+    String readMoreContent =
+        'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.';
     String givenAnswer = 'Rabi al Awwal';
-    String actualAnswer = 'Rabi al Aakhir'; // Example: making it wrong for Q1 to show 'Wrong'
+    String actualAnswer =
+        'Rabi al Aakhir'; // Example: making it wrong for Q1 to show 'Wrong'
 
     if (currentQuestionIndex == 1) {
       givenAnswer = 'Rabi al Awwal';
@@ -166,7 +185,10 @@ class QuizDetailView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomText('Question $currentQuestionIndex', style: AppTextTheme.bodyLarge),
+            CustomText(
+              'Question $currentQuestionIndex',
+              style: AppTextTheme.bodyLarge,
+            ),
             const SizedBox(height: 10),
             CustomText(
               questionText,
@@ -182,17 +204,18 @@ class QuizDetailView extends StatelessWidget {
               trimCollapsedText: 'Read more',
               trimExpandedText: 'Read less',
               style: AppTextTheme.bodyLarge,
-              moreStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              moreStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 20),
-            _buildAnswer(
-              givenAnswer: givenAnswer,
-              actualAnswer: actualAnswer,
-            ),
+            _buildAnswer(givenAnswer: givenAnswer, actualAnswer: actualAnswer),
             const SizedBox(height: 15),
             _buildAnswer(
               label: 'Correct Answer',
-              givenAnswer: actualAnswer, // Correct answer always uses actualAnswer
+              givenAnswer: actualAnswer,
+              // Correct answer always uses actualAnswer
               actualAnswer: actualAnswer,
             ),
           ],
@@ -212,9 +235,11 @@ class QuizDetailView extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         color:
-        AppGlobals.isDarkMode.value
-            ? AppColors.primary
-            : AppColors.lightGreenColor,
+            AppGlobals.isDarkMode.value
+                ? isRight
+                    ? AppColors.primary
+                    : AppColors.error.withValues(alpha: 0.23)
+                : AppColors.lightGreenColor,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -229,11 +254,15 @@ class QuizDetailView extends StatelessWidget {
             label != null ? actualAnswer : givenAnswer,
             style: AppTextTheme.headlineSmall.copyWith(
               color:
-              label != null
-                  ? AppColors.textPrimary
-                  : isRight
-                  ? AppColors.textPrimary
-                  : AppColors.error,
+                  label != null
+                      ? AppGlobals.isDarkMode.value
+                          ? AppColors.lightColor
+                          : AppColors.greenColor
+                      : isRight
+                      ? AppGlobals.isDarkMode.value
+                          ? AppColors.lightColor
+                          : AppColors.greenColor
+                      : AppColors.error,
             ),
           ),
         ],
