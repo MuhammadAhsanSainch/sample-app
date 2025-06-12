@@ -1,4 +1,5 @@
 import 'package:path_to_water/screens/quiz/quiz_controller.dart';
+import 'package:path_to_water/screens/quiz/views/daily_quiz_history_view.dart';
 
 import '../../../utilities/app_exports.dart';
 import '../../../widgets/custom_arc_slider.dart';
@@ -25,27 +26,43 @@ class _DailyQuizViewState extends State<DailyQuizView> {
             text: 'Daily Quiz',
             showBackIcon: true,
             trailingWidget: Visibility(
-              visible: (controller.currentQuestionIndex < controller.questions.length-1) && (controller.selectedAnswer?.isNotEmpty??false),
+              visible: controller.selectedAnswer?.isNotEmpty ?? false,
               child: IconButton(
                 onPressed: () {
                   Get.dialog(
                     CustomQuizAnswerDialog(
                       question: currentQuestion['question'],
-                      givenAnswer: controller.selectedAnswer??'',
+                      givenAnswer: controller.selectedAnswer ?? '',
                       actualAnswer: currentQuestion['correctAnswer'],
                       explanation: currentQuestion['explanation'],
                       onNextButtonTap: () {
                         Navigator.pop(context);
-                        setState(() {
-                          controller.currentQuestionIndex++;
-                        });
-                        controller.onInitialValueChanged(
-                          controller.initialValue + 1,
-                        );
-                        controller.selectedAnswer='';
-                        controller.update();
+                        if (controller.currentQuestionIndex <
+                            controller.questions.length - 1) {
+                          setState(() {
+                            controller.currentQuestionIndex++;
+                          });
+                          controller.onInitialValueChanged(
+                            controller.initialValue + 1,
+                          );
+                          controller.selectedAnswer = '';
+                          controller.update();
+                        } else {
+                          Get.dialog(
+                            CustomResultDialog(
+                              totalQuestions: 5,
+                              correctAnswers: 4,
+                              onViewQuizHistoryButtonTap: () {
+                                Navigator.pop(context);
+                                Get.to(() => DailyQuizHistoryView());
+                              },
+                            ),
+                            barrierDismissible: false,
+                          );
+                        }
                       },
                     ),
+                    barrierDismissible: false,
                   );
                 },
                 icon: Row(
@@ -58,10 +75,7 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                         color: AppColors.textSecondary,
                       ),
                     ),
-                    Icon(
-                      Icons.arrow_forward,
-                      color: AppColors.textSecondary,
-                    ),
+                    Icon(Icons.arrow_forward, color: AppColors.textSecondary),
                   ],
                 ),
               ),
@@ -134,15 +148,12 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                               break;
                           }
                           return GestureDetector(
-                            onTap:
-                                controller.answerSubmitted
-                                    ? null
-                                    : () {
-                                      setState(() {
-                                        controller.selectedLabel=label;
-                                        controller.selectedAnswer = option;
-                                      });
-                                    },
+                            onTap: () {
+                              setState(() {
+                                controller.selectedLabel = label;
+                                controller.selectedAnswer = option;
+                              });
+                            },
                             child: Container(
                               height: 48,
                               width: Get.width,

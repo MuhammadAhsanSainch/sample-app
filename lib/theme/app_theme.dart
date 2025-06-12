@@ -67,14 +67,17 @@ class AppColors {
 
   // Status Colors
   static const Color success = Color(0xFF4CAF50);
-  static const Color error = Color(0xFFD00B0E);
+  static const Color error = Color(0xFFDA2326);
   static const Color warning = Color(0xFFFFC107);
   static const Color info = Color(0xFF2196F3);
 
   // Background Colors
   static Color get scaffoldBackground =>
       isDarkMode ? Color(0xFF101010) : Color(0xFFFFFFFF);
-  
+
+  static Color get dialogImageBackground =>
+      isDarkMode ? Color(0xFF262626) : Color(0xFFF0F0F0);
+
   static Color get homeScreenCardBgColor => isDarkMode ? grey700 : lightColor;
 
   //AppBar Color
@@ -101,8 +104,8 @@ class AppColors {
       isDarkMode ? Color(0xFF252525) : Color(0xFFE9E9E9);
 
   // Border Colors
-  static const Color borderLight = Color(0xFFE0E0E0);
-  static const Color borderDark = Color(0xFF424242);
+  static Color get borderColor =>
+      isDarkMode ? Color(0xFF589981) : Color(0xffF0F0F0);
 
   // Disabled Colors
   static const Color disabledLight = Color(0xFFBDBDBD);
@@ -122,6 +125,9 @@ class AppColors {
 
 
   static const Color lightColor = Color(0xFFFFFFFF);
+  static const Color greenColor = Color(0xFF119600);
+  static const Color lightGreenColor = Color(0xFFDAEFDC);
+  static const Color darkGreenColor = Color(0xFF6B6B6B);
   static const Color white100 = Color(0xFFFAFAFA);
   static const Color dark = Color(0xFF101010);
   static const Color grey = Color(0xFF808080);
