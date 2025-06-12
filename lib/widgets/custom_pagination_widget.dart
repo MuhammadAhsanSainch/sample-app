@@ -146,7 +146,7 @@ class CustomPaginationWidget extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           foregroundColor: isSelected ? Colors.white : Colors.black,
-          backgroundColor: isSelected ? AppColors.borderDark : Colors.white,
+          backgroundColor: isSelected ? AppColors.borderColor : Colors.white,
           minimumSize: const Size(36, 36),
           padding: pageNumber.toString().length >= 3
               ? const EdgeInsets.symmetric(horizontal: 4)

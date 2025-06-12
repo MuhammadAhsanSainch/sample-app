@@ -9,6 +9,7 @@ class CustomText extends StatelessWidget {
   final FontWeight? fontWeight;
   final TextStyle? style;
   final TextDirection? textDirection;
+  final TextOverflow? overflow;
   final double? height;
 
   const CustomText(
@@ -17,7 +18,8 @@ class CustomText extends StatelessWidget {
     this.fontSize = 14,
     this.maxLine = 1,
     this.color,
-    this.fontWeight = FontWeight.normal,
+    this.fontWeight,
+    this.overflow,
     this.textAlign,
     this.style,
     this.textDirection,
@@ -38,7 +40,7 @@ class CustomText extends StatelessWidget {
             letterSpacing: 0,
             height: height
           ),
-      overflow: TextOverflow.ellipsis,
+      overflow: overflow ??TextOverflow.ellipsis,
       maxLines: maxLine,
       softWrap: true,
       textAlign: textAlign ?? TextAlign.start,

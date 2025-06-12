@@ -36,13 +36,10 @@ class CustomQuizAnswerDialog extends StatelessWidget {
                 Container(
                   height: 150.h,
                   decoration: BoxDecoration(
+                    color: AppColors.dialogImageBackground,
                     borderRadius: BorderRadius.circular(12.r),
                     image: DecorationImage(
-                      image: AssetImage(
-                        AppGlobals.isDarkMode.value
-                            ? AppConstants.customDialogBgDarkImage
-                            : AppConstants.customDialogBgImage,
-                      ),
+                      image: AssetImage(AppConstants.answerDialogImage),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -53,6 +50,7 @@ class CustomQuizAnswerDialog extends StatelessWidget {
                     height: 40.h,
                   ),
                 ),
+                10.verticalSpace,
                 CustomText(
                   'Your Answer is ${givenAnswer == actualAnswer ? 'Right' : 'Wrong'}',
                   style: AppTextTheme.titleMedium,
@@ -145,6 +143,7 @@ class CustomQuizAnswerDialog extends StatelessWidget {
                     ],
                   ),
                 ),
+                10.verticalSpace,
                 CustomText(
                   question,
                   style: AppTextTheme.titleMedium,
@@ -165,7 +164,7 @@ class CustomQuizAnswerDialog extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 33.h,
+            top: 27.h,
             right: 23.h,
             child: Material(
               color: Colors.transparent,
@@ -184,6 +183,152 @@ class CustomQuizAnswerDialog extends StatelessWidget {
                     ),
                     Icon(Icons.arrow_forward, color: AppColors.textSecondary),
                   ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CustomResultDialog extends StatelessWidget {
+  final int totalQuestions;
+  final int correctAnswers;
+  final void Function() onViewQuizHistoryButtonTap;
+
+  const CustomResultDialog({
+    super.key,
+    required this.totalQuestions,
+    required this.correctAnswers,
+    required this.onViewQuizHistoryButtonTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> filledStars = List.generate(
+      correctAnswers,
+          (index) => SvgPicture.asset(
+        AppConstants.star,
+        // key: ValueKey('star_$index'), // Good practice for keys
+        width: 24, // Optional: specify size
+        height: 24, // Optional: specify size
+        colorFilter: ColorFilter.mode(Colors.amber, BlendMode.srcIn), // Optional: color the SVG
+      ),
+    );
+    List<Widget> unFilledStars = List.generate(
+      totalQuestions-correctAnswers,
+          (index) => SvgPicture.asset(
+        AppConstants.star,
+        key: ValueKey('star_$index'), // Good practice for keys
+        width: 24, // Optional: specify size
+        height: 24, // Optional: specify size
+        colorFilter: ColorFilter.mode(AppColors.darkGreenColor, BlendMode.srcIn), // Optional: color the SVG
+      ),
+    );
+    return Dialog(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+
+      clipBehavior: Clip.hardEdge,
+      backgroundColor: AppColors.dialogBgColor,
+      child: Stack(
+        clipBehavior: Clip.none, // Allow close button to overflow if needed
+        children: [
+          Padding(
+            padding: EdgeInsets.all(16.r),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  height: 150.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.dialogImageBackground,
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: AppColors.borderColor),
+                    image: DecorationImage(
+                      image: AssetImage(AppConstants.resultImage),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+                10.verticalSpace,
+                CustomText(
+                  'Quiz Finished',
+                  style: AppTextTheme.headlineSmall,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText('Your Rating ', style: AppTextTheme.headlineSmall),
+                    ...filledStars,
+                    ...unFilledStars,
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Color(0xffF9A304),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(child: Text('$correctAnswers',style: AppTextTheme.titleMedium.copyWith(fontSize: 18),)),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                10.verticalSpace,
+                CustomText(
+                  'Total Questions $totalQuestions',
+                  style: AppTextTheme.headlineSmall,
+                  maxLine: 2,
+                ),
+                5.verticalSpace,
+                CustomText(
+                  'Answer Right $correctAnswers',
+                  style: AppTextTheme.titleMedium.copyWith(
+                    fontSize: 18,
+                    color: AppColors.greenColor,
+                  ),
+                  maxLine: 6,
+                ),
+                10.verticalSpace,
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomRectangleButton(
+                        text: 'View Quiz History',
+                        onTap: onViewQuizHistoryButtonTap,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 27.h,
+            right: 23.h,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(30),
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(Icons.close, color: Colors.white, size: 20),
                 ),
               ),
             ),
