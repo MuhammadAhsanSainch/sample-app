@@ -33,12 +33,11 @@ class HomeView extends StatelessWidget {
               },
             ),
             extendBodyBehindAppBar: controller.currentTabIndex.value == 0,
-            extendBody: [0, 1, 6].contains(controller.currentTabIndex.value),
+            extendBody: [0, 1, 6, 8].contains(controller.currentTabIndex.value),
             backgroundColor: AppColors.scaffoldBackground,
             body: SizedBox(
               height: size.height,
               width: size.width,
-
               child: controller.pages[controller.currentTabIndex.value],
             ),
             bottomNavigationBar: Container(

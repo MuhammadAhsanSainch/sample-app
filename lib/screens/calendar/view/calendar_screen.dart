@@ -167,7 +167,7 @@ class _DualCalendarViewState extends State<DualCalendarView> {
                     ),
                   ),
                   SizedBox(
-                    width: Get.width * 0.75,
+                    width: Get.width * 0.72,
 
                     child: CustomText(
                       _getHijriMonthYearString(_displayedMonth),

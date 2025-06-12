@@ -10,6 +10,7 @@ import 'package:path_to_water/screens/quiz/views/daily_quiz_view.dart';
 import 'package:path_to_water/screens/reminder/views/reminder_screen.dart';
 import 'package:path_to_water/screens/settings/views/profile_screen.dart';
 import 'package:path_to_water/screens/settings/views/settings_screen.dart';
+import 'package:path_to_water/screens/subscription/view/subscription_screen.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
 
 import '../../utilities/app_exports.dart';
@@ -50,7 +51,7 @@ class HomeController extends GetxController {
     Center(child: Text("Quiz History")),
     JournalScreen(),
     Center(child: Text("Notification")),
-    Center(child: Text("Subscription")),
+    SubscriptionScreen(),
     FavoriteScreen(),
     SettingsScreen(),
   ];

@@ -13,6 +13,8 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
   final TextEditingController newPassTFController = TextEditingController();
   final TextEditingController confirmNewTFController = TextEditingController();
 
+  RxBool isNotification = false.obs;
+
   // Function to pick an image
   File? imageFile;
   final ImagePicker _picker = ImagePicker();
