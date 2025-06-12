@@ -74,11 +74,11 @@ class AppGlobals {
     if (Get.context == null) return;
     Get.snackbar(heading ?? 'Success', message,
         colorText: AppColors.primary,
-        backgroundColor: AppColors.borderDark,
+        backgroundColor: AppColors.borderColor,
         snackPosition: SnackPosition.TOP,
         icon:  Icon(
           Icons.check_circle_sharp,
-          color: AppColors.borderDark,
+          color: AppColors.borderColor,
         ),
         duration: Duration(milliseconds: durationMilliSec));
   }
@@ -249,7 +249,7 @@ class AppGlobals {
                           : EdgeInsets.symmetric(horizontal: 8),
                       height: (Get.context?.isTablet ?? false) ? 50 : 40,
                       width: (Get.context?.isTablet ?? false) ? 200 : 150,
-                      buttonColor: AppColors.borderDark,
+                      buttonColor: AppColors.borderColor,
                       onTap: onBtnTap,
                       text: btnText,
                     )
@@ -262,7 +262,7 @@ class AppGlobals {
                   decoration: BoxDecoration(
                     color: Color(0xffEBE7E0),
                     shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.borderDark),
+                    border: Border.all(color: AppColors.borderColor),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),

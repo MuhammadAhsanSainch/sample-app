@@ -25,7 +25,7 @@ class _DailyQuizViewState extends State<DailyQuizView> {
             text: 'Daily Quiz',
             showBackIcon: true,
             trailingWidget: Visibility(
-              visible: (controller.currentQuestionIndex < controller.questions.length-1) && (controller.selectedAnswer?.isNotEmpty??false),
+              visible: controller.selectedAnswer?.isNotEmpty??false,
               child: IconButton(
                 onPressed: () {
                   Get.dialog(
@@ -36,16 +36,27 @@ class _DailyQuizViewState extends State<DailyQuizView> {
                       explanation: currentQuestion['explanation'],
                       onNextButtonTap: () {
                         Navigator.pop(context);
-                        setState(() {
-                          controller.currentQuestionIndex++;
-                        });
-                        controller.onInitialValueChanged(
-                          controller.initialValue + 1,
-                        );
-                        controller.selectedAnswer='';
-                        controller.update();
+                        if(controller.currentQuestionIndex < controller.questions.length-1){
+                          setState(() {
+                            controller.currentQuestionIndex++;
+                          });
+                          controller.onInitialValueChanged(
+                            controller.initialValue + 1,
+                          );
+                          controller.selectedAnswer='';
+                          controller.update();
+                        }else{
+                          Get.dialog(
+                              CustomResultDialog(
+                            totalQuestions: 5,
+                            correctAnswers: 4,
+                          ),
+                            barrierDismissible: false,
+                          );
+                        }
                       },
                     ),
+                    barrierDismissible: false,
                   );
                 },
                 icon: Row(
