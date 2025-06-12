@@ -242,10 +242,7 @@ class _ArcSliderPainter extends CustomPainter {
     );
 
     // Calculate progress
-    final double progress =
-        currentValue == minValue
-            ? (0.5) / (maxValue - minValue)
-            : (currentValue - minValue) / (maxValue - minValue);
+    final double progress= currentValue/maxValue;
     final double activeSweepAngle = sweepAngle * progress;
 
     // Draw active progress

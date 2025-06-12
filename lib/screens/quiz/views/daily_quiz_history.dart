@@ -1,7 +1,5 @@
-import 'package:path_to_water/screens/notification/controller/notification_controller.dart';
 import 'package:path_to_water/screens/quiz/quiz_controller.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
-import 'package:path_to_water/utilities/dummy_content.dart';
 
 class DailyQuizHistoryScreen extends StatelessWidget {
   const DailyQuizHistoryScreen({super.key});
@@ -82,13 +80,14 @@ class DailyQuizHistoryScreen extends StatelessWidget {
                                 item.date.toFormatDateTime(format: "hh:mm a, dd/MM/yyyy"),
                                 fontSize: 10.sp,
                               ),
+                              8.verticalSpace,
                               CustomText(
-                                'item.title',
+                                'Total Question ${item.totalQuestions} for today',
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                               CustomText(
-                                item.title,
+                                'Answer Right ${item.rightAnswers}',
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
                               ),
