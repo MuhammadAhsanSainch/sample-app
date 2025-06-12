@@ -194,7 +194,12 @@ class _DualCalendarViewState extends State<DualCalendarView> {
     List<DateTime> days = [];
     DateTime firstDayOfGrid = _displayedMonth.subtract(Duration(days: _displayedMonth.weekday - 1));
 
-    for (int i = 0; i < 42; i++) {
+    int length = 35;
+    if (_displayedMonth.weekday > 5) {
+      length = 42;
+    }
+
+    for (int i = 0; i < length; i++) {
       // 6 weeks
       days.add(firstDayOfGrid.add(Duration(days: i)));
     }
@@ -204,7 +209,7 @@ class _DualCalendarViewState extends State<DualCalendarView> {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 7,
-        childAspectRatio: 0.9, // Adjust for cell height
+        childAspectRatio: 0.7, // Adjust for cell height
       ),
       itemCount: days.length,
       itemBuilder: (context, index) {
@@ -227,10 +232,7 @@ class _DualCalendarViewState extends State<DualCalendarView> {
     HijriCalendar hijriDate = HijriCalendar.fromDate(date);
 
     BoxDecoration decoration = BoxDecoration(
-      border:
-          isToday
-              ? Border.all(color: AppColors.primary)
-              : Border.all(color: AppColors.strokeColor, width: 0.2),
+      border: Border.all(color: AppColors.strokeColor, width: 0.2),
       color: isSelected ? AppColors.primary : Colors.transparent,
     );
 
@@ -246,26 +248,71 @@ class _DualCalendarViewState extends State<DualCalendarView> {
         alignment: Alignment.center,
         decoration: decoration,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              date.day.toString(),
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                color:
-                    isSelected
-                        ? AppColors.lightColor
-                        : (isCurrentMonth ? _dayNumberColor : _otherMonthDayNumberColor),
+            Padding(
+              padding: EdgeInsets.only(left: 8.r),
+              child: Container(
+                padding: isToday ? const EdgeInsets.all(6) : null,
+                decoration:
+                    isToday
+                        ? BoxDecoration(shape: BoxShape.circle, color: AppColors.surface)
+                        : null,
+                child: CustomText(
+                  date.day.toString(),
+                  fontSize: 13,
+                  fontWeight: FontWeight.normal,
+                  color:
+                      isSelected
+                          ? AppColors.lightColor
+                          : isToday
+                          ? AppColors.scaffoldBackground
+                          : (isCurrentMonth ? _dayNumberColor : _otherMonthDayNumberColor),
+                ),
               ),
             ),
             if (isCurrentMonth)
-              CustomText(
-                '(${hijriDate.hDay})',
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 8.r),
 
-                fontSize: 10,
-                color: isSelected ? AppColors.lightColor : _greenAccentColor,
+                    child: CustomText(
+                      '(${hijriDate.hDay})',
+
+                      fontSize: 11,
+                      color:
+                          isSelected
+                              ? AppColors.lightColor
+                              : (isCurrentMonth
+                                  ? _greenAccentColor
+                                  : _greenAccentColor.withAlpha(150)),
+                    ),
+                  ),
+                ],
               ),
+            // Text(
+            //   date.day.toString(),
+            //   style: TextStyle(
+            //     fontSize: 15,
+            //     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            //     color:
+            //         isSelected
+            //             ? AppColors.lightColor
+            //             : (isCurrentMonth ? _dayNumberColor : _otherMonthDayNumberColor),
+            //   ),
+            // ),
+            // if (isCurrentMonth) ...[
+            //   8.verticalSpace,
+            //   CustomText(
+            //     '(${hijriDate.hDay})',
+
+            //     fontSize: 10,
+            //     color: isSelected ? AppColors.lightColor : _greenAccentColor,
+            //   ),
+            // ],
           ],
         ),
       ),

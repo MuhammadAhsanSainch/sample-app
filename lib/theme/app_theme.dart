@@ -77,7 +77,7 @@ class AppColors {
 
   static Color get dialogImageBackground =>
       isDarkMode ? Color(0xFF262626) : Color(0xFFF0F0F0);
-  
+
   static Color get homeScreenCardBgColor => isDarkMode ? grey700 : lightColor;
 
   //AppBar Color
@@ -128,6 +128,7 @@ class AppColors {
   static const Color greenColor = Color(0xFF119600);
   static const Color lightGreenColor = Color(0xFFDAEFDC);
   static const Color darkGreenColor = Color(0xFF6B6B6B);
+  static const Color white100 = Color(0xFFFAFAFA);
   static const Color dark = Color(0xFF101010);
   static const Color grey = Color(0xFF808080);
   static const Color grey100 = Color(0xFFF0F0F0);

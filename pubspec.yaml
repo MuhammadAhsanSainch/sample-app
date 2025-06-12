@@ -51,6 +51,7 @@ dependencies:
   hijri: ^3.0.0
   infinite_carousel: ^1.1.1
   readmore: ^3.0.0
+  device_calendar: ^4.3.3
 
 dev_dependencies:
   flutter_test:
