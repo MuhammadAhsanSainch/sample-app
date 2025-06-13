@@ -8,4 +8,8 @@ class ProfileServices{
     final res = await ApiClient().get(AppUrl.getProfileApi);
     return ProfileModel.fromJson(res.data);
   }
+  static Future<ProfileModel?> updateProfile(Map<String, dynamic> data) async {
+    final res = await ApiClient().put(AppUrl.updateProfileApi,data: data);
+    return ProfileModel.fromJson(res.data);
+  }
 }

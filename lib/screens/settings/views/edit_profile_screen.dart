@@ -14,9 +14,9 @@ class EditProfileScreen extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       backgroundColor: AppColors.scaffoldBackground,
-      appBar: CustomAppBar(text: 'Edit Profile',showBackIcon: true,),
+      appBar: CustomAppBar(text: 'Edit Profile', showBackIcon: true),
       body: Obx(
-            () => CustomLoader(
+        () => CustomLoader(
           isTrue: AppGlobals.isLoading.value,
           child: Stack(
             children: [
@@ -24,12 +24,13 @@ class EditProfileScreen extends StatelessWidget {
               Positioned.fill(
                 // Makes the image fill the entire available space
                 child: Obx(
-                      () => Image.asset(
+                  () => Image.asset(
                     // Use Image.asset directly
                     AppGlobals.isDarkMode.value
                         ? AppConstants.profileBgDark
                         : AppConstants.profileBgLight,
-                    fit: BoxFit.cover, // Ensures the image covers the whole area
+                    fit:
+                        BoxFit.cover, // Ensures the image covers the whole area
                     // alignment: Alignment.center, // Optional: adjust alignment if needed
                   ),
                 ),
@@ -44,7 +45,7 @@ class EditProfileScreen extends StatelessWidget {
 
                       ///Profile Image
                       Obx(
-                            () => Center(
+                        () => Center(
                           child: Stack(
                             clipBehavior: Clip.none,
                             fit: StackFit.loose,
@@ -58,26 +59,26 @@ class EditProfileScreen extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.all(1.0),
                                   child:
-                                  controller.imageFile != null
-                                      ? CircleAvatar(
-                                    radius: 50,
-                                    backgroundImage: FileImage(
-                                      controller.imageFile!,
-                                    ),
-                                  )
-                                      : controller.profilePicture.isNotEmpty
-                                      ? CircleAvatar(
-                                    radius: 50,
-                                    backgroundImage: NetworkImage(
-                                      '${AppUrl.mediaUrl}${controller.profilePicture.value}',
-                                    ),
-                                  )
-                                      : CircleAvatar(
-                                    radius: 50,
-                                    backgroundImage: AssetImage(
-                                      AppConstants.profilePlaceHolder,
-                                    ),
-                                  ),
+                                      controller.imageFile != null
+                                          ? CircleAvatar(
+                                            radius: 50,
+                                            backgroundImage: FileImage(
+                                              controller.imageFile!,
+                                            ),
+                                          )
+                                          : controller.profilePicture.isNotEmpty
+                                          ? CircleAvatar(
+                                            radius: 50,
+                                            backgroundImage: NetworkImage(
+                                              '${AppUrl.mediaUrl}${controller.profilePicture.value}',
+                                            ),
+                                          )
+                                          : CircleAvatar(
+                                            radius: 50,
+                                            backgroundImage: AssetImage(
+                                              AppConstants.profilePlaceHolder,
+                                            ),
+                                          ),
                                 ),
                               ),
                               // Edit Icon
@@ -161,26 +162,24 @@ class EditProfileScreen extends StatelessWidget {
                       ///Date Of Birth
                       InkWell(
                         onTap: () async {
-                          var date = await AppGlobals().selectDate(Get.context!);
-                          controller.dOBTFController.text = AppGlobals.formatDate(
-                            date,
-                          );
+                          controller.pickDate();
                         },
-                        child: CustomTextFormField(
-                          readOnly: true,
-                          controller: controller.dOBTFController,
-                          prefixIcon: SvgPicture.asset(AppConstants.calendar),
-                          upperLabel: "Date Of Birth",
-                          upperLabelReqStar: "*",
-                          hintValue: "Tap to select Date Of Birth",
-                          validator: (value) => validateEmail(value),
-                          type: TextInputType.emailAddress,
-                          inputFormatters: [
-                            FilteringTextInputFormatter(
-                              RegExp(r'[a-zA-Z0-9@._-]'),
-                              allow: true,
-                            ),
-                          ],
+                        child: AbsorbPointer(
+                          child: CustomTextFormField(
+                            controller: controller.dOBTFController,
+                            prefixIcon: SvgPicture.asset(AppConstants.calendar),
+                            upperLabel: "Date Of Birth",
+                            upperLabelReqStar: "*",
+                            hintValue: "Tap to select Date Of Birth",
+                            validator: (value) => validateEmail(value),
+                            type: TextInputType.emailAddress,
+                            inputFormatters: [
+                              FilteringTextInputFormatter(
+                                RegExp(r'[a-zA-Z0-9@._-]'),
+                                allow: true,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       10.verticalSpace,
@@ -215,9 +214,9 @@ class EditProfileScreen extends StatelessWidget {
                                 ),
                                 width: Get.width,
                                 initialValue:
-                                controller.genderTFController.text.isEmpty
-                                    ? 'Choose One'
-                                    : controller.genderTFController.text,
+                                    controller.genderTFController.text.isEmpty
+                                        ? 'Choose One'
+                                        : controller.genderTFController.text,
                                 items: ['Choose One', 'Male', 'Female'],
                                 onChanged: (value) {
                                   log(value);
@@ -249,17 +248,7 @@ class EditProfileScreen extends StatelessWidget {
                         width: Get.width,
                         text: "Update",
                         onTap: () {
-                          Get.dialog(
-                            CustomDialog(
-                              title: "Profile Saved",
-                              message: "Your changes have been saved successfully.",
-                              imageIcon: AppConstants.trashIcon,
-                              btnText: "Close",
-                              onButtonTap: () {
-                                Get.close(2);
-                              },
-                            ),
-                          );
+                          controller.updateProfile();
                         },
                       ),
                       20.verticalSpace,
