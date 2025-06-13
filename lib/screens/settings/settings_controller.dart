@@ -26,15 +26,15 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
     if (map["file"] != null) {
       map["file"] = await dio.MultipartFile.fromFile(map["file"]);
     }
-    return NetworkService.handleApiCall(
-      AppUrl.apiService.uploadMedia(dio.FormData.fromMap(map)),
-      errorMessagePrefix: 'uploadImage',
-    ).then((value) {
-      if (value['status'] == true) {
-        profileImgKey.value = value['data']['key'];
-        update();
-      }
-    });
+    // return NetworkService.handleApiCall(
+    //   AppUrl.apiService.uploadMedia(dio.FormData.fromMap(map)),
+    //   errorMessagePrefix: 'uploadImage',
+    // ).then((value) {
+    //   if (value['status'] == true) {
+    //     profileImgKey.value = value['data']['key'];
+    //     update();
+    //   }
+    // });
   }
 
   Future<void> pickImage() async {

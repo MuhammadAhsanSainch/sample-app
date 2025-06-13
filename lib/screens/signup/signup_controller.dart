@@ -24,17 +24,17 @@ class SignupController extends GetxController {
     }
   }
 
-  Future<AuthModel?> singUp(reqBody) {
-    return NetworkService.handleApiCall<GeneralMapResponse>(
-      AppUrl.apiService.signIn(reqBody),
-      errorMessagePrefix: 'signIn',
-      onSuccess: (response) {
-        UserPreferences.loginData = response.data!;
-        UserPreferences.isLogin = true;
-        UserPreferences.authToken = response.data!['accessToken'];
-      },
-    ).then((value) {
-      return AuthModel.fromJson(value);
-    });
-  }
+  // Future<AuthModel?> singUp(reqBody) {
+  //   return NetworkService.handleApiCall<GeneralMapResponse>(
+  //     AppUrl.apiService.signIn(reqBody),
+  //     errorMessagePrefix: 'signIn',
+  //     onSuccess: (response) {
+  //       UserPreferences.loginData = response.data!;
+  //       UserPreferences.isLogin = true;
+  //       UserPreferences.authToken = response.data!['accessToken'];
+  //     },
+  //   ).then((value) {
+  //     return AuthModel.fromJson(value);
+  //   });
+  // }
 }

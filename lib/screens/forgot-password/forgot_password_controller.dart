@@ -37,36 +37,36 @@ class ForgotPasswordController extends GetxController {
 
   // Resends the OTP and resets the timer
   void resendOtp(Map<String, dynamic> reqBody) {
-    sendOTP(reqBody).then((value){
-      if(value['status']){
-        otpTFController.clear();
-        startTimer();
-      }
-    });
+    // sendOTP(reqBody).then((value){
+    //   if(value['status']){
+    //     otpTFController.clear();
+    //     startTimer();
+    //   }
+    // });
   }
 
-  // Send OTP
-  Future sendOTP(Map<String, dynamic> reqBody) {
-    return NetworkService.handleApiCall<GeneralMapResponse>(
-      AppUrl.apiService.sendOtp(reqBody),
-      errorMessagePrefix: 'sendOTP',
-    );
-  }
+  // // Send OTP
+  // Future sendOTP(Map<String, dynamic> reqBody) {
+  //   return NetworkService.handleApiCall<GeneralMapResponse>(
+  //     AppUrl.apiService.sendOtp(reqBody),
+  //     errorMessagePrefix: 'sendOTP',
+  //   );
+  // }
 
-  // Verify Otp
-  Future verifyOtp(Map<String, dynamic> reqBody) {
-    return NetworkService.handleApiCall<GeneralMapResponse>(
-      AppUrl.apiService.verifyOtp(reqBody),
-      errorMessagePrefix: 'verifyOTP',
-    );
-  }
+  // // Verify Otp
+  // Future verifyOtp(Map<String, dynamic> reqBody) {
+  //   return NetworkService.handleApiCall<GeneralMapResponse>(
+  //     AppUrl.apiService.verifyOtp(reqBody),
+  //     errorMessagePrefix: 'verifyOTP',
+  //   );
+  // }
 
-  Future resetPassword(Map<String, dynamic> reqBody) {
-    return NetworkService.handleApiCall<GeneralMapResponse>(
-      AppUrl.apiService.resetPassword(reqBody),
-      errorMessagePrefix: 'resetPassword',
-    );
-  }
+  // Future resetPassword(Map<String, dynamic> reqBody) {
+  //   return NetworkService.handleApiCall<GeneralMapResponse>(
+  //     AppUrl.apiService.resetPassword(reqBody),
+  //     errorMessagePrefix: 'resetPassword',
+  //   );
+  // }
 
   @override
   void dispose() {
