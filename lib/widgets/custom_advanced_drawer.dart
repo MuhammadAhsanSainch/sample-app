@@ -1,13 +1,12 @@
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:path_to_water/screens/home/home_controller.dart';
-import 'package:path_to_water/screens/login/login_binding.dart';
-import 'package:path_to_water/screens/login/login_view.dart';
 import 'package:path_to_water/screens/quiz/quiz_binding.dart';
 import 'package:path_to_water/screens/quiz/views/daily_quiz_view.dart';
 import 'package:path_to_water/screens/settings/settings_binding.dart';
 import 'package:path_to_water/screens/settings/views/settings_screen.dart';
 import 'package:path_to_water/screens/notification/binding/notification_binding.dart';
 import 'package:path_to_water/screens/notification/view/notification_screen.dart';
+import 'package:path_to_water/screens/splash.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_switch_widget.dart';
 
@@ -94,7 +93,8 @@ class CustomAdvancedDrawer extends StatelessWidget {
                 pngIcon: AppConstants.logoutIcon,
                 onTap: () {
                   controller.hideDrawer();
-                  Get.offAll(() => LoginView(), binding: LoginBinding());
+                  Get.offAll(() => SplashScreen(),
+                  );
                 },
               ),
             ],

@@ -1,18 +1,24 @@
-import '../../models/auth_model.dart';
+import '../../api_core/custom_exception_handler.dart';
+import '../../api_services/auth_services.dart';
 import '../../utilities/app_exports.dart';
+import '../home/home_binding.dart';
+import '../home/home_view.dart';
 
 class SignupController extends GetxController {
   final TextEditingController fullNameTFController = TextEditingController();
   final TextEditingController userNameTFController = TextEditingController();
   final TextEditingController emailTFController = TextEditingController();
   final TextEditingController passwordTFController = TextEditingController();
-  final TextEditingController confirmPasswordTFController = TextEditingController();
-
+  final TextEditingController confirmPasswordTFController =
+      TextEditingController();
 
   @override
   void dispose() {
     emailTFController.dispose();
+    fullNameTFController.dispose();
+    userNameTFController.dispose();
     passwordTFController.dispose();
+    confirmPasswordTFController.dispose();
     super.dispose();
   }
 
@@ -24,17 +30,36 @@ class SignupController extends GetxController {
     }
   }
 
-  // Future<AuthModel?> singUp(reqBody) {
-  //   return NetworkService.handleApiCall<GeneralMapResponse>(
-  //     AppUrl.apiService.signIn(reqBody),
-  //     errorMessagePrefix: 'signIn',
-  //     onSuccess: (response) {
-  //       UserPreferences.loginData = response.data!;
-  //       UserPreferences.isLogin = true;
-  //       UserPreferences.authToken = response.data!['accessToken'];
-  //     },
-  //   ).then((value) {
-  //     return AuthModel.fromJson(value);
-  //   });
-  // }
+  Future singUp() async {
+    try {
+      AppGlobals.isLoading(true);
+      Map<String, dynamic> data = {
+        "email": emailTFController.text,
+        "password": passwordTFController.text,
+        "userName": userNameTFController.text,
+        "name": fullNameTFController.text,
+      };
+      final res = await AuthServices.signUp(data);
+      if (res?.user != null) {
+        UserPreferences.loginData = res?.user?.toJson() ?? {};
+        UserPreferences.isLogin = true;
+        UserPreferences.authToken = res?.accessToken ?? "";
+        Get.off(() => HomeView(), binding: HomeBinding());
+      }
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      AppGlobals.isLoading(false);
+    }
+  }
+
+  void setDummyValuesToControllers() {
+    fullNameTFController.text = "Muhammad Ahsan";
+    userNameTFController.text = "ahsansainch";
+    emailTFController.text = "ahsan@mailinator.com";
+    passwordTFController.text = "1235";
+    confirmPasswordTFController.text = "1235";
+  }
 }

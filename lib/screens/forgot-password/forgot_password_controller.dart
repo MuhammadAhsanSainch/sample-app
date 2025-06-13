@@ -1,4 +1,6 @@
 import 'dart:async';
+import '../../api_core/custom_exception_handler.dart';
+import '../../api_services/auth_services.dart';
 import '../../utilities/app_exports.dart';
 
 class ForgotPasswordController extends GetxController {
@@ -45,6 +47,27 @@ class ForgotPasswordController extends GetxController {
     // });
   }
 
+  Future sendOTP() async {
+    try {
+      AppGlobals.isLoading(true);
+      Map<String, dynamic> data = {
+        "email": emailTFController.text,
+        "password": passwordTFController.text,
+      };
+      final res = await AuthServices.loginIn(data);
+      if (res?.user != null) {
+        UserPreferences.loginData = res?.user?.toJson() ?? {};
+        UserPreferences.isLogin = true;
+        UserPreferences.authToken = res?.accessToken ?? "";
+      }
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } catch (e) {
+      log(e.toString());
+    }finally {
+      AppGlobals.isLoading(false);
+    }
+  }
   // // Send OTP
   // Future sendOTP(Map<String, dynamic> reqBody) {
   //   return NetworkService.handleApiCall<GeneralMapResponse>(

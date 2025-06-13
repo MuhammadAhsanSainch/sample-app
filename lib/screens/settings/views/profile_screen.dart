@@ -30,7 +30,6 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // 2. Content (scrollable on top of the background)
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: SingleChildScrollView(

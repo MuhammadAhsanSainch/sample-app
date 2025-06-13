@@ -7,4 +7,8 @@ class AuthServices {
     final res = await ApiClient().post(AppUrl.loginApi, data: data);
     return AuthModel.fromJson(res.data);
   }
+ static Future<AuthModel?> signUp(Map<String, dynamic> data) async {
+   final res = await ApiClient().post(AppUrl.signupApi, data: data);
+   return AuthModel.fromJson(res.data);
+ }
 }

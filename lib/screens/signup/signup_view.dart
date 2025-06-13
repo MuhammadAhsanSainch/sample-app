@@ -6,11 +6,10 @@ import 'signup_controller.dart';
 class SignupView extends StatelessWidget {
   SignupView({super.key});
 
-  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    
     // Check if the device is a tablet
     bool isTablet = Get.context?.isTablet ?? false;
     return GetBuilder<SignupController>(
@@ -20,160 +19,154 @@ class SignupView extends StatelessWidget {
             () => CustomLoader(
               isTrue: AppGlobals.isLoading.value,
               child: Scaffold(
-                resizeToAvoidBottomInset: false,
-                body: Container(
-                  height: Get.height,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                        AppGlobals.isDarkMode.value
-                            ? AppConstants.singUpBgDark
-                            : AppConstants.singUpBgLight,
+                extendBody: true,
+                backgroundColor: AppColors.scaffoldBackground,
+                body: Stack(
+                  children: [
+                    // 1. Background Image (fixed at the bottom of the stack)
+                    Positioned.fill(
+                      // Makes the image fill the entire available space
+                      child: Obx(
+                        () => Image.asset(
+                          AppGlobals.isDarkMode.value
+                              ? AppConstants.singUpBgDark
+                              : AppConstants.singUpBgLight,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.all(16),
-                    child: Form(
-                      key: loginFormKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment:
-                            isTablet
-                                ? CrossAxisAlignment.center
-                                : CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: Get.height * 0.1),
-                          GestureDetector(
-                            onTap: () {
-                              if (kDebugMode) {
-                                controller.emailTFController.text =
-                                    "ahsan@mailinator.com";
-                                controller.passwordTFController.text = "1235";
-                              }
-                            },
-                            child: CustomText(
-                              "Create an Account",
-                              style: AppTextTheme.headlineSmall,
-                            ),
-                          ),
-
-                          ///Full Name
-                          CustomTextFormField(
-                            controller: controller.fullNameTFController,
-                            prefixIcon: SvgPicture.asset(AppConstants.profile),
-                            upperLabel: "Full Name",
-                            upperLabelReqStar: "*",
-                            hintValue: "Enter Full Name",
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Full Name is required';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          ///User Name
-                          CustomTextFormField(
-                            controller: controller.userNameTFController,
-                            prefixIcon: SvgPicture.asset(AppConstants.profile),
-                            upperLabel: "User Name",
-                            upperLabelReqStar: "*",
-                            hintValue: "Enter User Name",
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'User Name is required';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          ///Email
-                          CustomTextFormField(
-                            controller: controller.emailTFController,
-                            prefixIcon: SvgPicture.asset(AppConstants.mail),
-                            upperLabel: "Email Address",
-                            upperLabelReqStar: "*",
-                            hintValue: "Enter Email Address",
-                            validator: (value) => validateEmail(value),
-                            type: TextInputType.emailAddress,
-                            inputFormatters: [
-                              FilteringTextInputFormatter(
-                                RegExp(r'[a-zA-Z0-9@._-]'),
-                                allow: true,
-                              ),
-                            ],
-                          ),
-                          ///Password
-                          CustomTextFormField(
-                            controller: controller.passwordTFController,
-                            upperLabel: "Password",
-                            upperLabelReqStar: "*",
-                            hintValue: "Enter Password",
-                            prefixIcon: SvgPicture.asset(AppConstants.lock),
-                            enableInteractiveSelection: true,
-                            enableSuggestions: false,
-                            obscureText: true,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Password is required';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          ///Confirm Password
-                          CustomTextFormField(
-                            controller: controller.confirmPasswordTFController,
-                            upperLabel: "Confirm Password",
-                            upperLabelReqStar: "*",
-                            hintValue: "Enter Confirm Password",
-                            prefixIcon: SvgPicture.asset(AppConstants.lock),
-                            enableInteractiveSelection: true,
-                            enableSuggestions: false,
-                            obscureText: true,
-                            validator: (confirmPwd)=> validateConfirmPassword(controller.passwordTFController.text, confirmPwd),
-                          ),
-
-                          SizedBox(height: Get.height * 0.025),
-
-                          ///Sign Up Button
-                          CustomRectangleButton(
-                            width: Get.width,
-                            text: "Create Account",
-                            onTap: () {
-                              AppGlobals.isDarkMode.toggle();
-                              Get.changeThemeMode(
-                                AppGlobals.isDarkMode.value
-                                    ? ThemeMode.light
-                                    : ThemeMode.dark,
-                              );
-                              log(AppGlobals.isDarkMode.toString());
-                              /*if (!loginFormKey.currentState!.validate()) {
-                                return;
-                              }
-                              AppGlobals.isLoading(true);
-                              controller
-                                  .logIn({
-                                "email":
-                                controller.emailTFController.text,
-                                "pin":
-                                controller.passwordTFController.text,
-                              })
-                                  .then((value) {
-                                AppGlobals.isLoading(false);
-                                if (value?.status ?? false) {
-                                  Get.off(
-                                        () => HomeView(),
-                                    binding: HomeBinding(),
-                                  );
+                    // 2. Content (scrollable on top of the background)
+                    SingleChildScrollView(
+                      padding: EdgeInsets.all(16),
+                      child: Form(
+                        key: signupFormKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment:
+                              isTablet
+                                  ? CrossAxisAlignment.center
+                                  : CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: Get.height * 0.1),
+                            GestureDetector(
+                              onTap: () {
+                                if (kDebugMode) {
+                                  controller.setDummyValuesToControllers();
                                 }
-                              });*/
-                            },
-                          ),
+                              },
+                              child: CustomText(
+                                "Create an Account",
+                                style: AppTextTheme.headlineSmall,
+                              ),
+                            ),
 
-                          _socialSignInSection(),
-                        ],
+                            ///Full Name
+                            CustomTextFormField(
+                              controller: controller.fullNameTFController,
+                              prefixIcon: SvgPicture.asset(
+                                AppConstants.profile,
+                              ),
+                              upperLabel: "Full Name",
+                              upperLabelReqStar: "*",
+                              hintValue: "Enter Full Name",
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Full Name is required';
+                                }
+                                return null; // Return null if the input is valid
+                              },
+                            ),
+
+                            ///User Name
+                            CustomTextFormField(
+                              controller: controller.userNameTFController,
+                              prefixIcon: SvgPicture.asset(
+                                AppConstants.profile,
+                              ),
+                              upperLabel: "User Name",
+                              upperLabelReqStar: "*",
+                              hintValue: "Enter User Name",
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'User Name is required';
+                                }
+                                return null; // Return null if the input is valid
+                              },
+                            ),
+
+                            ///Email
+                            CustomTextFormField(
+                              controller: controller.emailTFController,
+                              prefixIcon: SvgPicture.asset(AppConstants.mail),
+                              upperLabel: "Email Address",
+                              upperLabelReqStar: "*",
+                              hintValue: "Enter Email Address",
+                              validator: (value) => validateEmail(value),
+                              type: TextInputType.emailAddress,
+                              inputFormatters: [
+                                FilteringTextInputFormatter(
+                                  RegExp(r'[a-zA-Z0-9@._-]'),
+                                  allow: true,
+                                ),
+                              ],
+                            ),
+
+                            ///Password
+                            CustomTextFormField(
+                              controller: controller.passwordTFController,
+                              upperLabel: "Password",
+                              upperLabelReqStar: "*",
+                              hintValue: "Enter Password",
+                              prefixIcon: SvgPicture.asset(AppConstants.lock),
+                              enableInteractiveSelection: true,
+                              enableSuggestions: false,
+                              obscureText: true,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Password is required';
+                                }
+                                return null; // Return null if the input is valid
+                              },
+                            ),
+
+                            ///Confirm Password
+                            CustomTextFormField(
+                              controller:
+                                  controller.confirmPasswordTFController,
+                              upperLabel: "Confirm Password",
+                              upperLabelReqStar: "*",
+                              hintValue: "Enter Confirm Password",
+                              prefixIcon: SvgPicture.asset(AppConstants.lock),
+                              enableInteractiveSelection: true,
+                              enableSuggestions: false,
+                              obscureText: true,
+                              validator:
+                                  (confirmPwd) => validateConfirmPassword(
+                                    controller.passwordTFController.text,
+                                    confirmPwd,
+                                  ),
+                            ),
+
+                            SizedBox(height: Get.height * 0.025),
+
+                            ///Sign Up Button
+                            CustomRectangleButton(
+                              width: Get.width,
+                              text: "Create Account",
+                              onTap: () {
+                                if (!signupFormKey.currentState!.validate()) {
+                                  return;
+                                }
+                                controller.singUp();
+                              },
+                            ),
+
+                            _socialSignInSection(),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
@@ -193,10 +186,7 @@ class SignupView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(child: SvgPicture.asset(AppConstants.leftLine)),
-              CustomText(
-                'Or Continue With',
-                style: AppTextTheme.bodyLarge,
-              ),
+              CustomText('Or Continue With', style: AppTextTheme.bodyLarge),
               Expanded(child: SvgPicture.asset(AppConstants.rightLine)),
             ],
           ),
@@ -235,23 +225,24 @@ class SignupView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             CustomText(
+            CustomText(
               "Already Have An Account? ",
               style: AppTextTheme.bodyLarge,
             ),
             GestureDetector(
               onTap: () {
-                Get.off(()=>LoginView());
+                Get.off(() => LoginView());
               },
               child: CustomText(
                 "Sign In",
                 style: TextStyle(
-                  color: AppColors.textSecondary, // Or your app's primary color
+                  color: AppColors.textSecondary,
+                  // Or your app's primary color
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   decoration: TextDecoration.underline,
                   decorationColor: AppColors.textSecondary,
-                  fontFamily: AppFonts.primary
+                  fontFamily: AppFonts.primary,
                 ),
               ),
             ),

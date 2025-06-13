@@ -6,7 +6,7 @@ import 'app_exports.dart';
 
 class AppGlobals {
   static RxBool isLoading = false.obs;
-  static RxBool isDarkMode = false.obs; // Observable boolean for dark mode
+  static RxBool isDarkMode = true.obs; // Observable boolean for dark mode
 
 
   ///
