@@ -31,9 +31,9 @@ class PasswordRecoveryView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      child: SingleChildScrollView(
-                        padding: EdgeInsets.all(16),
-                        child: Form(
+                      padding: EdgeInsets.all(16),
+                      child: Form(
+                        child: SingleChildScrollView(
                           key: passwordRecoveryFormKey,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -111,12 +111,12 @@ class PasswordRecoveryView extends StatelessWidget {
                                   //       }
                                   //     });
                                   Get.to(
-                                        () => VerifyCodeView(
+                                    () => VerifyCodeView(
                                       email:
-                                      ForgotPasswordController
-                                          .to
-                                          .emailTFController
-                                          .text,
+                                          ForgotPasswordController
+                                              .to
+                                              .emailTFController
+                                              .text,
                                       type: "FORGOT_PASSWORD",
                                     ),
                                   );
@@ -127,10 +127,7 @@ class PasswordRecoveryView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Positioned(
-                        top: 60,
-                        left: 10,
-                        child: CustomBackButton())
+                    Positioned(top: 60, left: 10, child: CustomBackButton()),
                   ],
                 ),
               ),

@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:dio/dio.dart' as dio;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
-import 'package:path_to_water/widgets/custom_dialog.dart';
+
+import '../../api_core/custom_exception_handler.dart';
+import '../../api_services/profile_services.dart';
 class SettingsController extends GetxController with GetSingleTickerProviderStateMixin {
   final TextEditingController fullNameTFController = TextEditingController();
   final TextEditingController userNameTFController = TextEditingController();
@@ -52,15 +54,29 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
     }
   }
 
-  void onFavoriteIconTap() {
-    Get.dialog(
-      CustomDialog(
-        message: "Removing this item will no longer show it in your Favorites list.",
-        imageIcon: AppConstants.trashIcon,
-        title: "Removed from favorites?",
-        btnText: "Remove",
-        onButtonTap: () {},
-      ),
-    );
+  Future getProfile() async {
+    try {
+      AppGlobals.isLoading(true);
+      final res = await ProfileServices.getProfile();
+      if (res != null) {
+        fullNameTFController.text = res.name??'';
+        userNameTFController.text = res.userName??'';
+        emailTFController.text = res.email??'';
+        dOBTFController.text = res.dob??'';
+        genderTFController.text = res.gender??'';
+      }
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } catch (e) {
+      log(e.toString());
+    }finally {
+      AppGlobals.isLoading(false);
+    }
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    getProfile();
   }
 }

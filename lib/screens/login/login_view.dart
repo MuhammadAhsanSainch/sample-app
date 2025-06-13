@@ -1,5 +1,3 @@
-import 'package:path_to_water/screens/home/home_binding.dart';
-import 'package:path_to_water/screens/home/home_view.dart';
 import 'package:path_to_water/screens/signup/signup_binding.dart';
 import 'package:path_to_water/screens/signup/signup_view.dart';
 
@@ -15,7 +13,6 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return GetBuilder<LoginController>(
       init: LoginController.to,
       builder:
@@ -119,46 +116,12 @@ class LoginView extends StatelessWidget {
                             width: Get.width,
                             text: "Login",
                             onTap: () {
-                              // AppGlobals.isDarkMode.toggle();
-                              // Get.changeThemeMode(
-                              //   AppGlobals.isDarkMode.value
-                              //       ? ThemeMode.light
-                              //       : ThemeMode.dark,
-                              // );
-                              // log(AppGlobals.isDarkMode.toString());
-
                               if (!loginFormKey.currentState!.validate()) {
                                 return;
                               }
-                                  //   Get.off(
-                                  //       () => HomeView(),
-                                  //   binding: HomeBinding(),
-                                  // );
-                              //API
-                              // AppGlobals.isLoading(true);
-                              // controller
-                              //     .logIn({
-                              //   "email":
-                              //   controller.emailTFController.text,
-                              //   "pin":
-                              //   controller.passwordTFController.text,
-                              // })
-                              //     .then((value) {
-                              //   AppGlobals.isLoading(false);
-                              //   if (value?.user != null) {
-                              //     // Get.off(
-                              //     //       () => HomeView(),
-                              //     //   binding: HomeBinding(),
-                              //     // );
-                              //   }
-                              // });
-
                               controller.logIn();
-
-
                             },
                           ),
-
                           _socialSignInSection(),
                         ],
                       ),
@@ -183,10 +146,7 @@ class LoginView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(child: SvgPicture.asset(AppConstants.leftLine)),
-              CustomText(
-                'Or Continue With',
-                style: AppTextTheme.bodyLarge,
-              ),
+              CustomText('Or Continue With', style: AppTextTheme.bodyLarge),
               Expanded(child: SvgPicture.asset(AppConstants.rightLine)),
             ],
           ),
@@ -231,7 +191,7 @@ class LoginView extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Get.to(()=>SignupView(),binding: SignupBinding());
+                Get.to(() => SignupView(), binding: SignupBinding());
               },
               child: CustomText(
                 "Sign Up",
