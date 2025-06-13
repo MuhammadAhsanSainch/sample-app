@@ -130,10 +130,10 @@ class LoginView extends StatelessWidget {
                               if (!loginFormKey.currentState!.validate()) {
                                 return;
                               }
-                                    Get.off(
-                                        () => HomeView(),
-                                    binding: HomeBinding(),
-                                  );
+                                  //   Get.off(
+                                  //       () => HomeView(),
+                                  //   binding: HomeBinding(),
+                                  // );
                               //API
                               // AppGlobals.isLoading(true);
                               // controller
@@ -145,13 +145,15 @@ class LoginView extends StatelessWidget {
                               // })
                               //     .then((value) {
                               //   AppGlobals.isLoading(false);
-                              //   if (value?.status ?? false) {
-                              //     Get.off(
-                              //           () => HomeView(),
-                              //       binding: HomeBinding(),
-                              //     );
+                              //   if (value?.user != null) {
+                              //     // Get.off(
+                              //     //       () => HomeView(),
+                              //     //   binding: HomeBinding(),
+                              //     // );
                               //   }
                               // });
+
+                              controller.logIn();
 
 
                             },

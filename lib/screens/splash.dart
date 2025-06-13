@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:path_to_water/screens/home/home_binding.dart';
 import 'package:path_to_water/screens/home/home_view.dart';
 
-import '../network/models/auth_model.dart';
+import '../models/auth_model.dart';
 import '../utilities/app_exports.dart';
 import 'login/login_binding.dart';
 import 'login/login_view.dart';

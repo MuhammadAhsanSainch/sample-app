@@ -1,4 +1,10 @@
-import '../../network/models/auth_model.dart';
+import 'package:path_to_water/api_core/api_client.dart';
+import 'package:path_to_water/api_core/custom_exception_handler.dart';
+import 'package:path_to_water/api_services/auth_services.dart';
+import 'package:path_to_water/screens/home/home_binding.dart';
+import 'package:path_to_water/screens/home/home_view.dart';
+
+import '../../models/auth_model.dart';
 import '../../utilities/app_exports.dart';
 
 class LoginController extends GetxController {
@@ -20,17 +26,26 @@ class LoginController extends GetxController {
     }
   }
 
-  Future<AuthModel?> logIn(reqBody) {
-    return NetworkService.handleApiCall<GeneralMapResponse>(
-      AppUrl.apiService.signIn(reqBody),
-      errorMessagePrefix: 'signIn',
-      onSuccess: (response) {
-        UserPreferences.loginData = response.data!;
+  Future logIn() async {
+    try {
+      AppGlobals.isLoading(true);
+      Map<String, dynamic> data = {
+        "email": emailTFController.text,
+        "password": passwordTFController.text,
+      };
+      final res = await AuthServices.loginIn(data);
+      if (res?.user != null) {
+        UserPreferences.loginData = res?.user?.toJson() ?? {};
         UserPreferences.isLogin = true;
-        UserPreferences.authToken = response.data!['accessToken'];
-      },
-    ).then((value) {
-      return AuthModel.fromJson(value);
-    });
+        UserPreferences.authToken = res?.accessToken ?? "";
+        Get.off(() => HomeView(), binding: HomeBinding());
+      }
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } catch (e) {
+      log(e.toString());
+    }finally {
+      AppGlobals.isLoading(false);
+    }
   }
 }

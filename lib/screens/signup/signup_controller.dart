@@ -1,4 +1,4 @@
-import '../../network/models/auth_model.dart';
+import '../../models/auth_model.dart';
 import '../../utilities/app_exports.dart';
 
 class SignupController extends GetxController {

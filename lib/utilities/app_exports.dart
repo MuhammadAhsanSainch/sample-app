@@ -21,10 +21,7 @@ export '../widgets/custom_pagination_widget.dart';
 export '../widgets/custom_loader.dart';
 export '../widgets/custom_search_field.dart';
 export '../widgets/custom_app_bar.dart';
-export '../network/app_url.dart';
-export '../network/response/general_list_response.dart';
-export '../network/response/general_map_response.dart';
-export '../network/network_service.dart';
+export 'app_url.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:path_to_water/widgets/custom_image_view.dart';
 
