@@ -52,6 +52,7 @@ dependencies:
   infinite_carousel: ^1.1.1
   readmore: ^3.0.0
   device_calendar: ^4.3.3
+  infinite_scroll_pagination: ^5.0.0
 
 dev_dependencies:
   flutter_test:

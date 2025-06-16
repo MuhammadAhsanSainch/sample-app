@@ -72,4 +72,3 @@ String? validateInputData(value, validatorRequired) {
   }
   return msg;
 }
-

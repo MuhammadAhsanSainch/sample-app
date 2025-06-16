@@ -10,4 +10,5 @@ class AppUrl {
   static const String updateProfileApi = "user/profile";
   static const String changePasswordApi = "user/change-password";
   static const String deleteAccountApi = "user/account";
+  static const String journalApi = "journals";
 }

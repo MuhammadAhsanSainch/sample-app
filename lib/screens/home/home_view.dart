@@ -1,5 +1,6 @@
 import 'package:path_to_water/screens/home/home_controller.dart';
 import 'package:path_to_water/screens/journal/binding/create_journal_screen_binding.dart';
+import 'package:path_to_water/screens/journal/controllers/journal_screen_controller.dart';
 import 'package:path_to_water/screens/journal/views/create_journal_screen.dart';
 import 'package:path_to_water/screens/reminder/bindings/create_reminder_screen_binding.dart';
 import 'package:path_to_water/screens/reminder/views/create_reminder_screen.dart';
@@ -114,14 +115,23 @@ class HomeView extends StatelessWidget {
               ),
             ),
             floatingActionButton: Visibility(
-              visible: [1, 2, 6].contains(controller.currentTabIndex.value),
+              visible:
+                  [1, 2].contains(controller.currentTabIndex.value) ||
+                  (controller.currentTabIndex.value == 6 && controller.isJournalCreated.value),
               child: FloatingActionButton(
                 onPressed: () {
                   if (controller.currentTabIndex.value == 1 ||
                       controller.currentTabIndex.value == 2) {
                     Get.to(() => CreateReminderScreen(), binding: CreateReminderScreenBinding());
                   } else if (controller.currentTabIndex.value == 6) {
-                    Get.to(() => CreateJournalScreen(), binding: CreateJournalScreenBinding());
+                    Get.to(
+                      () => CreateJournalScreen(),
+                      binding: CreateJournalScreenBinding(),
+                    )?.then((value) {
+                      if (value == true) {
+                        Get.put(JournalScreenController()).onRefresh();
+                      }
+                    });
                   }
                 },
                 shape: CircleBorder(),
