@@ -1,10 +1,8 @@
-import 'package:path_to_water/api_core/api_client.dart';
 import 'package:path_to_water/api_core/custom_exception_handler.dart';
 import 'package:path_to_water/api_services/auth_services.dart';
 import 'package:path_to_water/screens/home/home_binding.dart';
 import 'package:path_to_water/screens/home/home_view.dart';
 
-import '../../models/auth_model.dart';
 import '../../utilities/app_exports.dart';
 
 class LoginController extends GetxController {

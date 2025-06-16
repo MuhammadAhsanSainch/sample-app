@@ -39,9 +39,9 @@ class CustomTextFormField extends StatefulWidget {
     this.obscureText = false, // Default to not obscure
     this.enableInteractiveSelection = true, // Default to true
     this.enableSuggestions = true, // Default to true
-    this.enabled=true,
-    this.readOnly=false,
-    this.isDatePicker=false,
+    this.enabled = true,
+    this.readOnly = false,
+    this.isDatePicker = false,
     this.maxLength,
     this.maxLines,
     this.borderColor,
@@ -89,7 +89,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             inputFormatters: widget.inputFormatters,
             validator: widget.validator,
             onChanged: widget.onChanged,
-            maxLines: obscureText?1: widget.maxLines,
+            maxLines: obscureText ? 1 : widget.maxLines,
             enableInteractiveSelection: widget.enableInteractiveSelection,
             enableSuggestions: widget.enableSuggestions,
             maxLength: widget.maxLength,
@@ -101,12 +101,16 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               hintStyle: AppTextTheme.bodyLarge.copyWith(color: Colors.grey),
               filled: true,
               fillColor: AppColors.textFieldFillColor,
-              prefixIcon: widget.prefixIcon != null ?  Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: widget.prefixIcon,
-              ) : null,
-              suffixIcon: widget.suffixIcon ?? (
-                  (widget.obscureText)
+              prefixIcon:
+                  widget.prefixIcon != null
+                      ? Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: widget.prefixIcon,
+                      )
+                      : null,
+              suffixIcon:
+                  widget.suffixIcon ??
+                  ((widget.obscureText)
                       ? GestureDetector(
                         onTap: () {
                           setState(() {
@@ -115,36 +119,48 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                         },
                         child: Container(
                           padding: const EdgeInsets.only(right: 20.0),
-                          child: SvgPicture.asset(
-                            obscureText
-                                ? AppConstants.eyeSlash
-                                : AppConstants.eye,
-                          ),
+                          child:
+                              obscureText
+                                  ? SvgPicture.asset(AppConstants.eyeSlash)
+                                  : SvgPicture.asset(
+                                    AppConstants.eye,
+                                    colorFilter: ColorFilter.mode(
+                                      AppColors.textSecondary,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
                         ),
                       )
                       : null),
-                      
+
               border: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.borderColor ?? AppColors.textFieldBorderColor),
+                borderSide: BorderSide(
+                  color: widget.borderColor ?? AppColors.textFieldBorderColor,
+                ),
                 borderRadius: BorderRadius.circular(8),
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.borderColor ?? AppColors.textFieldBorderColor),
+                borderSide: BorderSide(
+                  color: widget.borderColor ?? AppColors.textFieldBorderColor,
+                ),
                 borderRadius: BorderRadius.circular(8),
               ),
               disabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.borderColor ?? AppColors.textFieldBorderColor),
+                borderSide: BorderSide(
+                  color: widget.borderColor ?? AppColors.textFieldBorderColor,
+                ),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: widget.borderColor ?? AppColors.textFieldBorderColor),
+                borderSide: BorderSide(
+                  color: widget.borderColor ?? AppColors.textFieldBorderColor,
+                ),
                 borderRadius: BorderRadius.circular(8),
               ),
-              
             ),
             onTapOutside: (event) {
-                FocusManager.instance.primaryFocus?.unfocus();
-              },
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
           ),
         ],
       ),

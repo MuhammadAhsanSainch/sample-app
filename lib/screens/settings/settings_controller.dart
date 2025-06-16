@@ -5,7 +5,10 @@ import 'package:path_to_water/utilities/app_exports.dart';
 
 import '../../api_core/custom_exception_handler.dart';
 import '../../api_services/profile_services.dart';
-class SettingsController extends GetxController with GetSingleTickerProviderStateMixin {
+import '../../widgets/custom_dialog.dart';
+
+class SettingsController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   final TextEditingController fullNameTFController = TextEditingController();
   final TextEditingController userNameTFController = TextEditingController();
   final TextEditingController emailTFController = TextEditingController();
@@ -54,22 +57,107 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
     }
   }
 
+  Future<void> pickDate() async {
+    var date = await AppGlobals().selectDate(Get.context!);
+    dOBTFController.text = AppGlobals.formatDate(date);
+  }
+
   Future getProfile() async {
     try {
       AppGlobals.isLoading(true);
       final res = await ProfileServices.getProfile();
       if (res != null) {
-        fullNameTFController.text = res.name??'';
-        userNameTFController.text = res.userName??'';
-        emailTFController.text = res.email??'';
-        dOBTFController.text = res.dob??'';
-        genderTFController.text = res.gender??'';
+        fullNameTFController.text = res.name ?? '';
+        userNameTFController.text = res.userName ?? '';
+        emailTFController.text = res.email ?? '';
+        dOBTFController.text = AppGlobals.formatDate(DateTime.parse(res.dob ?? ''));
+        genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
       }
     } on Exception catch (e) {
       ExceptionHandler().handleException(e);
     } catch (e) {
       log(e.toString());
-    }finally {
+    } finally {
+      AppGlobals.isLoading(false);
+    }
+  }
+
+  Future updateProfile() async {
+    try {
+      AppGlobals.isLoading(true);
+      final res = await ProfileServices.updateProfile({
+        "name": fullNameTFController.text,
+        "gender": genderTFController.text.toUpperCase(),
+        "dob": AppGlobals.toISOFormatDate(dOBTFController.text),
+        // "logo": "url"
+      });
+      if (res != null) {
+        fullNameTFController.text = res.name ?? '';
+        userNameTFController.text = res.userName ?? '';
+        emailTFController.text = res.email ?? '';
+        dOBTFController.text = AppGlobals.formatDate(
+          DateTime.parse(res.dob ?? ''),
+        );
+        genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
+        Get.dialog(
+          CustomDialog(
+            title: "Profile Saved",
+            message:
+            "Your changes have been saved successfully.",
+            imageIcon: AppConstants.celebrationIcon,
+            showCloseIcon: false,
+            btnText: "Close",
+            onButtonTap: () {
+              Get.close(2);
+            },
+          ),
+        );
+      }
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      AppGlobals.isLoading(false);
+    }
+  }
+
+  Future changePassword() async {
+    try {
+      AppGlobals.isLoading(true);
+      final res = await ProfileServices.updateProfile({
+        "name": fullNameTFController.text,
+        "gender": genderTFController.text.toUpperCase(),
+        "dob": AppGlobals.toISOFormatDate(dOBTFController.text),
+        // "logo": "url"
+      });
+      if (res != null) {
+        fullNameTFController.text = res.name ?? '';
+        userNameTFController.text = res.userName ?? '';
+        emailTFController.text = res.email ?? '';
+        dOBTFController.text = AppGlobals.formatDate(
+          DateTime.parse(res.dob ?? ''),
+        );
+        genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
+        Get.dialog(
+          CustomDialog(
+            title: "Profile Saved",
+            message:
+            "Your changes have been saved successfully.",
+            imageIcon: AppConstants.celebrationIcon,
+            showCloseIcon: false,
+            btnText: "Close",
+            onButtonTap: () {
+              Get.close(2);
+            },
+          ),
+        );
+      }
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } catch (e) {
+      log(e.toString());
+    } finally {
       AppGlobals.isLoading(false);
     }
   }

@@ -8,7 +8,6 @@ class AppGlobals {
   static RxBool isLoading = false.obs;
   static RxBool isDarkMode = true.obs; // Observable boolean for dark mode
 
-
   ///
   /// VARIABLES
   ///
@@ -45,42 +44,58 @@ class AppGlobals {
     }
   }
 
-  static String getRandomString(int length) =>
-      String.fromCharCodes(Iterable.generate(
-          length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  static String getRandomString(int length) => String.fromCharCodes(
+    Iterable.generate(
+      length,
+      (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length)),
+    ),
+  );
 
   static DateTime parseToDateTime(
-      String dateTime, String incomingFormat, String outgoingFormat) {
+    String dateTime,
+    String incomingFormat,
+    String outgoingFormat,
+  ) {
     var incomingDateTime = DateFormat(incomingFormat).parse(dateTime);
-    var outgoingDateTime =
-        DateFormat(outgoingFormat).parse(incomingDateTime.toString());
+    var outgoingDateTime = DateFormat(
+      outgoingFormat,
+    ).parse(incomingDateTime.toString());
     return outgoingDateTime;
   }
 
-  static showErrorSnackBar(
-      {String? heading, required String message, bool closeDialog = false}) {
+  static showErrorSnackBar({
+    String? heading,
+    required String message,
+    bool closeDialog = false,
+  }) {
     if (Get.context == null) return;
     if (Get.isDialogOpen! && closeDialog) Get.back();
-    Get.snackbar("Error", message,
-        colorText: Colors.white,
-        backgroundColor: Colors.redAccent,
-        snackPosition: SnackPosition.TOP,
-        maxWidth: 500,
-        margin: const EdgeInsets.only(top: 20));
+    Get.snackbar(
+      "Error",
+      message,
+      colorText: Colors.white,
+      backgroundColor: Colors.redAccent,
+      snackPosition: SnackPosition.TOP,
+      maxWidth: 500,
+      margin: const EdgeInsets.only(top: 20),
+    );
   }
 
-  static showSuccessSnackBar(
-      {String? heading, required String message, int durationMilliSec = 3000}) {
+  static showSuccessSnackBar({
+    String? heading,
+    required String message,
+    int durationMilliSec = 3000,
+  }) {
     if (Get.context == null) return;
-    Get.snackbar(heading ?? 'Success', message,
-        colorText: AppColors.primary,
-        backgroundColor: AppColors.borderColor,
-        snackPosition: SnackPosition.TOP,
-        icon:  Icon(
-          Icons.check_circle_sharp,
-          color: AppColors.borderColor,
-        ),
-        duration: Duration(milliseconds: durationMilliSec));
+    Get.snackbar(
+      heading ?? 'Success',
+      message,
+      colorText: AppColors.primary,
+      backgroundColor: AppColors.borderColor,
+      snackPosition: SnackPosition.TOP,
+      icon: Icon(Icons.check_circle_sharp, color: AppColors.borderColor),
+      duration: Duration(milliseconds: durationMilliSec),
+    );
   }
 
   static showAlertDialog({
@@ -94,26 +109,27 @@ class AppGlobals {
     if (Get.context == null) return;
     if (Get.isDialogOpen! && closeDialog) Get.back();
     Get.dialog(
-        CupertinoAlertDialog(
-          title: Text(heading ?? 'Error'),
-          content: Text(message),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              child: Text('Cancel'),
-              onPressed: () {
-                // Navigator.of(context).pop();
-                Get.back();
-              },
-            ),
-            CupertinoDialogAction(
-              child: Text('OK'),
-              onPressed: () {
-                Get.back();
-              },
-            ),
-          ],
-        ),
-        barrierDismissible: dismissible);
+      CupertinoAlertDialog(
+        title: Text(heading ?? 'Error'),
+        content: Text(message),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            child: Text('Cancel'),
+            onPressed: () {
+              // Navigator.of(context).pop();
+              Get.back();
+            },
+          ),
+          CupertinoDialogAction(
+            child: Text('OK'),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+        ],
+      ),
+      barrierDismissible: dismissible,
+    );
   }
 
   static showSimpleDialog({
@@ -141,10 +157,7 @@ class AppGlobals {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      title,
-                      style: AppTextTheme.bodyLarge
-                    ),
+                    Text(title, style: AppTextTheme.bodyLarge),
                     InkWell(
                       onTap: () {
                         Navigator.pop(context); // Close button action
@@ -164,36 +177,36 @@ class AppGlobals {
                 // Footer
                 btnText == 'Select' || btnText == 'Create Notes'
                     ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: CustomRoundedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              height: 40,
-                              textColor: Colors.black,
-                              buttonColor: Colors.white,
-                              onTap: () => Get.back(),
-                              text: 'Cancel',
-                            ),
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomRoundedButton(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            height: 40,
+                            textColor: Colors.black,
+                            buttonColor: Colors.white,
+                            onTap: () => Get.back(),
+                            text: 'Cancel',
                           ),
-                          10.horizontalSpace,
-                          Expanded(
-                            child: CustomRoundedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              height: 40,
-                              onTap: onBtnTap,
-                              text: btnText,
-                            ),
+                        ),
+                        10.horizontalSpace,
+                        Expanded(
+                          child: CustomRoundedButton(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            height: 40,
+                            onTap: onBtnTap,
+                            text: btnText,
                           ),
-                        ],
-                      )
+                        ),
+                      ],
+                    )
                     : CustomRoundedButton(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        height: 40,
-                        width: double.maxFinite,
-                        onTap: onBtnTap,
-                        text: btnText,
-                      )
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      height: 40,
+                      width: double.maxFinite,
+                      onTap: onBtnTap,
+                      text: btnText,
+                    ),
               ],
             ),
           ),
@@ -244,15 +257,19 @@ class AppGlobals {
                     const SizedBox(height: 16),
                     // Footer
                     CustomRoundedButton(
-                      padding: (Get.context?.isTablet ?? false)
-                          ? EdgeInsets.symmetric(horizontal: 15, vertical: 10)
-                          : EdgeInsets.symmetric(horizontal: 8),
+                      padding:
+                          (Get.context?.isTablet ?? false)
+                              ? EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 10,
+                              )
+                              : EdgeInsets.symmetric(horizontal: 8),
                       height: (Get.context?.isTablet ?? false) ? 50 : 40,
                       width: (Get.context?.isTablet ?? false) ? 200 : 150,
                       buttonColor: AppColors.borderColor,
                       onTap: onBtnTap,
                       text: btnText,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -273,7 +290,7 @@ class AppGlobals {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         );
@@ -308,10 +325,7 @@ class AppGlobals {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomText(
-                      title,
-                      style: AppTextTheme.bodyLarge,
-                    ),
+                    CustomText(title, style: AppTextTheme.bodyLarge),
                     InkWell(
                       onTap: () {
                         Navigator.pop(context); // Close button action
@@ -339,16 +353,16 @@ class AppGlobals {
                   children: [
                     showCancelButton
                         ? CustomRoundedButton(
-                            width: cancelButtonWidth,
-                            padding: EdgeInsets.symmetric(horizontal: 8),
-                            height: 40,
-                            textColor: Colors.black,
-                            buttonColor: Colors.white,
-                            onTap: () {
-                              Get.back();
-                            },
-                            text: 'Cancel',
-                          )
+                          width: cancelButtonWidth,
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          height: 40,
+                          textColor: Colors.black,
+                          buttonColor: Colors.white,
+                          onTap: () {
+                            Get.back();
+                          },
+                          text: 'Cancel',
+                        )
                         : SizedBox(),
                     Flexible(
                       child: CustomRoundedButton(
@@ -360,7 +374,7 @@ class AppGlobals {
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           ),
@@ -369,9 +383,7 @@ class AppGlobals {
     );
   }
 
-  static statusDialog({
-    required String title,
-  }) {
+  static statusDialog({required String title}) {
     showDialog(
       context: Get.context!,
       builder: (BuildContext context) {
@@ -390,11 +402,15 @@ class AppGlobals {
                   children: [
                     Container(
                       padding: EdgeInsets.all(16),
-                      decoration:
-                          BoxDecoration(color: AppColors.secondary,shape: BoxShape.circle),
-                      child: SvgPicture.asset(title == 'Activated'
-                          ? AppConstants.mail
-                          : AppConstants.mail),
+                      decoration: BoxDecoration(
+                        color: AppColors.secondary,
+                        shape: BoxShape.circle,
+                      ),
+                      child: SvgPicture.asset(
+                        title == 'Activated'
+                            ? AppConstants.mail
+                            : AppConstants.mail,
+                      ),
                     ),
                     SizedBox(
                       height: 60,
@@ -404,14 +420,16 @@ class AppGlobals {
                         strokeWidth: 10,
                         color: AppColors.secondary.withValues(alpha: 0.5),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
                 Text(
                   title,
                   style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 Text(
@@ -437,7 +455,9 @@ class AppGlobals {
                     child: Text(
                       'Done',
                       style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -452,8 +472,11 @@ class AppGlobals {
   final DateTime selectedDate = DateTime.now();
   final TimeOfDay selectedTime = TimeOfDay.now();
 
-  Future<DateTime> selectDate(BuildContext context,
-      {bool isFilterDialog = false, DateTime? lastDate}) async {
+  Future<DateTime> selectDate(
+    BuildContext context, {
+    bool isFilterDialog = false,
+    DateTime? lastDate,
+  }) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -462,19 +485,9 @@ class AppGlobals {
       confirmText: isFilterDialog ? 'Apply Filter' : 'Ok',
       cancelText: isFilterDialog ? '' : 'Cancel',
       builder: (context, child) {
+        // return child!;
         return Theme(
-          data: ThemeData.light().copyWith(
-              colorScheme: ColorScheme.light(
-                primary: AppColors.primary,
-                onPrimary: Colors.white,
-              ),
-              textTheme: TextTheme(
-                headlineMedium:
-                    const TextStyle(fontSize: 16.0), // Adjust text size here
-              ),
-              dialogTheme: const DialogTheme(
-                backgroundColor: Colors.black,
-              )),
+          data: AppTheme.lightTheme,
           child: child!,
         );
       },
@@ -524,8 +537,9 @@ class AppGlobals {
   }
 
   static String formatTime(String timeString) {
-    DateFormat inputFormat =
-        DateFormat('HH:mm:ss'); // Assumes 24-hour format input
+    DateFormat inputFormat = DateFormat(
+      'HH:mm:ss',
+    ); // Assumes 24-hour format input
     DateFormat outputFormat = DateFormat('h:mm a'); // Output as h:mm AM/PM
 
     try {
@@ -553,8 +567,10 @@ class AppGlobals {
     return '$hours:$minutes $period';
   }
 
-  static String formatTimeOfDayToHHMMSS(TimeOfDay timeOfDay,
-      {int seconds = 0}) {
+  static String formatTimeOfDayToHHMMSS(
+    TimeOfDay timeOfDay, {
+    int seconds = 0,
+  }) {
     // Ensure seconds are within the valid range (0-59)
     seconds = seconds.clamp(0, 59);
 
@@ -569,8 +585,9 @@ class AppGlobals {
 
   static String getTimeStamp({required String type}) {
     if (type.toLowerCase() == "tz") {
-      return DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-          .format(DateTime.now().toUtc());
+      return DateFormat(
+        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+      ).format(DateTime.now().toUtc());
     } else if (type.toLowerCase() == "dt_name") {
       return DateFormat('yyyy-MM-dd hh:mm:ss').format(DateTime.now().toUtc());
     } else if (type.toLowerCase() == "dt") {
@@ -592,12 +609,9 @@ class AppGlobals {
 
   static dynamic convertTimeToLocal({required String utcTime}) {
     if (utcTime != "") {
-      return DateFormat("yyyy-MM-dd")
-          .parse(utcTime, true)
-          .toLocal()
-          .toString()
-          .split(" ")
-          .first;
+      return DateFormat(
+        "yyyy-MM-dd",
+      ).parse(utcTime, true).toLocal().toString().split(" ").first;
       // return DateFormat('yyyy-MM-dd hh:mm:ss').format(dateTime.toLocal());
     }
     return "";
@@ -605,12 +619,11 @@ class AppGlobals {
 
   static dynamic convertUtcTimeToLocalTIme({required String utcTime}) {
     if (utcTime != "") {
-      return formatTime(DateFormat("yyyy-MM-dd HH:mm:ss")
-          .parse(utcTime, true)
-          .toLocal()
-          .toString()
-          .split(" ")
-          .last);
+      return formatTime(
+        DateFormat(
+          "yyyy-MM-dd HH:mm:ss",
+        ).parse(utcTime, true).toLocal().toString().split(" ").last,
+      );
       // return DateFormat('yyyy-MM-dd hh:mm:ss').format(dateTime.toLocal());
     }
     return "";
@@ -618,12 +631,9 @@ class AppGlobals {
 
   static dynamic convertTimeToLocalWithT({required String utcTime}) {
     if (utcTime != "") {
-      return DateFormat("yyyy-MM-dd")
-          .parse(utcTime, true)
-          .toLocal()
-          .toString()
-          .split(" ")
-          .first;
+      return DateFormat(
+        "yyyy-MM-dd",
+      ).parse(utcTime, true).toLocal().toString().split(" ").first;
       // return DateFormat('yyyy-MM-dd hh:mm:ss').format(dateTime.toLocal());
     }
     return "";
@@ -631,20 +641,25 @@ class AppGlobals {
 
   static String convertToHumanReadable(String text) {
     return text
-        .replaceAll(RegExp(r'[^a-zA-Z0-9]'),
-            ' ') // Replace all non-alphanumeric characters with spaces
+        .replaceAll(
+          RegExp(r'[^a-zA-Z0-9]'),
+          ' ',
+        ) // Replace all non-alphanumeric characters with spaces
         .split(' ') // Split the string by spaces
-        .where((word) =>
-            word.isNotEmpty) // Remove any empty words caused by multiple spaces
-        .map((word) =>
-            word[0].toUpperCase() +
-            word.substring(1).toLowerCase()) // Capitalize each word
+        .where(
+          (word) => word.isNotEmpty,
+        ) // Remove any empty words caused by multiple spaces
+        .map(
+          (word) => word[0].toUpperCase() + word.substring(1).toLowerCase(),
+        ) // Capitalize each word
         .join(' '); // Join the words back with a single space
   }
 
   static String getCurrencySymbolFromCode(String code) {
     var format = NumberFormat.simpleCurrency(
-        locale: Platform.localeName, name: code.toUpperCase());
+      locale: Platform.localeName,
+      name: code.toUpperCase(),
+    );
     return format.currencySymbol;
   }
 
@@ -667,9 +682,9 @@ class AppGlobals {
   }
 
   static showScaffold(String toastMsg) {
-    ScaffoldMessenger.of(appNavigationKey.currentContext!).showSnackBar(
-      SnackBar(content: Text(toastMsg)),
-    );
+    ScaffoldMessenger.of(
+      appNavigationKey.currentContext!,
+    ).showSnackBar(SnackBar(content: Text(toastMsg)));
   }
 
   Timer? _debounce;
