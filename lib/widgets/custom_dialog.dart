@@ -68,21 +68,13 @@ class CustomDialog extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   textAlign: TextAlign.center,
-                  color:
-                      AppGlobals.isDarkMode.value
-                          ? AppColors.lightColor
-                          : AppColors.grey500,
+                  color: AppGlobals.isDarkMode.value ? AppColors.lightColor : AppColors.grey500,
                   maxLine: 4,
                 ),
                 12.verticalSpace,
                 Row(
                   children: [
-                    Expanded(
-                      child: CustomRectangleButton(
-                        text: btnText,
-                        onTap: onButtonTap,
-                      ),
-                    ),
+                    Expanded(child: CustomRectangleButton(text: btnText, onTap: onButtonTap)),
                   ],
                 ),
               ],
@@ -102,10 +94,7 @@ class CustomDialog extends StatelessWidget {
                   },
                   child: Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    ),
+                    decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
                     child: Icon(Icons.close, color: Colors.white, size: 20),
                   ),
                 ),

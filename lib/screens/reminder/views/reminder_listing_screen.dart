@@ -50,7 +50,7 @@ class ReminderListingScreen extends StatelessWidget {
                       8.horizontalSpace,
                       GestureDetector(
                         onTap: () {
-                          showDualCalendarSheet(
+                          showDualCalendar(
                             context,
                             initialDate: controller.selectedDate,
                             selectedDate: controller.selectedDate,

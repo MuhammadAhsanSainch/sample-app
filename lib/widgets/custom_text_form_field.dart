@@ -18,7 +18,6 @@ class CustomTextFormField extends StatefulWidget {
   final bool readOnly;
   final bool isDatePicker;
   final bool enableSuggestions;
-  final bool? enable;
   final int? maxLength;
   final int? maxLines;
   final Color? borderColor;
@@ -45,7 +44,6 @@ class CustomTextFormField extends StatefulWidget {
     this.maxLength,
     this.maxLines,
     this.borderColor,
-    this.enable,
   });
 
   @override

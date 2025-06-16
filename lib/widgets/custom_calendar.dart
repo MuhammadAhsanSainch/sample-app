@@ -2,7 +2,7 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 
 // To launch the calendar
-void showDualCalendarSheet(
+void showDualCalendar(
   BuildContext context, {
   DateTime? initialDate,
   DateTime? selectedDate,
