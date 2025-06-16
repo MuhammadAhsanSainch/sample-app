@@ -116,7 +116,8 @@ class ChangePasswordScreen extends StatelessWidget {
                           CustomDialog(
                             title: "Password Changed Successfully",
                             message: "",
-                            imageIcon: AppConstants.trashIcon,
+                            imageIcon: AppConstants.celebrationIcon,
+                            showCloseIcon: false,
                             btnText: "Close",
                             onButtonTap: () {
                               Get.close(2);

@@ -1,4 +1,3 @@
-import 'package:path_to_water/widgets/custom_dialog.dart';
 
 import '../settings_controller.dart';
 import '../../../widgets/custom_drop_down_button.dart';
@@ -129,6 +128,7 @@ class EditProfileScreen extends StatelessWidget {
 
                       ///User Name
                       CustomTextFormField(
+                        readOnly: true,
                         controller: controller.userNameTFController,
                         prefixIcon: SvgPicture.asset(AppConstants.profile),
                         upperLabel: "User Name",
@@ -144,6 +144,7 @@ class EditProfileScreen extends StatelessWidget {
 
                       ///Email
                       CustomTextFormField(
+                        readOnly: true,
                         controller: controller.emailTFController,
                         prefixIcon: SvgPicture.asset(AppConstants.mail),
                         upperLabel: "Email Address",
