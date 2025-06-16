@@ -1,8 +1,8 @@
-import 'package:path_to_water/screens/forgot-password/views/reset_password_view.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
-import '../../../utilities/app_exports.dart';
 import '../forgot_password_binding.dart';
 import '../forgot_password_controller.dart';
+import '../../../utilities/app_exports.dart';
+import '../../../screens/forgot-password/views/reset_password_view.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyCodeView extends StatelessWidget {
   final GlobalKey<FormState> verifyCodeFormKey = GlobalKey<FormState>();
@@ -73,29 +73,7 @@ class VerifyCodeView extends StatelessWidget {
                               if (!verifyCodeFormKey.currentState!.validate()) {
                                 return;
                               }
-                              String otp = controller.otpTFController.text;
-                              // controller
-                              //     .verifyOtp({
-                              //   "email": email,
-                              //   "code": int.tryParse(otp),
-                              //   "type": type,
-                              // })
-                              //     .then((value) {
-                              //   if (value?['status']) {
-                              //     Get.to(
-                              //           () => ResetPasswordView(
-                              //         email: email,
-                              //         otp: otp,
-                              //       ),
-                              //       binding: ForgotPasswordBinding(),
-                              //     );
-                              //   }
-                              // });
-
-                              Get.to(
-                                () => ResetPasswordView(email: email, otp: otp),
-                                binding: ForgotPasswordBinding(),
-                              );
+                              Get.to(() => ResetPasswordView(), binding: ForgotPasswordBinding());
                             },
                           ),
                           Obx(

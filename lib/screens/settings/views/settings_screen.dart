@@ -16,7 +16,7 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       backgroundColor: AppColors.scaffoldBackground,
-      appBar: CustomAppBar(text: 'Settings',showBackIcon: true,),
+      appBar: CustomAppBar(text: 'Settings', showBackIcon: true),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
@@ -26,15 +26,24 @@ class SettingsScreen extends StatelessWidget {
             ListTile(
               leading: SvgPicture.asset(AppConstants.lock),
               contentPadding: EdgeInsets.zero,
-              title: CustomText('Change Password', style: AppTextTheme.bodyLarge),
-              trailing: Icon(CupertinoIcons.chevron_right,color: AppColors.primary,),
-              onTap: ()=> Get.to(()=>ChangePasswordScreen()),
+              title: CustomText(
+                'Change Password',
+                style: AppTextTheme.bodyLarge,
+              ),
+              trailing: Icon(
+                CupertinoIcons.chevron_right,
+                color: AppColors.primary,
+              ),
+              onTap: () => Get.to(() => ChangePasswordScreen()),
             ),
             Divider(color: AppColors.dividerColor, thickness: 2.5),
             ListTile(
               leading: SvgPicture.asset(AppConstants.notification),
               contentPadding: EdgeInsets.zero,
-              title: CustomText('Notifications Preferences', style: AppTextTheme.bodyLarge),
+              title: CustomText(
+                'Notifications Preferences',
+                style: AppTextTheme.bodyLarge,
+              ),
               trailing: Obx(() {
                 return CustomSwitchWidget(
                   value: controller.isNotification.value,
@@ -53,17 +62,37 @@ class SettingsScreen extends StatelessWidget {
             ListTile(
               leading: SvgPicture.asset(AppConstants.deleteAccount),
               contentPadding: EdgeInsets.zero,
-              title: CustomText('Delete Account', style: AppTextTheme.bodyLarge.copyWith(color: AppColors.error)),
-              onTap: (){
+              title: CustomText(
+                'Delete Account',
+                style: AppTextTheme.bodyLarge.copyWith(color: AppColors.error),
+              ),
+              onTap: () {
                 Get.dialog(
                   CustomDialog(
                     title: "Delete Account",
-                    message: "Are you sure to delete your account? All your data will be deleted",
+                    message:
+                        "Are you sure to delete your account? All your data will be deleted",
                     imageIcon: AppConstants.trashIcon,
-                    btnText: "Yes",
+                    btnText: "Yes, Delete Account",
                     showCloseIcon: true,
                     onButtonTap: () {
                       Get.close(0);
+                      Get.dialog(
+                        CustomDialogWithTextField(
+                          title: "Enter Password To Delete Account",
+                          passwordTFController:
+                              controller.currentPassTFController,
+                          imageIcon: AppConstants.trashIcon,
+                          btnText: "Yes, Delete Account",
+                          showCloseIcon: true,
+                          onButtonTap: () {
+                            Get.close(0);
+                            controller.deleteAccount(
+                              controller.currentPassTFController.text,
+                            );
+                          },
+                        ),
+                      );
                     },
                   ),
                 );

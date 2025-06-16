@@ -4,6 +4,8 @@ class AppUrl {
   static const String loginApi = "auth/login";
   static const String signupApi = "auth/register";
   static const String sendOTPApi = "auth/forgot-password";
+  static const String verifyOTPApi = "auth/verify-otp";
+  static const String resetPasswordApi = "auth/reset-password";
   static const String getProfileApi = "user/profile";
   static const String updateProfileApi = "user/profile";
   static const String changePasswordApi = "user/change-password";

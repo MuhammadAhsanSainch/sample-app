@@ -16,4 +16,12 @@ class AuthServices {
    final res = await ApiClient().post(AppUrl.sendOTPApi, data: data);
    return SuccessMessageModel.fromJson(res.data);
  }
+ static Future<SuccessMessageModel?> verifyOTP(Map<String, dynamic> data) async {
+   final res = await ApiClient().post(AppUrl.verifyOTPApi, data: data);
+   return SuccessMessageModel.fromJson(res.data);
+ }
+ static Future<SuccessMessageModel?> resetPassword(Map<String, dynamic> data) async {
+   final res = await ApiClient().post(AppUrl.resetPasswordApi, data: data);
+   return SuccessMessageModel.fromJson(res.data);
+ }
 }

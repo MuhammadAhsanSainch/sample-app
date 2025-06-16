@@ -3,11 +3,10 @@ import '../../utilities/app_exports.dart';
 import '../../api_services/auth_services.dart';
 import '../../api_core/custom_exception_handler.dart';
 import '../../screens/forgot-password/views/verify_code_view.dart';
+import '../../screens/forgot-password/views/reset_password_success_view.dart';
 
 class ForgotPasswordController extends GetxController {
-  final TextEditingController emailTFController = TextEditingController(
-    text: kDebugMode ? "" : "",
-  );
+  final TextEditingController emailTFController = TextEditingController();
   final TextEditingController otpTFController = TextEditingController();
   final TextEditingController passwordTFController = TextEditingController();
   final TextEditingController confirmPasswordTFController =
@@ -39,7 +38,7 @@ class ForgotPasswordController extends GetxController {
   }
 
   // Resends the OTP and resets the timer
-  void resendOtp(Map<String, dynamic> reqBody) async{
+  void resendOtp(Map<String, dynamic> reqBody) async {
     try {
       AppGlobals.isLoading(true);
       final res = await AuthServices.sendOTP({"email": emailTFController.text});
@@ -76,28 +75,25 @@ class ForgotPasswordController extends GetxController {
     }
   }
 
-  // // Send OTP
-  // Future sendOTP(Map<String, dynamic> reqBody) {
-  //   return NetworkService.handleApiCall<GeneralMapResponse>(
-  //     AppUrl.apiService.sendOtp(reqBody),
-  //     errorMessagePrefix: 'sendOTP',
-  //   );
-  // }
-
-  // // Verify Otp
-  // Future verifyOtp(Map<String, dynamic> reqBody) {
-  //   return NetworkService.handleApiCall<GeneralMapResponse>(
-  //     AppUrl.apiService.verifyOtp(reqBody),
-  //     errorMessagePrefix: 'verifyOTP',
-  //   );
-  // }
-
-  // Future resetPassword(Map<String, dynamic> reqBody) {
-  //   return NetworkService.handleApiCall<GeneralMapResponse>(
-  //     AppUrl.apiService.resetPassword(reqBody),
-  //     errorMessagePrefix: 'resetPassword',
-  //   );
-  // }
+  Future resetPassword() async {
+    try {
+      AppGlobals.isLoading(true);
+      final res = await AuthServices.resetPassword({
+        "email": emailTFController.text,
+        "otp": int.parse(otpTFController.text),
+        "newPassword": passwordTFController.text,
+      });
+      if (res != null) {
+        Get.to(() => ResetPasswordSuccessView());
+      }
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      AppGlobals.isLoading(false);
+    }
+  }
 
   @override
   void dispose() {

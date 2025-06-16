@@ -135,7 +135,7 @@ class SettingsController extends GetxController
       if (res != null) {
         Get.dialog(
           CustomDialog(
-            title: res.message??"Password changed successfully",
+            title: res.message ?? "Password changed successfully",
             message: "",
             imageIcon: AppConstants.celebrationIcon,
             showCloseIcon: false,
@@ -155,17 +155,21 @@ class SettingsController extends GetxController
     }
   }
 
-  Future deleteAccount() async {
+  Future deleteAccount(String password) async {
     try {
       AppGlobals.isLoading(true);
-      final res = await SettingsServices.deleteAccount();
+      currentPassTFController.clear();
+      final res = await SettingsServices.deleteAccount({
+        "password": password,
+      });
+      currentPassTFController.clear();
       log('res::${res?.message}');
       if (res != null) {
         Get.dialog(
           CustomDialog(
-            title: res.message??"Account deleted successfully",
+            title: res.message ?? "Account deleted successfully",
             message: "",
-            imageIcon: AppConstants.deleteAccount,
+            imageIcon: AppConstants.trashIcon,
             showCloseIcon: false,
             btnText: "Close",
             onButtonTap: () {
