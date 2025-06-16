@@ -1,13 +1,22 @@
+import 'package:hijri/hijri_calendar.dart';
+import 'package:path_to_water/models/journal_model.dart';
 import 'package:path_to_water/screens/journal/controllers/create_journal_screen_controller.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
-import 'package:path_to_water/widgets/custom_dialog.dart';
+import 'package:path_to_water/utilities/app_helper.dart';
+import 'package:path_to_water/utilities/validators.dart';
+import 'package:path_to_water/widgets/custom_calendar.dart';
 
 class CreateJournalScreen extends StatelessWidget {
-  const CreateJournalScreen({super.key});
+  final JournalDetail? journal;
+  const CreateJournalScreen({super.key, this.journal});
 
   CreateJournalScreenController get controller => Get.put(CreateJournalScreenController());
+
   @override
   Widget build(BuildContext context) {
+    if (journal != null) {
+      controller.setDetails(journal);
+    }
     return Scaffold(
       appBar: CustomAppBar(
         text: "Create Journal",
@@ -26,83 +35,116 @@ class CreateJournalScreen extends StatelessWidget {
             height: 150.h,
             fit: BoxFit.contain,
           ),
-          ListView(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            children: [
-              50.verticalSpace,
-              CustomImageView(
-                imagePath: AppConstants.journalBookIcon,
-                height: 80.h,
-                fit: BoxFit.contain,
-              ),
-              40.verticalSpace,
-              CustomTextFormField(
-                upperLabel: "Title",
-                controller: controller.journalTitleController,
-                hintValue: "Enter journal title",
-                upperLabelReqStar: "",
-                outerPadding: EdgeInsets.zero,
-                maxLines: 1,
-                suffixIcon: CustomImageView(
-                  svgPath: AppConstants.personalCardSvgIcon,
-                  height: 20.h,
+          Obx(() {
+            return CustomLoader(
+              isTrue: AppGlobals.isLoading.value,
+              child: Form(
+                key: controller.formKey,
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  children: [
+                    50.verticalSpace,
+                    CustomImageView(
+                      imagePath: AppConstants.journalBookIcon,
+                      height: 80.h,
+                      fit: BoxFit.contain,
+                    ),
+                    40.verticalSpace,
+                    CustomTextFormField(
+                      upperLabel: "Title",
+                      controller: controller.journalTitleController,
+                      hintValue: "Enter journal title",
+                      upperLabelReqStar: "",
+                      outerPadding: EdgeInsets.zero,
+                      maxLines: 1,
+                      suffixIcon: CustomImageView(
+                        svgPath: AppConstants.personalCardSvgIcon,
+                        height: 20.h,
+                      ),
+                      validator: Validators.required,
+                    ),
+                    8.verticalSpace,
+                    GestureDetector(
+                      onTap: () {
+                        showDualCalendar(
+                          context,
+                          initialDate: controller.selectedDate,
+                          selectedDate: controller.selectedDate,
+                          onDateSelected: (date) {
+                            controller.selectedDate = date;
+                            controller.selectedHijriDate = HijriCalendar.fromDate(date);
+                            controller.selectedDateController.text =
+                                "${date.toFormatDateTime(format: "dd MMM, yyyy")}/ ${controller.selectedHijriDate?.hDay ?? ""} ${controller.selectedHijriDate?.longMonthName ?? ""} ${controller.selectedHijriDate?.hYear ?? ""}";
+                          },
+                        );
+                      },
+                      child: CustomTextFormField(
+                        upperLabel: "Select Date",
+                        enabled: false,
+                        controller: controller.selectedDateController,
+                        hintValue: "Select Journal Date",
+                        upperLabelReqStar: "",
+                        outerPadding: EdgeInsets.zero,
+                        suffixIcon: CustomImageView(
+                          svgPath: AppConstants.calendarSvgIcon,
+                          height: 20.h,
+                        ),
+                        validator: Validators.required,
+                      ),
+                    ),
+                    8.verticalSpace,
+
+                    GestureDetector(
+                      onTap: () {
+                        Helper.pickTime(context, controller.selectedTime).then((value) {
+                          controller.selectedTime = value;
+                          controller.selectedTimeController.text = value?.format(context) ?? "";
+                        });
+                      },
+                      child: CustomTextFormField(
+                        upperLabel: "Select Time",
+                        controller: controller.selectedTimeController,
+                        enabled: false,
+                        hintValue: "Select journal time",
+                        upperLabelReqStar: "",
+                        outerPadding: EdgeInsets.zero,
+                        suffixIcon: CustomImageView(
+                          svgPath: AppConstants.clockSvgIcon,
+                          height: 20.h,
+                        ),
+                        validator: Validators.required,
+                      ),
+                    ),
+                    8.verticalSpace,
+
+                    CustomTextFormField(
+                      upperLabel: "Description",
+                      controller: controller.descriptionController,
+                      hintValue: "Enter journal description",
+                      upperLabelReqStar: "",
+                      outerPadding: EdgeInsets.zero,
+                      maxLines: 4,
+                      type: TextInputType.multiline,
+                      validator: Validators.required,
+                    ),
+                    8.verticalSpace,
+                  ],
                 ),
               ),
-              8.verticalSpace,
-              CustomTextFormField(
-                upperLabel: "Select Date",
-                enable: false,
-                controller: controller.selectedDateController,
-                hintValue: "Select Journal Date",
-                upperLabelReqStar: "",
-                outerPadding: EdgeInsets.zero,
-                suffixIcon: CustomImageView(svgPath: AppConstants.calendarSvgIcon, height: 20.h),
-              ),
-              8.verticalSpace,
-
-              CustomTextFormField(
-                upperLabel: "Select Time",
-                controller: controller.selectedTimeController,
-                enable: false,
-                hintValue: "Select journal time",
-                upperLabelReqStar: "",
-                outerPadding: EdgeInsets.zero,
-                suffixIcon: CustomImageView(svgPath: AppConstants.clockSvgIcon, height: 20.h),
-              ),
-              8.verticalSpace,
-
-              CustomTextFormField(
-                upperLabel: "Description",
-                controller: controller.descriptionController,
-                hintValue: "Enter journal description",
-                upperLabelReqStar: "",
-                outerPadding: EdgeInsets.zero,
-                maxLines: 4,
-                type: TextInputType.multiline,
-              ),
-              8.verticalSpace,
-            ],
-          ),
+            );
+          }),
         ],
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16.r),
           child: CustomRectangleButton(
-            text: "Create",
+            text: journal != null ? "Update" : "Create",
             onTap: () {
-              Get.dialog(
-                CustomDialog(
-                  message: "Your journal entry has been successfully created.",
-                  imageIcon: AppConstants.celebrationIcon,
-                  title: "Journal Created",
-                  btnText: "Close",
-                  showCloseIcon: false,
-                  onButtonTap: () {
-                    Get.close(2);
-                  },
-                ),
-              );
+              if (!controller.formKey.currentState!.validate()) {
+                return;
+              }
+              controller.createJournal(isEditing: journal != null, journalDetail: journal);
             },
           ),
         ),

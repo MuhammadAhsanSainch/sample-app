@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:path_to_water/screens/home/home_binding.dart';
+import 'package:path_to_water/screens/home/home_view.dart';
 
 import '../models/auth_model.dart';
 import '../utilities/app_exports.dart';
@@ -28,8 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
           "message": "Already Logged In",
           "data": UserPreferences.loginData,
         });
-        // Get.offAll(() => HomeView(), binding: HomeBinding());
-        Get.offAll(() => LoginView(), binding: LoginBinding());
+        Get.offAll(() => HomeView(), binding: HomeBinding());
+        // Get.offAll(() => LoginView(), binding: LoginBinding());
       } else {
         // Get.offAll(() => HomeView(), binding: HomeBinding());
         Get.offAll(() => LoginView(), binding: LoginBinding());
@@ -47,9 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Positioned.fill(
             // Makes the image fill the entire available space
             child: Image.asset(
-              AppGlobals.isDarkMode.value
-                  ? AppConstants.splashBgDark
-                  : AppConstants.splashBgLight,
+              AppGlobals.isDarkMode.value ? AppConstants.splashBgDark : AppConstants.splashBgLight,
               fit: BoxFit.cover,
             ),
           ),

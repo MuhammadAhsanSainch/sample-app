@@ -51,7 +51,7 @@ class CreateReminderScreen extends StatelessWidget {
               8.verticalSpace,
               CustomTextFormField(
                 upperLabel: "Select Date",
-                enable: false,
+                enabled: false,
                 controller: controller.selectedDateController,
                 hintValue: "Select Date",
                 upperLabelReqStar: "",
@@ -63,7 +63,7 @@ class CreateReminderScreen extends StatelessWidget {
               CustomTextFormField(
                 upperLabel: "Select Time",
                 controller: controller.selectedTimeController,
-                enable: false,
+                enabled: false,
                 hintValue: "Select Time",
                 upperLabelReqStar: "",
                 outerPadding: EdgeInsets.zero,

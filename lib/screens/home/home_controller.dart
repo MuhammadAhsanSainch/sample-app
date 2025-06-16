@@ -3,6 +3,7 @@ import 'package:path_to_water/screens/calendar/view/calendar_screen.dart';
 import 'package:path_to_water/screens/dashboard/dashboard_view.dart';
 import 'package:path_to_water/screens/favorite_screen/favorite_screen.dart';
 import 'package:path_to_water/screens/home/widgets/banner_dialog_widget.dart';
+import 'package:path_to_water/screens/journal/controllers/journal_screen_controller.dart';
 import 'package:path_to_water/screens/journal/views/journal_screen.dart';
 import 'package:path_to_water/screens/login/login_binding.dart';
 import 'package:path_to_water/screens/login/login_view.dart';
@@ -55,6 +56,8 @@ class HomeController extends GetxController {
     FavoriteScreen(),
     SettingsScreen(),
   ];
+
+  RxBool get isJournalCreated => Get.put(JournalScreenController()).isJournalCreated;
 
   @override
   void onInit() {

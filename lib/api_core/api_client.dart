@@ -255,7 +255,7 @@ class ApiClient {
     headers[HttpHeaders.contentTypeHeader] = contentType ?? "application/json";
 
     if (token != null || UserPreferences.authToken.isNotEmpty) {
-      headers[HttpHeaders.authorizationHeader] = ('Bearer ${token ?? UserPreferences.authToken}');
+      headers[HttpHeaders.authorizationHeader] = "Bearer ${token ?? UserPreferences.authToken}";
     }
     if (userID != null) {
       headers['USER_ID'] = userID;

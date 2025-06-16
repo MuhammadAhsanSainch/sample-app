@@ -1,10 +1,13 @@
 import 'package:hijri/hijri_calendar.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:path_to_water/models/journal_model.dart';
 import 'package:path_to_water/screens/journal/controllers/journal_listing_controller.dart';
-import 'package:path_to_water/screens/journal/models/calendar_entry_model.dart';
-import 'package:path_to_water/widgets/custom_calendar.dart';
+import 'package:path_to_water/screens/journal/controllers/journal_screen_controller.dart';
+import 'package:path_to_water/screens/journal/views/create_journal_screen.dart';
+import 'package:path_to_water/screens/reminder/bindings/create_reminder_screen_binding.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
-import 'package:path_to_water/utilities/dummy_content.dart';
+import 'package:path_to_water/widgets/custom_calendar.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
 import 'package:path_to_water/widgets/custom_quran_info_dialog.dart';
 import 'package:path_to_water/widgets/custom_tab_widget.dart';
@@ -15,6 +18,11 @@ class JournalListingScreen extends StatelessWidget {
   JournalListingController get controller => Get.put(JournalListingController());
 
   final InfiniteScrollController infiniteScrollController = InfiniteScrollController();
+
+  final JournalScreenController journalScreenController = Get.put<JournalScreenController>(
+    JournalScreenController(),
+  );
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
@@ -25,93 +33,118 @@ class JournalListingScreen extends StatelessWidget {
         });
       },
       builder: (_) {
-        return Column(
-          children: [
-            10.verticalSpace,
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 16.w),
-              padding: EdgeInsets.all(16.r),
-              decoration: BoxDecoration(
-                color: AppGlobals.isDarkMode.value ? AppColors.dark : AppColors.grey100,
-                borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(color: AppColors.primary),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CustomText(
-                        controller.isEnglishCalendar
-                            ? controller.focusedMonth.toFormatDateTime(format: "MMMM, yyyy")
-                            : controller.focusedHijriMonthText,
-                      ),
-                      8.horizontalSpace,
-                      GestureDetector(
-                        onTap: () {
-                          showDualCalendarSheet(
-                            context,
-                            initialDate: controller.selectedDate,
-                            selectedDate: controller.selectedDate,
-                            onDateSelected: (date) {
-                              controller.onDateSelected(date);
-                              controller.generateVisibleDates(date);
-                              controller.scrollToSelectedDate(infiniteScrollController);
-                            },
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.primary),
-                            borderRadius: BorderRadius.circular(3.r),
-                            color: Colors.transparent,
-                          ),
-                          child: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: AppColors.primary,
-                            size: 12.h,
+        return RefreshIndicator(
+          onRefresh: () async {
+            journalScreenController.onRefresh();
+          },
+          child: Column(
+            children: [
+              10.verticalSpace,
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16.w),
+                padding: EdgeInsets.all(16.r),
+                decoration: BoxDecoration(
+                  color: AppGlobals.isDarkMode.value ? AppColors.dark : AppColors.grey100,
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(color: AppColors.primary),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CustomText(
+                          controller.isEnglishCalendar
+                              ? controller.focusedMonth.toFormatDateTime(format: "MMMM, yyyy")
+                              : controller.focusedHijriMonthText,
+                        ),
+                        8.horizontalSpace,
+                        GestureDetector(
+                          onTap: () {
+                            showDualCalendar(
+                              context,
+                              initialDate: controller.selectedDate,
+                              selectedDate: controller.selectedDate,
+                              onDateSelected: (date) {
+                                controller.onDateSelected(date);
+                                controller.generateVisibleDates(date);
+                                controller.scrollToSelectedDate(infiniteScrollController);
+                              },
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.primary),
+                              borderRadius: BorderRadius.circular(3.r),
+                              color: Colors.transparent,
+                            ),
+                            child: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: AppColors.primary,
+                              size: 12.h,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  8.verticalSpace,
-                  _buildHorizontalCalendar(controller, infiniteScrollController),
-                  10.verticalSpace,
-                  _buildCalendarToggle(controller),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: CustomTextFormField(
-                controller: controller.searchController,
-                upperLabel: "",
-                upperLabelReqStar: "",
-                hintValue: "Search",
-                borderColor: AppColors.primary,
-                outerPadding: EdgeInsets.zero,
-                prefixIcon: CustomImageView(
-                  imagePath: AppConstants.searchIcon,
-                  height: 24.h,
-                  fit: BoxFit.contain,
+                      ],
+                    ),
+                    8.verticalSpace,
+                    _buildHorizontalCalendar(controller, infiniteScrollController),
+                    10.verticalSpace,
+                    _buildCalendarToggle(controller),
+                  ],
                 ),
               ),
-            ),
-            12.verticalSpace,
-            Expanded(
-              child:
-                  DummyContent.allEntries.isEmpty
-                      ? Center(
-                        child: Text(
-                          'No entries for this date.',
-                          style: TextStyle(color: Colors.grey[600]),
-                        ),
-                      )
-                      : _buildEntriesList(DummyContent.allEntries, context),
-            ),
-            120.verticalSpace,
-          ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: CustomTextFormField(
+                  controller: controller.searchController,
+                  upperLabel: "",
+                  upperLabelReqStar: "",
+                  hintValue: "Search",
+                  borderColor: AppColors.primary,
+                  outerPadding: EdgeInsets.zero,
+                  prefixIcon: CustomImageView(
+                    imagePath: AppConstants.searchIcon,
+                    height: 24.h,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              12.verticalSpace,
+              Expanded(
+                child: PagingListener(
+                  controller: journalScreenController.pagingController,
+                  builder: (context, state, fetchNextPage) {
+                    return PagedListView.separated(
+                      state: state,
+                      fetchNextPage: fetchNextPage,
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      builderDelegate: PagedChildBuilderDelegate<JournalDetail>(
+                        animateTransitions: true,
+                        itemBuilder:
+                            (context, item, index) => _buildEntryItem(
+                              item,
+                              index == (state.items?.length ?? 0) - 1,
+                              context,
+                              index,
+                            ),
+                      ),
+                      separatorBuilder: (context, index) => SizedBox.shrink(),
+                    );
+                  },
+                ),
+                // DummyContent.allEntries.isEmpty
+                //     ? Center(
+                //       child: Text(
+                //         'No entries for this date.',
+                //         style: TextStyle(color: Colors.grey[600]),
+                //       ),
+                //     )
+                //     : _buildEntriesList(DummyContent.allEntries, context),
+              ),
+              120.verticalSpace,
+            ],
+          ),
         );
       },
     );
@@ -195,7 +228,12 @@ class JournalListingScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FittedBox(child: CustomText(dayName, color: isSelected ? AppColors.lightColor : AppColors.grey500)),
+            FittedBox(
+              child: CustomText(
+                dayName,
+                color: isSelected ? AppColors.lightColor : AppColors.grey500,
+              ),
+            ),
             6.verticalSpace,
             FittedBox(
               child: CustomText(
@@ -253,20 +291,20 @@ class JournalListingScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEntriesList(List<CalendarEntry> list, BuildContext context) {
-    return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      itemCount: list.length,
-      itemBuilder: (context, index) {
-        final entry = list[index];
-        bool isLast = index == list.length - 1;
-        return _buildEntryItem(entry, isLast, context);
-      },
-    );
-  }
+  // Widget _buildEntriesList(List<CalendarEntry> list, BuildContext context) {
+  //   return ListView.builder(
+  //     padding: EdgeInsets.symmetric(horizontal: 16.0),
+  //     itemCount: list.length,
+  //     itemBuilder: (context, index) {
+  //       final entry = list[index];
+  //       bool isLast = index == list.length - 1;
+  //       return _buildEntryItem(entry, isLast, context);
+  //     },
+  //   );
+  // }
 
-  Widget _buildEntryItem(CalendarEntry entry, bool isLast, BuildContext context) {
-    final timeFormatted = DateFormat('hh:mm a').format(entry.time); // e.g., 10:30 PM
+  Widget _buildEntryItem(JournalDetail entry, bool isLast, BuildContext context, int index) {
+    final timeFormatted = entry.time; // e.g., 10:30 PM
 
     return IntrinsicHeight(
       child: Row(
@@ -301,9 +339,9 @@ class JournalListingScreen extends StatelessWidget {
                   context,
                   quranDialogTitle: "Journal Entry",
                   contentTitle: entry.title,
-                  englishContent: entry.content,
+                  englishContent: entry.description,
                   showLanguageSelectionButton: false,
-                  date: entry.time,
+                  date: entry.date,
                 );
               },
               child: Card(
@@ -348,6 +386,16 @@ class JournalListingScreen extends StatelessWidget {
                                         CustomText('Edit', fontSize: 12),
                                       ],
                                     ),
+                                    onTap: () {
+                                      Get.to(
+                                        CreateJournalScreen(journal: entry),
+                                        binding: CreateReminderScreenBinding(),
+                                      )?.then((value) {
+                                        if (value == true) {
+                                          journalScreenController.onRefresh();
+                                        }
+                                      });
+                                    },
                                   ),
                                   PopupMenuItem<String>(
                                     height: 30.h,
@@ -370,7 +418,13 @@ class JournalListingScreen extends StatelessWidget {
                                           imageIcon: AppConstants.trashIcon,
                                           title: "Delete Journal Entry",
                                           btnText: "Delete",
-                                          onButtonTap: () {},
+                                          onButtonTap: () {
+                                            journalScreenController.deleteJournalApi(
+                                              entry.id ?? "",
+                                              index,
+                                            );
+                                            Get.back();
+                                          },
                                         ),
                                       );
                                     },
@@ -379,7 +433,7 @@ class JournalListingScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      CustomText(entry.content, fontSize: 14, maxLine: 10),
+                      CustomText(entry.description, fontSize: 14, maxLine: 10),
                     ],
                   ),
                 ),
