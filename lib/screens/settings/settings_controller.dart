@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart' as dio;
 import 'package:image_picker/image_picker.dart';
+import 'package:path_to_water/api_services/settings_services.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 
 import '../../api_core/custom_exception_handler.dart';
@@ -70,7 +71,9 @@ class SettingsController extends GetxController
         fullNameTFController.text = res.name ?? '';
         userNameTFController.text = res.userName ?? '';
         emailTFController.text = res.email ?? '';
-        dOBTFController.text = AppGlobals.formatDate(DateTime.parse(res.dob ?? ''));
+        dOBTFController.text = AppGlobals.formatDate(
+          DateTime.parse(res.dob ?? ''),
+        );
         genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
       }
     } on Exception catch (e) {
@@ -102,8 +105,7 @@ class SettingsController extends GetxController
         Get.dialog(
           CustomDialog(
             title: "Profile Saved",
-            message:
-            "Your changes have been saved successfully.",
+            message: "Your changes have been saved successfully.",
             imageIcon: AppConstants.celebrationIcon,
             showCloseIcon: false,
             btnText: "Close",
@@ -125,25 +127,16 @@ class SettingsController extends GetxController
   Future changePassword() async {
     try {
       AppGlobals.isLoading(true);
-      final res = await ProfileServices.updateProfile({
-        "name": fullNameTFController.text,
-        "gender": genderTFController.text.toUpperCase(),
-        "dob": AppGlobals.toISOFormatDate(dOBTFController.text),
-        // "logo": "url"
+      final res = await SettingsServices.changePassword({
+        "currentPassword": currentPassTFController.text,
+        "newPassword": newPassTFController.text,
       });
+      log('res::${res?.message}');
       if (res != null) {
-        fullNameTFController.text = res.name ?? '';
-        userNameTFController.text = res.userName ?? '';
-        emailTFController.text = res.email ?? '';
-        dOBTFController.text = AppGlobals.formatDate(
-          DateTime.parse(res.dob ?? ''),
-        );
-        genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
         Get.dialog(
           CustomDialog(
-            title: "Profile Saved",
-            message:
-            "Your changes have been saved successfully.",
+            title: res.message??"Password Changed Successfully",
+            message: "",
             imageIcon: AppConstants.celebrationIcon,
             showCloseIcon: false,
             btnText: "Close",

@@ -1,4 +1,3 @@
-import '../../../widgets/custom_dialog.dart';
 import '../settings_controller.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 
@@ -112,18 +111,7 @@ class ChangePasswordScreen extends StatelessWidget {
                       width: Get.width,
                       text: "Update",
                       onTap: () {
-                        Get.dialog(
-                          CustomDialog(
-                            title: "Password Changed Successfully",
-                            message: "",
-                            imageIcon: AppConstants.celebrationIcon,
-                            showCloseIcon: false,
-                            btnText: "Close",
-                            onButtonTap: () {
-                              Get.close(2);
-                            },
-                          ),
-                        );
+                        controller.changePassword();
                       },
                     ),
                   ],
