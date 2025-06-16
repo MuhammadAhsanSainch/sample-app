@@ -92,6 +92,9 @@ class CustomAdvancedDrawer extends StatelessWidget {
                 label: "Sign Out",
                 pngIcon: AppConstants.logoutIcon,
                 onTap: () {
+                  UserPreferences.loginData = {};
+                  UserPreferences.isLogin = false;
+                  UserPreferences.authToken = "";
                   controller.hideDrawer();
                   Get.offAll(() => SplashScreen(),
                   );

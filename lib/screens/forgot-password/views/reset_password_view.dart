@@ -1,14 +1,11 @@
-import 'package:path_to_water/screens/forgot-password/views/reset_password_success_view.dart';
 
 import '../../../utilities/app_exports.dart';
 import '../forgot_password_controller.dart';
 
 class ResetPasswordView extends StatelessWidget {
-  final String email, otp;
-
   final GlobalKey<FormState> resetPasswordFormKey = GlobalKey<FormState>();
 
-  ResetPasswordView({super.key, required this.email, required this.otp});
+  ResetPasswordView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -108,17 +105,8 @@ class ResetPasswordView extends StatelessWidget {
                           if (!resetPasswordFormKey.currentState!.validate()) {
                             return;
                           }
-                          // controller.resetPassword({
-                          //   "email": email,
-                          //   "code": int.tryParse(otp),
-                          //   "pin": controller.confirmPasswordTFController.text,
-                          // }).then((value) {
-                          //   if(value['status']){
-                          //     Get.to(() => ResetPasswordSuccessView());
-                          //   }
-                          // });
+                          controller.resetPassword();
 
-                          Get.to(() => ResetPasswordSuccessView());
                         }),
                     SizedBox(height: Get.height * 0.02),
                   ],

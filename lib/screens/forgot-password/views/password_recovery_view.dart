@@ -1,4 +1,3 @@
-import 'verify_code_view.dart';
 import '../../../utilities/app_exports.dart';
 import '../forgot_password_controller.dart';
 
@@ -33,8 +32,8 @@ class PasswordRecoveryView extends StatelessWidget {
                       ),
                       padding: EdgeInsets.all(16),
                       child: Form(
+                        key: passwordRecoveryFormKey,
                         child: SingleChildScrollView(
-                          key: passwordRecoveryFormKey,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,40 +85,7 @@ class PasswordRecoveryView extends StatelessWidget {
                                       .validate()) {
                                     return;
                                   }
-
-                                  // controller
-                                  //     .sendOTP({
-                                  //       "email":
-                                  //           ForgotPasswordController
-                                  //               .to
-                                  //               .emailTFController
-                                  //               .text,
-                                  //       "type": "FORGOT_PASSWORD",
-                                  //     })
-                                  //     .then((value) {
-                                  //       if (value['status'] ?? false) {
-                                  //         Get.to(
-                                  //           () => VerifyCodeView(
-                                  //             email:
-                                  //                 ForgotPasswordController
-                                  //                     .to
-                                  //                     .emailTFController
-                                  //                     .text,
-                                  //             type: "FORGOT_PASSWORD",
-                                  //           ),
-                                  //         );
-                                  //       }
-                                  //     });
-                                  Get.to(
-                                    () => VerifyCodeView(
-                                      email:
-                                          ForgotPasswordController
-                                              .to
-                                              .emailTFController
-                                              .text,
-                                      type: "FORGOT_PASSWORD",
-                                    ),
-                                  );
+                                  controller.sendOTP();
                                 },
                               ),
                             ],
