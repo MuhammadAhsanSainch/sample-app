@@ -6,9 +6,9 @@ import '../forgot_password_controller.dart';
 
 class VerifyCodeView extends StatelessWidget {
   final GlobalKey<FormState> verifyCodeFormKey = GlobalKey<FormState>();
-  final String email, type;
+  final String email;
 
-  VerifyCodeView({super.key, required this.email, required this.type});
+  VerifyCodeView({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -19,102 +19,101 @@ class VerifyCodeView extends StatelessWidget {
         ForgotPasswordController.to.startTimer();
       },
       builder:
-          (controller) => Obx(()=>CustomLoader(
-            isTrue: AppGlobals.isLoading.value,
-            child: Scaffold(
-              resizeToAvoidBottomInset: false,
-              body: Container(
-                height: Get.height,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                      AppGlobals.isDarkMode.value
-                          ? AppConstants.otpCodeBgDark
-                          : AppConstants.otpCodeBgLight,
+          (controller) => Obx(
+            () => CustomLoader(
+              isTrue: AppGlobals.isLoading.value,
+              child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                body: Container(
+                  height: Get.height,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        AppGlobals.isDarkMode.value
+                            ? AppConstants.otpCodeBgDark
+                            : AppConstants.otpCodeBgLight,
+                      ),
                     ),
                   ),
-                ),
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.all(16),
-                  child: Form(
-                    key: verifyCodeFormKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: Get.height * 0.42),
-                        InkWell(
-                          onTap: () {
-                            if (kDebugMode) {
-                              controller.otpTFController.text = '1234';
-                            }
-                          },
-                          child: CustomText(
-                            'OTP Code',
-                            style: AppTextTheme.headlineSmall,
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.all(16),
+                    child: Form(
+                      key: verifyCodeFormKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: Get.height * 0.42),
+                          InkWell(
+                            onTap: () {
+                              if (kDebugMode) {
+                                controller.otpTFController.text = '1234';
+                              }
+                            },
+                            child: CustomText(
+                              'OTP Code',
+                              style: AppTextTheme.headlineSmall,
+                            ),
                           ),
-                        ),
-                        CustomText(
-                          'Your Key to Safe and Instant Verification',
-                          style: AppTextTheme.bodyLarge,
-                        ),
-                        SizedBox(height: Get.height * 0.02),
-
-                        ///Otp widget
-                        otpWidget(context, controller),
-
-                        ///Verify OTP Button
-                        CustomRectangleButton(
-                          width: context.width,
-                          text: "Submit Code",
-
-                          onTap: () {
-                            if (!verifyCodeFormKey.currentState!.validate()) {
-                              return;
-                            }
-                            String otp = controller.otpTFController.text;
-                            // controller
-                            //     .verifyOtp({
-                            //   "email": email,
-                            //   "code": int.tryParse(otp),
-                            //   "type": type,
-                            // })
-                            //     .then((value) {
-                            //   if (value?['status']) {
-                            //     Get.to(
-                            //           () => ResetPasswordView(
-                            //         email: email,
-                            //         otp: otp,
-                            //       ),
-                            //       binding: ForgotPasswordBinding(),
-                            //     );
-                            //   }
-                            // });
-
-                            Get.to(
-                                  () => ResetPasswordView(
-                                email: email,
-                                otp: otp,
-                              ),
-                              binding: ForgotPasswordBinding(),
-                            );
-                          },
-                        ),
-                        Obx(
-                              () => Align(
-                            alignment: Alignment.centerLeft,
-                            child: timerWidget(context, controller),
+                          CustomText(
+                            'Your Key to Safe and Instant Verification',
+                            style: AppTextTheme.bodyLarge,
                           ),
-                        ),
-                        SizedBox(height: Get.height * 0.02),
-                        // const CustomBackButton(),
-                      ],
+                          SizedBox(height: Get.height * 0.02),
+
+                          ///Otp widget
+                          otpWidget(context, controller),
+
+                          ///Verify OTP Button
+                          CustomRectangleButton(
+                            width: context.width,
+                            text: "Submit Code",
+
+                            onTap: () {
+                              if (!verifyCodeFormKey.currentState!.validate()) {
+                                return;
+                              }
+                              String otp = controller.otpTFController.text;
+                              // controller
+                              //     .verifyOtp({
+                              //   "email": email,
+                              //   "code": int.tryParse(otp),
+                              //   "type": type,
+                              // })
+                              //     .then((value) {
+                              //   if (value?['status']) {
+                              //     Get.to(
+                              //           () => ResetPasswordView(
+                              //         email: email,
+                              //         otp: otp,
+                              //       ),
+                              //       binding: ForgotPasswordBinding(),
+                              //     );
+                              //   }
+                              // });
+
+                              Get.to(
+                                () => ResetPasswordView(email: email, otp: otp),
+                                binding: ForgotPasswordBinding(),
+                              );
+                            },
+                          ),
+                          Obx(
+                            () => Align(
+                              alignment: Alignment.centerLeft,
+                              child: timerWidget(context, controller),
+                            ),
+                          ),
+                          SizedBox(height: Get.height * 0.02),
+                          // const CustomBackButton(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          )),
+          ),
     );
   }
 
@@ -190,9 +189,21 @@ class VerifyCodeView extends StatelessWidget {
     ForgotPasswordController controller,
   ) {
     if (controller.timerSeconds.value > 0) {
+      // Calculate minutes and seconds
+      int minutes = controller.timerSeconds.value ~/ 60; // Integer division
+      int seconds = controller.timerSeconds.value % 60;  // Modulo for remaining seconds
+
+      // Format seconds with leading zero if less than 10
+      String formattedSeconds = seconds.toString().padLeft(2, '0');
+      String formattedMinutes = minutes.toString().padLeft(2, '0');
+
+
       return Padding(
         padding: const EdgeInsets.only(top: 12),
-        child: CustomText("Wait for 00:${controller.timerSeconds.value.toString().padLeft(2, '0')} min", style: AppTextTheme.bodyLarge),
+        child: CustomText(
+          "Wait for $formattedMinutes:$formattedSeconds min", // Display MM:SS
+          style: AppTextTheme.bodyLarge,
+        ),
       );
     } else {
       return Obx(() {
@@ -201,7 +212,7 @@ class VerifyCodeView extends StatelessWidget {
               alignment: Alignment.center,
               child: TextButton(
                 onPressed: () {
-                  controller.resendOtp({"email": email, "type": type});
+                  controller.resendOtp({"email": email});
                 },
                 child: CustomText(
                   'Send Again',

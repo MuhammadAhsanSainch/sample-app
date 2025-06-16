@@ -3,6 +3,7 @@ class AppUrl {
   static const String mediaUrl = 'https://islamic-api.futurbyte.ae/';
   static const String loginApi = "auth/login";
   static const String signupApi = "auth/register";
+  static const String sendOTPApi = "auth/forgot-password";
   static const String getProfileApi = "user/profile";
   static const String updateProfileApi = "user/profile";
   static const String changePasswordApi = "user/change-password";

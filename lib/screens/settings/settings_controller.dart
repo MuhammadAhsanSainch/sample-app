@@ -7,6 +7,7 @@ import 'package:path_to_water/utilities/app_exports.dart';
 import '../../api_core/custom_exception_handler.dart';
 import '../../api_services/profile_services.dart';
 import '../../widgets/custom_dialog.dart';
+import '../splash.dart';
 
 class SettingsController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -131,17 +132,47 @@ class SettingsController extends GetxController
         "currentPassword": currentPassTFController.text,
         "newPassword": newPassTFController.text,
       });
-      log('res::${res?.message}');
       if (res != null) {
         Get.dialog(
           CustomDialog(
-            title: res.message??"Password Changed Successfully",
+            title: res.message??"Password changed successfully",
             message: "",
             imageIcon: AppConstants.celebrationIcon,
             showCloseIcon: false,
             btnText: "Close",
             onButtonTap: () {
               Get.close(2);
+            },
+          ),
+        );
+      }
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      AppGlobals.isLoading(false);
+    }
+  }
+
+  Future deleteAccount() async {
+    try {
+      AppGlobals.isLoading(true);
+      final res = await SettingsServices.deleteAccount();
+      log('res::${res?.message}');
+      if (res != null) {
+        Get.dialog(
+          CustomDialog(
+            title: res.message??"Account deleted successfully",
+            message: "",
+            imageIcon: AppConstants.deleteAccount,
+            showCloseIcon: false,
+            btnText: "Close",
+            onButtonTap: () {
+              UserPreferences.loginData = {};
+              UserPreferences.isLogin = false;
+              UserPreferences.authToken = "";
+              Get.offAll(() => SplashScreen());
             },
           ),
         );
