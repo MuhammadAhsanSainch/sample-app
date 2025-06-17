@@ -16,7 +16,7 @@ class DummyContent {
   static String hadithEnglishText =
       "Beware of suspicion, for suspicion is the most false of speech.";
 
-  static String hadithDetailText = "Sahih al-Bukhari 6066n\nSahih Muslim 2563";
+  static String hadithDetailText = "Sahih al-Bukhari 6066\nSahih Muslim 2563";
 
   static String historyTitle = "The Treaty of Hudaybiyyah";
 

@@ -19,7 +19,7 @@ class CreateJournalScreen extends StatelessWidget {
     }
     return Scaffold(
       appBar: CustomAppBar(
-        text: "Create Journal",
+        text: journal != null ? "Edit Journal" : "Create Journal",
         centerTitle: true,
         showBackIcon: true,
         bgColor: AppColors.appBarBgColor,
@@ -139,7 +139,7 @@ class CreateJournalScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(16.r),
           child: CustomRectangleButton(
-            text: journal != null ? "Update" : "Create",
+            text: journal != null ? "Save" : "Create",
             onTap: () {
               if (!controller.formKey.currentState!.validate()) {
                 return;

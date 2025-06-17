@@ -16,6 +16,7 @@ class HomeScreenCardWidget extends StatelessWidget {
   final int? maxLine;
   final void Function()? onInfoTap;
   final void Function()? onFavoriteIconTap;
+  final bool centerTitle;
   const HomeScreenCardWidget({
     super.key,
     required this.icon,
@@ -32,6 +33,7 @@ class HomeScreenCardWidget extends StatelessWidget {
     this.onInfoTap,
     this.showSahihText = true,
     this.onFavoriteIconTap,
+    this.centerTitle = false,
   });
 
   @override
@@ -105,12 +107,15 @@ class HomeScreenCardWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
                 child: Row(
+                  mainAxisAlignment:
+                      centerTitle ? MainAxisAlignment.center : MainAxisAlignment.start,
                   children: [
                     Expanded(
                       child: CustomText(
                         arabicText ?? '',
                         maxLine: 2,
                         textDirection: TextDirection.rtl,
+                        textAlign: centerTitle ? TextAlign.center : null,
                       ),
                     ),
                   ],
@@ -134,7 +139,19 @@ class HomeScreenCardWidget extends StatelessWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 14),
-                child: Row(children: [Expanded(child: CustomText(englishText ?? '', maxLine: 2))]),
+                child: Row(
+                  mainAxisAlignment:
+                      centerTitle ? MainAxisAlignment.center : MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: CustomText(
+                        englishText ?? '',
+                        maxLine: 2,
+                        textAlign: centerTitle ? TextAlign.center : null,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Divider(color: AppColors.strokeColor, thickness: 1),
@@ -143,7 +160,8 @@ class HomeScreenCardWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    centerTitle ? CrossAxisAlignment.center : CrossAxisAlignment.start,
                 children: [
                   if (showSahihText) CustomText('Sahih', color: AppColors.primary),
                   GestureDetector(
@@ -159,16 +177,28 @@ class HomeScreenCardWidget extends StatelessWidget {
                       );
                     },
                     child: Row(
+                      mainAxisAlignment:
+                          centerTitle ? MainAxisAlignment.center : MainAxisAlignment.start,
                       children: [
-                        Expanded(child: CustomText(detailText ?? '', maxLine: maxLine ?? 2)),
+                        Expanded(
+                          child: CustomText(
+                            detailText ?? '',
+                            maxLine: maxLine ?? 2,
+                            textAlign: centerTitle ? TextAlign.center : null,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   8.verticalSpace,
-                  CustomText(
-                    (dateTime ?? DateTime.now()).toFormatDateTime(),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
+                  Row(
+                    children: [
+                      CustomText(
+                        (dateTime ?? DateTime.now()).toFormatDateTime(),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ],
                   ),
                 ],
               ),

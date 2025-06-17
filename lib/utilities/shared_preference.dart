@@ -51,4 +51,9 @@ class UserPreferences {
   static set saveDouble(double saveDouble) {prefs.setDouble('saveDouble', saveDouble);}
   static double get saveDouble => prefs.getDouble('saveDouble') ?? 0.0;
 
+  static removeUserData () {
+    prefs.remove('authToken');
+    prefs.remove('isLogin');
+    prefs.remove('loginData');
+  }
 }
