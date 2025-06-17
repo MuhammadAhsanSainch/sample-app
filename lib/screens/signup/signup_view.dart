@@ -10,8 +10,6 @@ class SignupView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Check if the device is a tablet
-    bool isTablet = Get.context?.isTablet ?? false;
     return GetBuilder<SignupController>(
       init: SignupController.to,
       builder:
@@ -42,10 +40,7 @@ class SignupView extends StatelessWidget {
                         key: signupFormKey,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment:
-                              isTablet
-                                  ? CrossAxisAlignment.center
-                                  : CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: Get.height * 0.1),
                             GestureDetector(
@@ -185,9 +180,9 @@ class SignupView extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(child: SvgPicture.asset(AppConstants.leftLine)),
-              CustomText('Or Continue With', style: AppTextTheme.bodyLarge),
               Expanded(child: SvgPicture.asset(AppConstants.rightLine)),
+              CustomText('Or Continue With', style: AppTextTheme.bodyLarge),
+              Expanded(child: SvgPicture.asset(AppConstants.leftLine)),
             ],
           ),
         ),

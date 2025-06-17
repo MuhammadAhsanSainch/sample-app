@@ -20,113 +20,121 @@ class LoginView extends StatelessWidget {
             () => CustomLoader(
               isTrue: AppGlobals.isLoading.value,
               child: Scaffold(
+                extendBody: true,
+                backgroundColor: AppColors.scaffoldBackground,
                 resizeToAvoidBottomInset: false,
-                body: Container(
-                  height: Get.height,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                        AppGlobals.isDarkMode.value
-                            ? AppConstants.singInBgDark
-                            : AppConstants.singInBgLight,
+                body: Stack(
+                  children: [
+                    // 1. Background Image (fixed at the bottom of the stack)
+                    Positioned.fill(
+                      // Makes the image fill the entire available space
+                      child: Obx(
+                            () => Image.asset(
+                              AppGlobals.isDarkMode.value
+                                  ? AppConstants.singInBgDark
+                                  : AppConstants.singInBgLight,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.all(16),
-                    child: Form(
-                      key: loginFormKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: Get.height * 0.3),
-                          GestureDetector(
-                            onTap: () {
-                              if (kDebugMode) {
-                                controller.emailTFController.text =
-                                    "ahsan@mailinator.com";
-                                controller.passwordTFController.text = "1235";
-                              }
-                            },
-                            child: CustomText(
-                              "Welcome to Path To Water",
-                              style: AppTextTheme.headlineSmall,
-                            ),
-                          ),
-
-                          ///Email
-                          CustomTextFormField(
-                            controller: controller.emailTFController,
-                            prefixIcon: SvgPicture.asset(AppConstants.mail),
-                            upperLabel: "Email Address",
-                            upperLabelReqStar: "*",
-                            hintValue: "Enter Email Address",
-                            validator: (value) => validateEmail(value),
-                            type: TextInputType.emailAddress,
-                            inputFormatters: [
-                              FilteringTextInputFormatter(
-                                RegExp(r'[a-zA-Z0-9@._-]'),
-                                allow: true,
-                              ),
-                            ],
-                          ),
-
-                          ///Password
-                          CustomTextFormField(
-                            controller: controller.passwordTFController,
-                            upperLabel: "Password",
-                            upperLabelReqStar: "*",
-                            hintValue: "Enter Password",
-                            prefixIcon: SvgPicture.asset(AppConstants.lock),
-                            enableInteractiveSelection: true,
-                            enableSuggestions: false,
-                            obscureText: true,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Password is required';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          SizedBox(height: Get.height * 0.01),
-
-                          ///Forgot Password TextButton
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: InkWell(
+                    // 2. Content (scrollable on top of the background)
+                    SingleChildScrollView(
+                      padding: EdgeInsets.all(16),
+                      child: Form(
+                        key: loginFormKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: Get.height * 0.3),
+                            GestureDetector(
                               onTap: () {
-                                Get.to(
-                                  () => PasswordRecoveryView(),
-                                  binding: ForgotPasswordBinding(),
-                                );
+                                if (kDebugMode) {
+                                  controller.emailTFController.text =
+                                  "ahsan@mailinator.com";
+                                  controller.passwordTFController.text = "1235";
+                                }
                               },
                               child: CustomText(
-                                'Forgot Password?',
-                                style: AppTextTheme.bodyMedium.copyWith(
-                                  color: AppColors.textSecondary,
+                                "Welcome to Path To Water",
+                                style: AppTextTheme.headlineSmall,
+                              ),
+                            ),
+
+                            ///Email
+                            CustomTextFormField(
+                              controller: controller.emailTFController,
+                              prefixIcon: SvgPicture.asset(AppConstants.mail),
+                              upperLabel: "Email Address",
+                              upperLabelReqStar: "*",
+                              hintValue: "Enter Email Address",
+                              validator: (value) => validateEmail(value),
+                              type: TextInputType.emailAddress,
+                              inputFormatters: [
+                                FilteringTextInputFormatter(
+                                  RegExp(r'[a-zA-Z0-9@._-]'),
+                                  allow: true,
+                                ),
+                              ],
+                            ),
+
+                            ///Password
+                            CustomTextFormField(
+                              controller: controller.passwordTFController,
+                              upperLabel: "Password",
+                              upperLabelReqStar: "*",
+                              hintValue: "Enter Password",
+                              prefixIcon: SvgPicture.asset(AppConstants.lock),
+                              enableInteractiveSelection: true,
+                              enableSuggestions: false,
+                              obscureText: true,
+                              maxLines: 1,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Password is required';
+                                }
+                                return null; // Return null if the input is valid
+                              },
+                            ),
+                            SizedBox(height: Get.height * 0.01),
+
+                            ///Forgot Password TextButton
+                            Container(
+                              alignment: Alignment.centerRight,
+                              child: InkWell(
+                                onTap: () {
+                                  Get.to(
+                                        () => PasswordRecoveryView(),
+                                    binding: ForgotPasswordBinding(),
+                                  );
+                                },
+                                child: CustomText(
+                                  'Forgot Password?',
+                                  style: AppTextTheme.bodyMedium.copyWith(
+                                    color: AppColors.textSecondary,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: Get.height * 0.02),
+                            SizedBox(height: Get.height * 0.02),
 
-                          ///Sign In Button
-                          CustomRectangleButton(
-                            width: Get.width,
-                            text: "Login",
-                            onTap: () {
-                              if (!loginFormKey.currentState!.validate()) {
-                                return;
-                              }
-                              controller.logIn();
-                            },
-                          ),
-                          _socialSignInSection(),
-                        ],
+                            ///Sign In Button
+                            CustomRectangleButton(
+                              width: Get.width,
+                              text: "Login",
+                              onTap: () {
+                                if (!loginFormKey.currentState!.validate()) {
+                                  return;
+                                }
+                                controller.logIn();
+                              },
+                            ),
+                            _socialSignInSection(),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
@@ -145,9 +153,9 @@ class LoginView extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(child: SvgPicture.asset(AppConstants.leftLine)),
-              CustomText('Or Continue With', style: AppTextTheme.bodyLarge),
               Expanded(child: SvgPicture.asset(AppConstants.rightLine)),
+              CustomText('Or Continue With', style: AppTextTheme.bodyLarge),
+              Expanded(child: SvgPicture.asset(AppConstants.leftLine)),
             ],
           ),
         ),
