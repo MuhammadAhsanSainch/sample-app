@@ -23,6 +23,8 @@ class VerifyCodeView extends StatelessWidget {
             () => CustomLoader(
               isTrue: AppGlobals.isLoading.value,
               child: Scaffold(
+                extendBody: true,
+                backgroundColor: AppColors.journalBackgroundColor,
                 resizeToAvoidBottomInset: false,
                 body: Container(
                   height: Get.height,

@@ -14,7 +14,9 @@ class ResetPasswordView extends StatelessWidget {
       builder: (controller) => Obx(()=>CustomLoader(
         isTrue: AppGlobals.isLoading.value,
         child: Scaffold(
+          extendBody: true,
           resizeToAvoidBottomInset: false,
+          backgroundColor: AppColors.journalBackgroundColor,
           body: Container(
             height: Get.height,
             decoration: BoxDecoration(
@@ -34,7 +36,7 @@ class ResetPasswordView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: Get.height * 0.4),
+                    SizedBox(height: Get.height * 0.38),
                     InkWell(
                       onTap: () {
                         if (kDebugMode) {
