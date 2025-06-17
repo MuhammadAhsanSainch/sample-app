@@ -17,7 +17,7 @@ class PasswordRecoveryView extends StatelessWidget {
               child: Scaffold(
                 extendBody: true,
                 resizeToAvoidBottomInset: false,
-                backgroundColor: AppColors.scaffoldBackground,
+                backgroundColor: AppColors.journalBackgroundColor,
                 body: Stack(
                   children: [
                     Stack(
@@ -30,7 +30,7 @@ class PasswordRecoveryView extends StatelessWidget {
                                   AppGlobals.isDarkMode.value
                                       ? AppConstants.forgetPassBgDark
                                       : AppConstants.forgetPassBgLight,
-                              fit: BoxFit.fill,
+                              // fit: BoxFit.fill,
                             ),
                           ),
                         ),

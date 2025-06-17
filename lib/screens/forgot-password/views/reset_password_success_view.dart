@@ -7,6 +7,9 @@ class ResetPasswordSuccessView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: AppColors.journalBackgroundColor,
       body: Container(
         height: Get.height,
         padding: EdgeInsets.all(16),
