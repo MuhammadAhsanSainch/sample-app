@@ -1,12 +1,13 @@
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:path_to_water/screens/home/home_controller.dart';
+import 'package:path_to_water/screens/login/login_binding.dart';
+import 'package:path_to_water/screens/login/login_view.dart';
+import 'package:path_to_water/screens/notification/binding/notification_binding.dart';
+import 'package:path_to_water/screens/notification/view/notification_screen.dart';
 import 'package:path_to_water/screens/quiz/quiz_binding.dart';
 import 'package:path_to_water/screens/quiz/views/daily_quiz_view.dart';
 import 'package:path_to_water/screens/settings/settings_binding.dart';
 import 'package:path_to_water/screens/settings/views/settings_screen.dart';
-import 'package:path_to_water/screens/notification/binding/notification_binding.dart';
-import 'package:path_to_water/screens/notification/view/notification_screen.dart';
-import 'package:path_to_water/screens/splash.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_switch_widget.dart';
 
@@ -39,14 +40,22 @@ class CustomAdvancedDrawer extends StatelessWidget {
                 pngIcon: AppConstants.homeIcon,
                 onTap: () => controller.hideDrawer(),
               ),
-              _DrawerItem(label: "Today Quiz", pngIcon: AppConstants.quizDrawerIcon,onTap: (){
-                controller.hideDrawer();
-                Get.to(()=>DailyQuizView(),binding: QuizBinding());
-              },),
-              _DrawerItem(label: "Quiz History", pngIcon: AppConstants.calendarIcon,onTap: (){
-                controller.hideDrawer();
-                Get.to(()=>DailyQuizHistoryView(),binding: QuizBinding());
-              },),
+              _DrawerItem(
+                label: "Today Quiz",
+                pngIcon: AppConstants.quizDrawerIcon,
+                onTap: () {
+                  controller.hideDrawer();
+                  Get.to(() => DailyQuizView(), binding: QuizBinding());
+                },
+              ),
+              _DrawerItem(
+                label: "Quiz History",
+                pngIcon: AppConstants.calendarIcon,
+                onTap: () {
+                  controller.hideDrawer();
+                  Get.to(() => DailyQuizHistoryView(), binding: QuizBinding());
+                },
+              ),
 
               _DrawerItem(
                 label: "Journal",
@@ -92,12 +101,8 @@ class CustomAdvancedDrawer extends StatelessWidget {
                 label: "Sign Out",
                 pngIcon: AppConstants.logoutIcon,
                 onTap: () {
-                  UserPreferences.loginData = {};
-                  UserPreferences.isLogin = false;
-                  UserPreferences.authToken = "";
-                  controller.hideDrawer();
-                  Get.offAll(() => SplashScreen(),
-                  );
+                  UserPreferences.removeUserData();
+                  Get.offAll(() => LoginView(), binding: LoginBinding());
                 },
               ),
             ],

@@ -30,6 +30,10 @@ class HomeView extends StatelessWidget {
               centerTitle: true,
               bgColor: Colors.transparent,
               onMenuPressed: () {
+                if (!controller.isLogin) {
+                  controller.showLoginDialog();
+                  return;
+                }
                 controller.drawerController.showDrawer();
               },
             ),
@@ -76,6 +80,10 @@ class HomeView extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
+                            if (!controller.isLogin) {
+                              controller.showLoginDialog();
+                              return;
+                            }
                             controller.currentTabIndex.value = 1;
                           },
                           child: buildSvgIconWidget(
@@ -86,6 +94,10 @@ class HomeView extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
+                            if (!controller.isLogin) {
+                              controller.showLoginDialog();
+                              return;
+                            }
                             controller.currentTabIndex.value = 2;
                           },
                           child: buildSvgIconWidget(
@@ -96,9 +108,10 @@ class HomeView extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            // UserPreferences.isLogin
-                            //     ? controller.currentTabIndex.value = 3
-                            //     : controller.showLoginDialog();
+                            if (!controller.isLogin) {
+                              controller.showLoginDialog();
+                              return;
+                            }
                             controller.currentTabIndex.value = 3;
                           },
                           child: buildSvgIconWidget(

@@ -5,8 +5,6 @@ import 'package:path_to_water/screens/home/home_view.dart';
 
 import '../models/auth_model.dart';
 import '../utilities/app_exports.dart';
-import 'login/login_binding.dart';
-import 'login/login_view.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -33,8 +31,8 @@ class _SplashScreenState extends State<SplashScreen> {
         Get.offAll(() => HomeView(), binding: HomeBinding());
         // Get.offAll(() => LoginView(), binding: LoginBinding());
       } else {
-        // Get.offAll(() => HomeView(), binding: HomeBinding());
-        Get.offAll(() => LoginView(), binding: LoginBinding());
+        Get.offAll(() => HomeView(), binding: HomeBinding());
+        // Get.offAll(() => LoginView(), binding: LoginBinding());
       }
     });
   }

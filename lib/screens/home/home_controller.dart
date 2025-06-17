@@ -21,6 +21,8 @@ class HomeController extends GetxController {
 
   final AdvancedDrawerController drawerController = AdvancedDrawerController();
 
+  bool get isLogin => UserPreferences.isLogin;
+
   static HomeController get find {
     try {
       return Get.find<HomeController>();
@@ -30,17 +32,17 @@ class HomeController extends GetxController {
   }
 
   var pageTitle = <String>[
-    "Home",
-    "Reminder",
-    "Calendar",
-    "My Profile",
-    "Daily Quiz",
-    "Quiz History",
-    "Journal",
-    "Notification",
-    "Subscription",
-    "Favorites",
-    "Settings",
+    "Home", // 0
+    "Reminder", // 1
+    "Calendar", // 2
+    "My Profile", // 3
+    "Daily Quiz", // 4
+    "Quiz History", //5
+    "Journal", // 6
+    "Notification", // 7
+    "Subscription", // 8
+    "Favorites", // 9
+    "Settings", // 10
   ];
 
   var pages = <Widget>[
