@@ -12,4 +12,13 @@ class QuizServices{
     }
   }
 
+  static Future<DailyQuizModel> submitQuiz({required String quizId, required Map<String, dynamic> data}) async {
+    final res = await ApiClient().post('${AppUrl.submitQuizApi}/$quizId/submit',data: data);
+    if (res.data is List) {
+      return DailyQuizModel.fromJson(res.data[0]);
+    } else {
+      return DailyQuizModel.fromJson(res.data);
+    }
+  }
+
 }

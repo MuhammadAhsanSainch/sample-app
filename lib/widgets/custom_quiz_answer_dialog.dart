@@ -211,7 +211,6 @@ class CustomResultDialog extends StatelessWidget {
       correctAnswers,
           (index) => SvgPicture.asset(
         AppConstants.star,
-        // key: ValueKey('star_$index'), // Good practice for keys
         width: 24, // Optional: specify size
         height: 24, // Optional: specify size
         colorFilter: ColorFilter.mode(Colors.amber, BlendMode.srcIn), // Optional: color the SVG

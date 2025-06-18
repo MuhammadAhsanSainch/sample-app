@@ -52,10 +52,8 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final double diameter = min(
-          constraints.maxWidth,
-          constraints.maxHeight,
-        );
+        final double rawDiameter = min(constraints.maxWidth, constraints.maxHeight);
+        final double diameter = rawDiameter.clamp(140.0, double.infinity);
         return Center(
           child: SizedBox(
             width: diameter - 70,
