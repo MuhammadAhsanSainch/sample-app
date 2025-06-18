@@ -4,7 +4,6 @@ import 'package:path_to_water/screens/journal/controllers/journal_screen_control
 import 'package:path_to_water/screens/journal/views/create_journal_screen.dart';
 import 'package:path_to_water/screens/reminder/bindings/create_reminder_screen_binding.dart';
 import 'package:path_to_water/screens/reminder/views/create_reminder_screen.dart';
-import 'package:path_to_water/utilities/app_helper.dart';
 import 'package:path_to_water/widgets/custom_advanced_drawer.dart';
 
 import '../../utilities/app_exports.dart';
@@ -58,7 +57,7 @@ class HomeView extends StatelessWidget {
                   topRight: Radius.circular(24),
                 ),
                 child: BottomAppBar(
-                  height: Helper.getNormDim(95.h, 85.h),
+                  height: 75.h,
                   clipBehavior: Clip.antiAlias,
                   shape: CircularNotchedRectangle(),
                   color: AppColors.primary,
@@ -68,57 +67,70 @@ class HomeView extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            controller.currentTabIndex.value = 0;
-                          },
-                          child: buildSvgIconWidget(
-                            assetName: AppConstants.homeIcon,
-                            label: "Home",
-                            isSelected: controller.currentTabIndex.value == 0,
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.currentTabIndex.value = 0;
+                            },
+                            child: buildSvgIconWidget(
+                              assetName: AppConstants.homeIcon,
+                              label: "Home",
+                              isSelected: controller.currentTabIndex.value == 0,
+                            ),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            if (!controller.isLogin) {
-                              controller.showLoginDialog();
-                              return;
-                            }
-                            controller.currentTabIndex.value = 1;
-                          },
-                          child: buildSvgIconWidget(
-                            assetName: AppConstants.calendarIcon,
-                            label: "Reminder",
-                            isSelected: controller.currentTabIndex.value == 1,
+                        4.horizontalSpace,
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (!controller.isLogin) {
+                                controller.showLoginDialog();
+                                return;
+                              }
+                              controller.currentTabIndex.value = 1;
+                            },
+                            child: buildSvgIconWidget(
+                              assetName: AppConstants.clockIcon,
+                              label: "Reminder",
+                              isSelected: controller.currentTabIndex.value == 1,
+                            ),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            if (!controller.isLogin) {
-                              controller.showLoginDialog();
-                              return;
-                            }
-                            controller.currentTabIndex.value = 2;
-                          },
-                          child: buildSvgIconWidget(
-                            assetName: AppConstants.clockIcon,
-                            label: "Calendar",
-                            isSelected: controller.currentTabIndex.value == 2,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            if (!controller.isLogin) {
-                              controller.showLoginDialog();
-                              return;
-                            }
-                            controller.currentTabIndex.value = 3;
-                          },
-                          child: buildSvgIconWidget(
-                            assetName: AppConstants.profileIcon,
+                        4.horizontalSpace,
 
-                            label: "Profile",
-                            isSelected: controller.currentTabIndex.value == 3,
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (!controller.isLogin) {
+                                controller.showLoginDialog();
+                                return;
+                              }
+                              controller.currentTabIndex.value = 2;
+                            },
+                            child: buildSvgIconWidget(
+                              assetName: AppConstants.calendarIcon,
+                              label: "Calendar",
+                              isSelected: controller.currentTabIndex.value == 2,
+                            ),
+                          ),
+                        ),
+                        4.horizontalSpace,
+
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (!controller.isLogin) {
+                                controller.showLoginDialog();
+                                return;
+                              }
+                              controller.currentTabIndex.value = 3;
+                            },
+                            child: buildSvgIconWidget(
+                              assetName: AppConstants.profileIcon,
+
+                              label: "Profile",
+                              isSelected: controller.currentTabIndex.value == 3,
+                            ),
                           ),
                         ),
                       ],
@@ -163,31 +175,25 @@ class HomeView extends StatelessWidget {
     required String label,
     bool isSelected = false,
   }) {
-    return Stack(
-      fit: StackFit.loose,
-      alignment: Alignment.bottomCenter,
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.lightColor : Colors.transparent,
-            borderRadius: BorderRadius.circular(18),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        color: isSelected ? AppColors.lightColor : Colors.transparent,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CustomImageView(
+            imagePath: assetName,
+            height: 22,
+            width: 22,
+            color: isSelected ? AppColors.primary : AppColors.lightColor,
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomImageView(
-                imagePath: assetName,
-                height: 22,
-                width: 22,
-                color: isSelected ? AppColors.primary : AppColors.lightColor,
-              ),
-              4.verticalSpace,
-              CustomText(label, color: isSelected ? AppColors.primary : AppColors.lightColor),
-            ],
-          ),
-        ),
-      ],
+          4.verticalSpace,
+          CustomText(label, color: isSelected ? AppColors.primary : AppColors.lightColor),
+        ],
+      ),
     );
   }
 }

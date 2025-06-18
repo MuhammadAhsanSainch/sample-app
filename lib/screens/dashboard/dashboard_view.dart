@@ -25,7 +25,8 @@ class DashboardView extends StatelessWidget {
           child: Column(
             children: [
               Stack(
-                alignment: Alignment.bottomCenter,
+                // alignment: Alignment.bottomCenter,
+                clipBehavior: Clip.none,
                 children: [
                   CustomImageView(
                     imagePath:
@@ -36,50 +37,58 @@ class DashboardView extends StatelessWidget {
                     width: size.width,
                     fit: BoxFit.fitWidth,
                   ),
-                  Obx(() {
-                    return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.w),
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(
-                        color: AppColors.scaffoldBackground,
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: AppColors.primary, width: 1),
-                      ),
-                      child: TabBar(
-                        controller: controller.tabController,
-                        dividerColor: Colors.transparent,
-                        labelPadding: EdgeInsets.zero,
-                        tabs: [
-                          CustomTab(
-                            imagePath: AppConstants.quranIcon,
-                            title: "Quran",
-                            isSelected: controller.currentTabIndex.value == 0,
+                  Positioned(
+                    bottom: -10.h,
+                    left: 0,
+                    child: Obx(() {
+                      return SizedBox(
+                        width: size.width,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.w),
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          height: 48.h,
+                          decoration: BoxDecoration(
+                            color: AppColors.scaffoldBackground,
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(color: AppColors.primary, width: 1),
                           ),
-                          CustomTab(
-                            imagePath: AppConstants.hadithIcon,
-                            title: "Hadith",
-                            isSelected: controller.currentTabIndex.value == 1,
+                          child: TabBar(
+                            controller: controller.tabController,
+                            dividerColor: Colors.transparent,
+                            labelPadding: EdgeInsets.zero,
+                            tabs: [
+                              CustomTab(
+                                imagePath: AppConstants.quranIcon,
+                                title: "Quran",
+                                isSelected: controller.currentTabIndex.value == 0,
+                              ),
+                              CustomTab(
+                                imagePath: AppConstants.hadithIcon,
+                                title: "Hadith",
+                                isSelected: controller.currentTabIndex.value == 1,
+                              ),
+                              CustomTab(
+                                imagePath: AppConstants.quranIcon,
+                                title: "History",
+                                isSelected: controller.currentTabIndex.value == 2,
+                              ),
+                            ],
+                            isScrollable: false,
+                            indicator: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            onTap: (value) {
+                              controller.currentTabIndex.value = value;
+                            },
                           ),
-                          CustomTab(
-                            imagePath: AppConstants.quranIcon,
-                            title: "History",
-                            isSelected: controller.currentTabIndex.value == 2,
-                          ),
-                        ],
-                        isScrollable: false,
-                        indicator: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(12.r),
                         ),
-                        onTap: (value) {
-                          controller.currentTabIndex.value = value;
-                        },
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+                  ),
                 ],
               ),
-              20.verticalSpace,
+              30.verticalSpace,
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () async => controller.onRefresh(),
@@ -103,6 +112,7 @@ class DashboardView extends StatelessWidget {
                                   englishText: controller.quranAyatRes?.textRoman ?? "-",
                                   detailText: controller.quranAyatRes?.textEnglish ?? "-",
                                   centerTitle: true,
+                                  ayatNumber: controller.quranAyatRes?.ayahNumber,
                                   isFavorite: controller.quranAyatRes?.isFavorite ?? false,
                                   onFavoriteIconTap: () {
                                     if (!homeController.isLogin) {
@@ -127,7 +137,7 @@ class DashboardView extends StatelessWidget {
                                             controller.quranAyatRes?.detailEnglishPopup ?? "-",
                                         arabicContent:
                                             controller.quranAyatRes?.detailArabicPopup ?? "-",
-                                        date: controller.quranAyatRes?.dateAdded ?? DateTime.now(),
+                                        date: controller.quranAyatRes?.publishDate ?? DateTime.now(),
                                       ),
                                 );
                               },
@@ -148,6 +158,7 @@ class DashboardView extends StatelessWidget {
                                   detailText: controller.hadithRes?.sahihReference ?? "-",
                                   isFavorite: controller.hadithRes?.isFavorite ?? false,
                                   centerTitle: true,
+                                  dateTime: controller.hadithRes?.publishDate ?? DateTime.now(),
                                   onFavoriteIconTap: () {
                                     if (!homeController.isLogin) {
                                       homeController.showLoginDialog();
@@ -187,6 +198,8 @@ class DashboardView extends StatelessWidget {
                                   isFavorite: controller.historyRes?.isFavorite ?? false,
                                   showSahihText: false,
                                   centerTitle: true,
+                                  dateTime: controller.hadithRes?.publishDate ?? DateTime.now(),
+
                                   onFavoriteIconTap: () {
                                     if (!homeController.isLogin) {
                                       homeController.showLoginDialog();

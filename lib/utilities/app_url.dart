@@ -19,4 +19,6 @@ class AppUrl {
   
   static const String historyFavoriteApi = "user/histories/favorites";
   static const String historyApi = "user/histories"; 
+
+  static const String dailyContent = "dashboard"; 
 }

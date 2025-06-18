@@ -41,6 +41,8 @@ class FavoriteScreen extends StatelessWidget {
                 Obx(() {
                   return Container(
                     padding: EdgeInsets.symmetric(vertical: 10),
+                    height: 48.h,
+
                     decoration: BoxDecoration(
                       color: AppColors.scaffoldBackground,
                       borderRadius: BorderRadius.circular(12.r),
@@ -70,7 +72,7 @@ class FavoriteScreen extends StatelessWidget {
                       isScrollable: false,
                       indicator: BoxDecoration(
                         color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(12.r),
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
                       onTap: (value) {
                         controller.currentTabIndex.value = value;
@@ -125,6 +127,10 @@ class FavoriteScreen extends StatelessWidget {
                                       controller.favoriteAyat[index].ayah?.textEnglish ?? "-",
                                   centerTitle: true,
                                   isFavorite: true,
+                                  dateTime:
+                                      controller.favoriteAyat[index].ayah?.publishDate ??
+                                      DateTime.now(),
+
                                   onFavoriteIconTap:
                                       () => controller.onFavoriteIconTap(
                                         controller.favoriteAyat[index].ayah?.id,
@@ -169,6 +175,9 @@ class FavoriteScreen extends StatelessWidget {
                                   detailText:
                                       controller.favoriteHadith[index].hadith?.sahihReference ??
                                       "-",
+                                  dateTime:
+                                      controller.favoriteHadith[index].hadith?.publishDate ??
+                                      DateTime.now(),
                                   isFavorite: true,
                                   centerTitle: true,
                                   onFavoriteIconTap:
@@ -204,6 +213,9 @@ class FavoriteScreen extends StatelessWidget {
                                   maxLine: 7,
                                   detailText:
                                       controller.favoriteHistory[index].history?.detail ?? "-",
+                                  dateTime:
+                                      controller.favoriteHistory[index].history?.publishDate ??
+                                      DateTime.now(),
                                   showSahihText: false,
                                   isFavorite: true,
                                   centerTitle: true,

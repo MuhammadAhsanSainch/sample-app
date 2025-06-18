@@ -69,6 +69,7 @@ class JournalListingScreen extends StatelessWidget {
                                 controller.onDateSelected(date);
                                 controller.generateVisibleDates(date);
                                 controller.scrollToSelectedDate(infiniteScrollController);
+                                journalScreenController.onRefresh(date);
                               },
                             );
                           },
@@ -97,7 +98,7 @@ class JournalListingScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: CustomTextFormField(
-                  controller: controller.searchController,
+                  controller: journalScreenController.searchController,
                   upperLabel: "",
                   upperLabelReqStar: "",
                   hintValue: "Search",
@@ -108,6 +109,7 @@ class JournalListingScreen extends StatelessWidget {
                     height: 24.h,
                     fit: BoxFit.contain,
                   ),
+                  onChanged: journalScreenController.onSearch,
                 ),
               ),
               12.verticalSpace,
@@ -216,7 +218,10 @@ class JournalListingScreen extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: () => controller.onDateSelected(date),
+      onTap: () {
+        controller.onDateSelected(date);
+        journalScreenController.onRefresh(date);
+      },
       child: Container(
         width: 60.w, // Fixed width for each date item
         margin: EdgeInsets.symmetric(horizontal: 4),

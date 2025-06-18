@@ -264,10 +264,10 @@ class _DualCalendarViewState extends State<DualCalendarView> {
                   fontSize: 13,
                   fontWeight: FontWeight.normal,
                   color:
-                      isSelected
-                          ? AppColors.lightColor
-                          : isToday
+                      isToday
                           ? AppColors.scaffoldBackground
+                          : isSelected
+                          ? AppColors.lightColor
                           : (isCurrentMonth ? _dayNumberColor : _otherMonthDayNumberColor),
                 ),
               ),

@@ -1,10 +1,19 @@
 import 'package:path_to_water/api_core/api_client.dart';
+import 'package:path_to_water/models/daily_content_model.dart';
 import 'package:path_to_water/models/hadith_model.dart';
 import 'package:path_to_water/models/history_model.dart';
 import 'package:path_to_water/models/quran_ayat_model.dart';
-import 'package:path_to_water/utilities/app_url.dart';
+import 'package:path_to_water/utilities/app_exports.dart';
 
 class AyatAndHadithService {
+  static Future<DailyContent> getDailyContent() async {
+    final res = await ApiClient().get(
+      AppUrl.dailyContent,
+      queryParameters: {"date": DateTime.now().toUtc().toFormatDateTime(format: "yyyy-MM-dd")},
+    );
+    return DailyContent.fromJson(res.data);
+  }
+
   static Future<QuranAyatModel> getDailyAyat() async {
     final res = await ApiClient().get(AppUrl.ayahApi);
     if (res.data is List) {

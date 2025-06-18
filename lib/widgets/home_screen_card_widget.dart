@@ -17,6 +17,7 @@ class HomeScreenCardWidget extends StatelessWidget {
   final void Function()? onInfoTap;
   final void Function()? onFavoriteIconTap;
   final bool centerTitle;
+  final num? ayatNumber;
   const HomeScreenCardWidget({
     super.key,
     required this.icon,
@@ -34,6 +35,7 @@ class HomeScreenCardWidget extends StatelessWidget {
     this.showSahihText = true,
     this.onFavoriteIconTap,
     this.centerTitle = false,
+    this.ayatNumber,
   });
 
   @override
@@ -72,6 +74,15 @@ class HomeScreenCardWidget extends StatelessWidget {
                   constraints: BoxConstraints(maxWidth: size.width * 0.5),
                   child: CustomText(title ?? '', fontSize: 16.sp, fontWeight: FontWeight.w600),
                 ),
+                if (ayatNumber != null) ...[
+                  4.horizontalSpace,
+                  CustomText(
+                    "($ayatNumber)",
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primary,
+                  ),
+                ],
                 8.horizontalSpace,
                 InkWell(
                   onTap: onInfoTap,

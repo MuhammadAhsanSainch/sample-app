@@ -1,6 +1,9 @@
 import 'package:path_to_water/screens/reminder/controller/create_reminder_screen_controller.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
+import 'package:path_to_water/widgets/custom_check_box.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
+import 'package:path_to_water/widgets/custom_radio_button.dart';
+import 'package:path_to_water/widgets/custom_tab_widget.dart';
 
 class CreateReminderScreen extends StatelessWidget {
   const CreateReminderScreen({super.key});
@@ -35,7 +38,56 @@ class CreateReminderScreen extends StatelessWidget {
                 height: 80.h,
                 fit: BoxFit.contain,
               ),
-              40.verticalSpace,
+              20.verticalSpace,
+              Obx(() {
+                return Container(
+                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+
+                  height: 36.h,
+
+                  decoration: BoxDecoration(
+                    color: AppColors.scaffoldBackground,
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: AppColors.primary, width: 1),
+                  ),
+                  child: DefaultTabController(
+                    length: 4,
+                    child: TabBar(
+                      dividerColor: Colors.transparent,
+                      labelPadding: EdgeInsets.zero,
+                      tabs: [
+                        CustomTab(
+                          title: "Daily",
+                          isSelected: controller.currentTabIndex.value == 0,
+                        ),
+                        CustomTab(
+                          title: "Weekly",
+                          isSelected: controller.currentTabIndex.value == 1,
+                        ),
+                        CustomTab(
+                          title: "Monthly",
+                          isSelected: controller.currentTabIndex.value == 2,
+                        ),
+                        CustomTab(
+                          title: "Yearly",
+                          isSelected: controller.currentTabIndex.value == 2,
+                        ),
+                      ],
+                      isScrollable: false,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicator: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                      onTap: (value) {
+                        controller.currentTabIndex.value = value;
+                        controller.update();
+                      },
+                    ),
+                  ),
+                );
+              }),
+              20.verticalSpace,
               CustomTextFormField(
                 upperLabel: "Title",
                 controller: controller.reminderTitleController,
@@ -81,6 +133,55 @@ class CreateReminderScreen extends StatelessWidget {
                 type: TextInputType.multiline,
               ),
               8.verticalSpace,
+
+              ///1
+              GetBuilder(
+                init: controller,
+                id: "type",
+                builder: (_) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 3),
+                    child: Column(
+                      children: [
+                        12.verticalSpace,
+                        ReminderTypeRadioWidget(
+                          type: ReminderType.once,
+                          groupValue: controller.selectedReminderType,
+                          onChanged: controller.onReminderTypeSelect,
+                        ),
+                        const SizedBox(width: 24, height: 12),
+                        ReminderTypeRadioWidget(
+                          type: ReminderType.repeat,
+                          groupValue: controller.selectedReminderType,
+                          onChanged: controller.onReminderTypeSelect,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+
+              ///2
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     Obx(() {
+              //       return CustomCheckBox(
+              //         label: "Repeat",
+              //         value: controller.isRepeat.value,
+              //         shadowColor:
+              //             AppGlobals.isDarkMode.value ? Colors.transparent : Colors.grey.shade300,
+              //         fillColor: AppColors.dialogBgColor,
+              //         activeColor: AppColors.primary,
+              //         padding: EdgeInsets.only(left: 4),
+              //         onChanged: (value) {
+              //           controller.isRepeat.value = value;
+              //         },
+              //       );
+              //     }),
+              //   ],
+              // ),
+              8.verticalSpace,
             ],
           ),
         ],
@@ -89,7 +190,7 @@ class CreateReminderScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(16.r),
           child: CustomRectangleButton(
-            text: "Create Reminder",
+            text: "CreateReminder",
             onTap: () {
               Get.dialog(
                 CustomDialog(
@@ -108,6 +209,62 @@ class CreateReminderScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ReminderTypeRadioWidget extends StatelessWidget {
+  final ReminderType type;
+  final ReminderType groupValue;
+  final void Function(ReminderType?) onChanged;
+  final bool isDisabled;
+  const ReminderTypeRadioWidget({
+    super.key,
+    required this.type,
+    required this.onChanged,
+    required this.groupValue,
+    this.isDisabled = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: isDisabled ? null : () => onChanged(type),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.only(left: 8),
+        decoration: BoxDecoration(
+          color: AppColors.primary.withAlpha(30),
+          border: Border.all(color: AppColors.primary),
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CustomText(type.name, fontWeight: FontWeight.w500, fontSize: 16.sp),
+            CustomRadio<ReminderType>(
+              value: type,
+              groupValue: groupValue,
+
+              activeColor: isDisabled ? AppColors.greyTextColor : AppColors.primary,
+              outLineColor: isDisabled ? AppColors.greyTextColor : AppColors.primary,
+              onChanged: onChanged,
+            ),
+          ],
+        ),
+      ),
+    );
+    return Row(
+      children: [
+        CustomRadio<ReminderType>(
+          value: type,
+          groupValue: groupValue,
+          activeColor: isDisabled ? AppColors.greyTextColor : AppColors.primary,
+          outLineColor: isDisabled ? AppColors.greyTextColor : AppColors.primary,
+          onChanged: onChanged,
+        ),
+        CustomText(type.name, fontWeight: FontWeight.w500, fontSize: 16.sp),
+      ],
     );
   }
 }

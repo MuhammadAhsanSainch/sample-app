@@ -49,7 +49,6 @@ class FavoriteService {
     if (res.data is List) {
       return List<FavoriteHadithModel>.from(res.data.map((x) => FavoriteHadithModel.fromJson(x)));
     }
-
     return [];
   }
 
