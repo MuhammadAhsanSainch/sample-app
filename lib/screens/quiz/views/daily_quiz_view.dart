@@ -1,233 +1,197 @@
 import 'package:path_to_water/screens/quiz/quiz_controller.dart';
-import 'package:path_to_water/screens/quiz/views/daily_quiz_history_view.dart';
+import 'package:path_to_water/utilities/app_exports.dart';
+import 'package:path_to_water/widgets/custom_arc_slider.dart';
 
-import '../../../utilities/app_exports.dart';
-import '../../../widgets/custom_arc_slider.dart';
-import '../../../widgets/custom_quiz_answer_dialog.dart';
-
-class DailyQuizView extends StatefulWidget {
+class DailyQuizView extends StatelessWidget {
   const DailyQuizView({super.key});
 
-  @override
-  State<DailyQuizView> createState() => _DailyQuizViewState();
-}
+  QuizController get controller => Get.find<QuizController>();
 
-class _DailyQuizViewState extends State<DailyQuizView> {
   @override
   Widget build(BuildContext context) {
-    return GetX<QuizController>(
-      builder: (controller) {
-        final currentQuestion =
-            controller.questions[controller.currentQuestionIndex];
+    return GetBuilder<QuizController>(
+      init: controller, // Initialize the controller for this GetBuilder
+      builder: (_) {
         return Scaffold(
           extendBody: true,
           backgroundColor: AppColors.scaffoldBackground,
-          appBar: CustomAppBar(
-            text: 'Daily Quiz',
-            showBackIcon: true,
-            trailingWidget: Visibility(
-              visible: controller.selectedAnswer?.isNotEmpty ?? false,
-              child: IconButton(
-                onPressed: () {
-                  Get.dialog(
-                    CustomQuizAnswerDialog(
-                      question: currentQuestion['question'],
-                      givenAnswer: controller.selectedAnswer ?? '',
-                      actualAnswer: currentQuestion['correctAnswer'],
-                      explanation: currentQuestion['explanation'],
-                      onNextButtonTap: () {
-                        Navigator.pop(context);
-                        if (controller.currentQuestionIndex <
-                            controller.questions.length - 1) {
-                          setState(() {
-                            controller.currentQuestionIndex++;
-                          });
-                          controller.onInitialValueChanged(
-                            controller.initialValue + 1,
-                          );
-                          controller.selectedAnswer = '';
-                          controller.update();
-                        } else {
-                          Get.dialog(
-                            CustomResultDialog(
-                              totalQuestions: 5,
-                              correctAnswers: 4,
-                              onViewQuizHistoryButtonTap: () {
-                                Navigator.pop(context);
-                                Get.to(() => DailyQuizHistoryView());
-                              },
-                            ),
-                            barrierDismissible: false,
-                          );
-                        }
-                      },
-                    ),
-                    barrierDismissible: false,
-                  );
-                },
-                icon: Row(
-                  spacing: 8,
-                  children: [
-                    CustomText(
-                      'Next',
-                      style: AppTextTheme.bodyLarge.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    Icon(Icons.arrow_forward, color: AppColors.textSecondary),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          body: Stack(
-            children: [
-              // 1. Background Image (fixed at the bottom of the stack)
-              Positioned.fill(
-                // Makes the image fill the entire available space
-                child: Obx(
-                  () => Image.asset(
-                    // Use Image.asset directly
-                    AppGlobals.isDarkMode.value
-                        ? AppConstants.quizBgDark
-                        : AppConstants.quizBgLight,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              // 2. Content (scrollable on top of the background)
-              Stack(
-                children: [
-                  Positioned(
-                    bottom: 2,
-                    right: -2,
-                    left: -2,
-                    child: GetBuilder(
-                      init: controller,
-                      id: 'slider',
-                      builder:
-                          (controller) => CustomArcSlider(
-                            maxValue: controller.questions.length,
-                            initialValue: controller.initialValue,
-                          ),
-                    ),
-                  ),
-                  Obx(
-                    () => Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        20.verticalSpace,
-                        CustomText(
-                          currentQuestion['question'],
-                          style: AppTextTheme.headlineSmall,
-                          maxLine: 4,
-                          textAlign: TextAlign.center,
-                        ),
-                        10.verticalSpace,
-                        ...currentQuestion['options'].asMap().entries.map<
-                          Widget
-                        >((entry) {
-                          int index = entry.key;
-                          String option = entry.value;
-                          bool isSelected = controller.selectedAnswer == option;
-
-                          String? label;
-                          switch (index) {
-                            case 0:
-                              label = 'A';
-                              break;
-                            case 1:
-                              label = 'B';
-                              break;
-                            case 2:
-                              label = 'C';
-                              break;
-                            case 3:
-                              label = 'D';
-                              break;
-                          }
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                controller.selectedLabel = label;
-                                controller.selectedAnswer = option;
-                              });
-                            },
-                            child: Container(
-                              height: 48,
-                              width: Get.width,
-                              margin: EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 5,
-                              ),
-                              decoration: BoxDecoration(
-                                color:
-                                    isSelected
-                                        ? AppColors.primary
-                                        : AppColors.textFieldFillColor,
-                                border: Border.all(
-                                  color: AppColors.textFieldBorderColor,
-                                ),
-                                borderRadius: BorderRadius.circular(9),
-                              ),
-                              child: Row(
-                                spacing: 20,
-                                children: [
-                                  2.horizontalSpace,
-                                  Container(
-                                    height: 36,
-                                    width: 36,
-                                    padding: EdgeInsets.all(4),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color:
-                                          isSelected
-                                              ? Colors.white
-                                              : AppColors.textFieldFillColor,
-                                      border: Border.all(
-                                        color:
-                                            isSelected
-                                                ? Colors.white
-                                                : AppColors.primary,
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: CustomText(
-                                        label,
-                                        style: AppTextTheme.bodyLarge.copyWith(
-                                          color: AppColors.primary,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: CustomText(
-                                      option,
-                                      style:
-                                          isSelected
-                                              ? AppTextTheme.bodyLarge.copyWith(
-                                                color: Colors.white,
-                                              )
-                                              : AppTextTheme.bodyLarge.copyWith(
-                                                color: AppColors.primary,
-                                              ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+          appBar: _buildAppBar(context),
+          // Extracted AppBar to a separate method
+          body: _buildBody(), // Extracted Body to a separate method
         );
       },
     );
+  }
+
+  // --- Widget Building Methods ---
+
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    return CustomAppBar(
+      text: 'Daily Quiz',
+      showBackIcon: true,
+      trailingWidget: Obx(
+        () => Visibility(
+          // Use Obx here since selectedAnswer is an RxString
+          visible: controller.selectedOption.value.isNotEmpty,
+          child: IconButton(
+            onPressed: () => controller.showAnswerDialog(context),
+            // Extracted dialog logic
+            icon: Row(
+              spacing: 8,
+              children: [
+                CustomText(
+                  'Next',
+                  style: AppTextTheme.bodyLarge.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
+                Icon(Icons.arrow_forward, color: AppColors.textSecondary),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBody() {
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            AppGlobals.isDarkMode.value
+                ? AppConstants.quizBgDark
+                : AppConstants.quizBgLight,
+            fit: BoxFit.cover,
+          ),
+        ),
+        Obx(
+          () =>
+              controller.isLoading.value
+                  ? const Center(
+                    child: CircularProgressIndicator(),
+                  ) // Use const for performance
+                  : _buildQuizContent(), // Extracted quiz content
+        ),
+      ],
+    );
+  }
+
+  Widget _buildQuizContent() {
+    return GetBuilder<QuizController>(
+      id: "dailyQuiz", // Ensure this ID matches the one updated in controller
+      builder: (_) {
+        if (controller.dailyQuizModel?.questions?.isNotEmpty ?? false) {
+          return Stack(
+            children: [
+              Positioned(
+                bottom: 2,
+                right: -2,
+                left: -2,
+                child: GetBuilder<QuizController>(
+                  id: 'slider',
+                  // Separate ID for the slider if it updates independently
+                  builder: (_) {
+                    return CustomArcSlider(
+                      maxValue:
+                          controller.dailyQuizModel?.questions?.length ?? 0,
+                      initialValue: controller.initialValue,
+                    );
+                  },
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  30.verticalSpace,
+                  CustomText(
+                    controller.currentQuestion?.text ?? '',
+                    style: AppTextTheme.headlineSmall,
+                    maxLine: 4,
+                    textAlign: TextAlign.center,
+                  ),
+                  10.verticalSpace,
+                  if (controller.currentQuestion?.options?.isNotEmpty ?? false)
+                    ..._buildOptionButtons(), // Extracted option buttons
+                ],
+              ),
+            ],
+          );
+        } else {
+          return Center(
+            child: CustomText(
+              'No Quiz For Today!',
+              style: AppTextTheme.titleLarge,
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  List<Widget> _buildOptionButtons() {
+    return controller.currentQuestion!.options!.asMap().entries.map((entry) {
+      int index = entry.key;
+      var option = entry.value;
+      bool isSelected = controller.selectedOption.value == option?.text;
+      String label = ['A', 'B', 'C', 'D'][index];
+
+      return GestureDetector(
+        onTap: () {
+          controller.selectedOptionId.value=option?.id??'';
+          controller.selectAnswer(
+            label: label,
+            answer: option?.text ?? '',
+          );
+        },
+        child: Container(
+          height: 48,
+          width: Get.width,
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+            color:
+                isSelected ? AppColors.primary : AppColors.textFieldFillColor,
+            border: Border.all(color: AppColors.textFieldBorderColor),
+            borderRadius: BorderRadius.circular(9),
+          ),
+          child: Row(
+            children: [
+              8.horizontalSpace,
+              Container(
+                height: 36,
+                width: 36,
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color:
+                      isSelected ? Colors.white : AppColors.textFieldFillColor,
+                  border: Border.all(
+                    color: isSelected ? Colors.white : AppColors.primary,
+                  ),
+                ),
+                child: Center(
+                  child: CustomText(
+                    label,
+                    style: AppTextTheme.bodyLarge.copyWith(
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
+              ),
+              8.horizontalSpace,
+              Expanded(
+                child: CustomText(
+                  option?.text,
+                  style: AppTextTheme.bodyLarge.copyWith(
+                    color: isSelected ? Colors.white : AppColors.primary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }).toList(); // Convert to a list of widgets
   }
 }

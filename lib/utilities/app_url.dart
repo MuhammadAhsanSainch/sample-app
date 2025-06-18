@@ -10,6 +10,8 @@ class AppUrl {
   static const String changePasswordApi = "user/change-password";
   static const String deleteAccountApi = "user/account";
   static const String journalApi = "journals";
+  static const String getDailyQuizApi = "quizzes/daily";
+  static const String submitQuizApi = "quizzes";
 
   static const String ayahApi = "ayahs";
   static const String ayahFavoriteApi = "ayahs/favorites";
