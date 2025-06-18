@@ -1,10 +1,11 @@
-import 'package:get/get.dart';
+import 'dart:async';
+
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:path_to_water/api_core/custom_exception_handler.dart';
 import 'package:path_to_water/api_services/journal_service.dart';
 import 'package:path_to_water/models/journal_model.dart';
 import 'package:path_to_water/screens/journal/models/journal_model.dart';
-import 'package:path_to_water/utilities/app_globals.dart';
+import 'package:path_to_water/utilities/app_exports.dart';
 
 class JournalScreenController extends GetxController {
   List<JournalModel> journalList = [];
@@ -13,7 +14,9 @@ class JournalScreenController extends GetxController {
   late PagingController<int, JournalDetail> pagingController;
   RxBool isJournalCreated = false.obs;
   bool showLoader = true;
-
+  DateTime dateTime = DateTime.now();
+  Timer? debounce;
+  final TextEditingController searchController = TextEditingController();
   @override
   void onInit() {
     super.onInit();
@@ -30,10 +33,17 @@ class JournalScreenController extends GetxController {
         AppGlobals.isLoading(true);
         showLoader = false;
       }
-      final res = await JournalServices.getAllJournal({if (pageNo != null) "page": pageNo});
+      final res = await JournalServices.getAllJournal({
+        if (pageNo != null) "page": pageNo,
+        "startDate": dateTime.toFormatDateTime(format: "yyyy-MM-dd"),
+        "endDate": dateTime.toFormatDateTime(format: "yyyy-MM-dd"),
+        if (searchController.text.isNotEmpty) "search": searchController.text,
+      });
       isLastPage = res?.meta?.page == res?.meta?.totalPages;
       currentPage++;
-      if (pageNo == 1) isJournalCreated.value = res?.items.isNotEmpty ?? false;
+      if (isJournalCreated.value == false && pageNo == 1) {
+        isJournalCreated.value = res?.items.isNotEmpty ?? false;
+      }
       return res?.items ?? [];
     } on Exception catch (e) {
       ExceptionHandler().handleException(e);
@@ -52,10 +62,18 @@ class JournalScreenController extends GetxController {
     }
   }
 
-  void onRefresh() {
+  void onRefresh([DateTime? date]) {
+    if (date != null) dateTime = date;
     pagingController.refresh();
     currentPage = 0;
     isLastPage = false;
     pagingController.fetchNextPage();
+  }
+
+  onSearch(String? value) {
+    debounce?.cancel();
+    debounce = Timer(const Duration(milliseconds: 300), () {
+      onRefresh();
+    });
   }
 }

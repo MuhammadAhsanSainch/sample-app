@@ -22,10 +22,23 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
     super.onInit();
     tabController = TabController(length: 3, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((d) {
-      getQuranAyat();
-      getDailyHadith();
-      getDailyHistory();
+      onRefresh();
     });
+  }
+
+  Future<void> getDailyContent() async {
+    try {
+      AppGlobals.isLoading(true);
+      final res = await AyatAndHadithService.getDailyContent();
+      quranAyatRes = res.ayahs.firstOrNull;
+      hadithRes = res.hadiths.firstOrNull;
+      historyRes = res.histories.firstOrNull;
+      update(["quranAyat", "hadith", "history"]);
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } finally {
+      AppGlobals.isLoading(false);
+    }
   }
 
   Future<void> getQuranAyat() async {
@@ -65,9 +78,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
   }
 
   onRefresh() {
-    getQuranAyat();
-    getDailyHadith();
-    getDailyHistory();
+    getDailyContent();
   }
 
   Future<void> addToFavorite(String? id) async {

@@ -17,7 +17,7 @@ class CustomTab extends StatelessWidget {
             if (imagePath != null) ...[
               CustomImageView(
                 imagePath: imagePath,
-                height: 24,
+                height: 18.h,
                 color:
                     isSelected
                         ? AppColors.lightColor
