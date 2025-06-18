@@ -1,3 +1,4 @@
+import 'package:path_to_water/screens/quiz/views/daily_quiz_history_view.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 
 class CustomQuizAnswerDialog extends StatelessWidget {
@@ -320,6 +321,7 @@ class CustomResultDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
                 onTap: () {
                   Navigator.of(context).pop();
+                  Get.off(() => DailyQuizHistoryView());
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8),
