@@ -1,8 +1,12 @@
+import 'package:path_to_water/models/submit_quiz_model.dart';
+import 'package:path_to_water/screens/quiz/views/daily_quiz_history_view.dart';
+
 import '../../api_core/custom_exception_handler.dart';
 import '../../api_services/quiz_services.dart';
 import '../../utilities/app_exports.dart';
 import '../../models/daily_quiz_model.dart';
 import '../../models/quiz_listing_model.dart';
+import '../../widgets/custom_quiz_answer_dialog.dart';
 
 class QuizController extends GetxController {
   int initialValue = 1;
@@ -41,9 +45,10 @@ class QuizController extends GetxController {
         ),
       ].obs;
 
+  List<Map<String, dynamic>> answersPayload = [];
 
-  void selectAnswer(String option, String label) {
-    selectedAnswer.value = option;
+  void selectAnswer({required String answer, required String label}) {
+    selectedOption.value = answer;
     selectedLabel.value = label;
     update(); // or call update(['slider']) if needed
   }
@@ -51,16 +56,66 @@ class QuizController extends GetxController {
   void nextQuestion() {
     currentQuestionIndex++;
     initialValue++;
-    selectedAnswer.value = '';
-    update(); // update UI
+    selectedOption.value = '';
+    currentQuestion = dailyQuizModel?.questions?[currentQuestionIndex];
+  }
+
+  // --- Dialog Logic ---
+
+  void showAnswerDialog(BuildContext context) {
+    Get.dialog(
+      CustomQuizAnswerDialog(
+        question: currentQuestion?.text ?? '',
+        givenAnswer: selectedOption.value,
+        actualAnswer:
+            currentQuestion?.options
+                ?.firstWhere((e) => e?.isCorrect == true)
+                ?.text ??
+            '',
+        explanation: currentQuestion?.description ?? '',
+        onNextButtonTap: () => handleNextQuestion(context), // Extracted logic
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  void handleNextQuestion(BuildContext context) {
+    var totalQuestions = dailyQuizModel?.questions?.length ?? 0;
+    Navigator.pop(context); // Close the current dialog
+    answersPayload.add({
+      'questionId': currentQuestion?.id ?? '',
+      'selectedOptionId': selectedOptionId.value,
+    });
+    if (currentQuestionIndex < totalQuestions - 1) {
+      nextQuestion();
+    } else {
+      submitDailyQuiz(totalQuestions: totalQuestions);
+    }
+    update(["dailyQuiz"]);
+  }
+
+  void showResultDialog({required int totalQuestions,required int score}) {
+    Get.dialog(
+      CustomResultDialog(
+        totalQuestions: totalQuestions,
+        correctAnswers: score,
+        onViewQuizHistoryButtonTap: () {
+          Navigator.pop(Get.context!); // Close result dialog
+          Get.off(() => DailyQuizHistoryView());
+        },
+      ),
+      barrierDismissible: false,
+    );
   }
 
   int currentQuestionIndex = 0;
   var selectedLabel = ''.obs;
-  var selectedAnswer = ''.obs;
+  var selectedOption = ''.obs;
+  var selectedOptionId = ''.obs;
 
   RxBool isLoading = false.obs;
   DailyQuizModel? dailyQuizModel;
+  SubmitQuizModel? submitQuizModel;
   DailyQuizModelQuestions? currentQuestion;
 
   var correctAnswersCount = 2.obs;
@@ -93,10 +148,14 @@ class QuizController extends GetxController {
     }
   }
 
-  Future submitDailyQuiz() async {
+  Future submitDailyQuiz({required int totalQuestions}) async {
     try {
       isLoading(true);
-      dailyQuizModel = await QuizServices.submitQuiz(quizId: dailyQuizModel?.id??'',data: {});
+      submitQuizModel = await QuizServices.submitQuiz(
+        quizId: dailyQuizModel?.id ?? '',
+        data: {"answers": answersPayload},
+      );
+      showResultDialog(totalQuestions: totalQuestions,score: submitQuizModel?.score??0);
     } on Exception catch (e) {
       ExceptionHandler().handleException(e);
     } finally {
