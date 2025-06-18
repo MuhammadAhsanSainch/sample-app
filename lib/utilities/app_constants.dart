@@ -48,6 +48,7 @@ class AppConstants {
   static const String reminderBgDarkImage = '$images/reminder_bg_dark_image.png';
   static const String subscriptionImage = '$images/subscription_image.png';
   static const String subscriptionDarkImage = '$images/subscription_dark_image.png';
+  static const String calendarBgImage = '$images/calendar_bg_image.png';
 
 
   ///Icons

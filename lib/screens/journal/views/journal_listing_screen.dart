@@ -129,6 +129,7 @@ class JournalListingScreen extends StatelessWidget {
                               index == (state.items?.length ?? 0) - 1,
                               context,
                               index,
+                              (state.items?.length ?? 0) > 1,
                             ),
                       ),
                       separatorBuilder: (context, index) => SizedBox.shrink(),
@@ -308,7 +309,13 @@ class JournalListingScreen extends StatelessWidget {
   //   );
   // }
 
-  Widget _buildEntryItem(JournalDetail entry, bool isLast, BuildContext context, int index) {
+  Widget _buildEntryItem(
+    JournalDetail entry,
+    bool isLast,
+    BuildContext context,
+    int index,
+    bool showLine,
+  ) {
     final timeFormatted = entry.time; // e.g., 10:30 PM
 
     return IntrinsicHeight(
@@ -317,8 +324,19 @@ class JournalListingScreen extends StatelessWidget {
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: showLine ? MainAxisAlignment.start : MainAxisAlignment.center,
             children: [
+              if (showLine && index == 0)
+                8.verticalSpace
+              else if (showLine && index != 0)
+                Container(
+                  width: 1, // Line thickness
+                  height: 8,
+                  color: AppColors.primary, // Spacing around line
+                ),
               Container(
+                width: 60.w,
+                alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 decoration: BoxDecoration(
                   color: AppColors.primary,
@@ -326,13 +344,16 @@ class JournalListingScreen extends StatelessWidget {
                 ),
                 child: CustomText(timeFormatted, color: Colors.white, fontSize: 11),
               ),
-              Expanded(
-                child: Container(
-                  width: 1, // Line thickness
-                  margin: isLast ? EdgeInsets.only(bottom: 16.h) : null,
-                  color: AppColors.primary, // Spacing around line
-                ),
-              ),
+              if (showLine)
+                Expanded(
+                  child: Container(
+                    width: 1, // Line thickness
+                    margin: isLast ? EdgeInsets.only(bottom: 16.h) : null,
+                    color: AppColors.primary, // Spacing around line
+                  ),
+                )
+              else
+                12.verticalSpace,
             ],
           ),
           22.horizontalSpace,
@@ -358,7 +379,7 @@ class JournalListingScreen extends StatelessWidget {
                 ),
                 color: AppColors.dialogBgColor,
                 child: Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.only(left: 12,bottom: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

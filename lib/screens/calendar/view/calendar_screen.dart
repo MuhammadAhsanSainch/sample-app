@@ -18,7 +18,7 @@ class CalendarScreen extends StatelessWidget {
             imagePath:
                 AppGlobals.isDarkMode.value
                     ? AppConstants.createJournalBgDarkImage
-                    : AppConstants.createJournalBgImage,
+                    : AppConstants.calendarBgImage,
             height: 150.h,
             fit: BoxFit.contain,
           ),

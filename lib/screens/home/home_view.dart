@@ -51,17 +51,21 @@ class HomeView extends StatelessWidget {
                   topRight: Radius.circular(20),
                 ),
               ),
-              child: ClipRRect(
+              child: Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(24),
-                  topRight: Radius.circular(24),
-                ),
-                child: BottomAppBar(
-                  height: 75.h,
-                  clipBehavior: Clip.antiAlias,
-                  shape: CircularNotchedRectangle(),
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
                   color: AppColors.primary,
-                  surfaceTintColor: AppColors.primary,
+                ),
+                child: SafeArea(
+                  // height: 75.h,
+                  // clipBehavior: Clip.antiAlias,
+                  // shape: CircularNotchedRectangle(),
+                  // color: AppColors.primary,
+                  // surfaceTintColor: AppColors.primary,
                   child: Obx(() {
                     return Row(
                       mainAxisSize: MainAxisSize.max,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:path_to_water/api_core/custom_exception_handler.dart';
 import 'package:path_to_water/api_services/favorite_service.dart';
 import 'package:path_to_water/models/favorite_ayat_model.dart';
@@ -10,9 +12,15 @@ class FavoriteScreenController extends GetxController with GetSingleTickerProvid
   late TabController tabController;
   RxInt currentTabIndex = 0.obs;
 
+  List<FavoriteAyahModel> favoriteAyatWhole = [];
+  List<FavoriteHadithModel> favoriteHadithWhole = [];
+  List<FavoriteHistoryModel> favoriteHistoryWhole = [];
+
   List<FavoriteAyahModel> favoriteAyat = [];
   List<FavoriteHadithModel> favoriteHadith = [];
   List<FavoriteHistoryModel> favoriteHistory = [];
+
+  Timer? debounce;
 
   @override
   void onInit() {
@@ -41,6 +49,7 @@ class FavoriteScreenController extends GetxController with GetSingleTickerProvid
     try {
       AppGlobals.isLoading(true);
       favoriteAyat = await FavoriteService.getFavoriteAyat();
+      favoriteAyatWhole = favoriteAyat.toList();
       update();
     } on Exception catch (e) {
       ExceptionHandler().handleException(e);
@@ -53,6 +62,7 @@ class FavoriteScreenController extends GetxController with GetSingleTickerProvid
     try {
       AppGlobals.isLoading(true);
       favoriteHadith = await FavoriteService.getFavoriteHadith();
+      favoriteHadithWhole = favoriteHadith.toList();
       update();
     } on Exception catch (e) {
       ExceptionHandler().handleException(e);
@@ -65,6 +75,7 @@ class FavoriteScreenController extends GetxController with GetSingleTickerProvid
     try {
       AppGlobals.isLoading(true);
       favoriteHistory = await FavoriteService.getFavoriteHistory();
+      favoriteHistoryWhole = favoriteHistory.toList();
       update();
     } on Exception catch (e) {
       ExceptionHandler().handleException(e);
@@ -104,5 +115,41 @@ class FavoriteScreenController extends GetxController with GetSingleTickerProvid
     getFavoriteAyat();
     getFavoriteHadith();
     getFavoriteHistory();
+  }
+
+  onSearch(String? val) {
+    if (val == null) return;
+    debounce?.cancel();
+
+    debounce = Timer(Duration(milliseconds: 400), () {
+      if (val.isEmpty) {
+        favoriteAyat = favoriteAyatWhole.toList();
+        favoriteHadith = favoriteHadithWhole.toList();
+        favoriteHistory = favoriteHistoryWhole.toList();
+      } else {
+        favoriteAyat =
+            favoriteAyatWhole
+                .where(
+                  (element) =>
+                      element.ayah?.surahName?.toLowerCase().contains(val.toLowerCase()) ?? false,
+                )
+                .toList();
+        favoriteHadith =
+            favoriteHadithWhole
+                .where(
+                  (element) =>
+                      element.hadith?.title?.toLowerCase().contains(val.toLowerCase()) ?? false,
+                )
+                .toList();
+        favoriteHistory =
+            favoriteHistoryWhole
+                .where(
+                  (element) =>
+                      element.history?.title?.toLowerCase().contains(val.toLowerCase()) ?? false,
+                )
+                .toList();
+      }
+      update();
+    });
   }
 }

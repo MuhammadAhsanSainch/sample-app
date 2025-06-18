@@ -70,7 +70,7 @@ class CreateReminderScreen extends StatelessWidget {
                         ),
                         CustomTab(
                           title: "Yearly",
-                          isSelected: controller.currentTabIndex.value == 2,
+                          isSelected: controller.currentTabIndex.value == 3,
                         ),
                       ],
                       isScrollable: false,
@@ -241,7 +241,7 @@ class ReminderTypeRadioWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomText(type.name, fontWeight: FontWeight.w500, fontSize: 16.sp),
+            CustomText(type.name,  fontSize: 14.sp),
             CustomRadio<ReminderType>(
               value: type,
               groupValue: groupValue,
@@ -249,6 +249,7 @@ class ReminderTypeRadioWidget extends StatelessWidget {
               activeColor: isDisabled ? AppColors.greyTextColor : AppColors.primary,
               outLineColor: isDisabled ? AppColors.greyTextColor : AppColors.primary,
               onChanged: onChanged,
+              
             ),
           ],
         ),

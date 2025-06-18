@@ -144,25 +144,40 @@ class _QuranDialogContentState extends State<QuranDialogContent> {
               const SizedBox(height: 5),
               Flexible(
                 // Allows SingleChildScrollView to take available space
-                child: SingleChildScrollView(
-                  child: Row(
-                    mainAxisAlignment:
-                        isEnglishSelected ? MainAxisAlignment.start : MainAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: CustomText(
-                          _selectedLanguage == 'English'
-                              ? widget.englishContent
-                              : widget.arabicContent,
-                          textAlign:
-                              _selectedLanguage == 'Arabic' ? TextAlign.right : TextAlign.left,
-                          textDirection:
-                              _selectedLanguage == 'Arabic' ? TextDirection.rtl : TextDirection.ltr,
-                          maxLine: 100,
-                          height: _selectedLanguage == 'Arabic' ? 2 : null,
+                child: RawScrollbar(
+                  scrollbarOrientation:
+                      isEnglishSelected ? ScrollbarOrientation.right : ScrollbarOrientation.left,
+                  thumbColor: AppColors.primary,
+                  thickness: 4,
+                  radius: Radius.circular(8.r),
+                  interactive: true,
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.only(
+                      right: isEnglishSelected ? 10 : 0,
+                      left: isEnglishSelected ? 0 : 10,
+                    ),
+
+                    child: Row(
+                      mainAxisAlignment:
+                          isEnglishSelected ? MainAxisAlignment.start : MainAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            _selectedLanguage == 'English'
+                                ? widget.englishContent
+                                : widget.arabicContent,
+                            textAlign:
+                                _selectedLanguage == 'Arabic' ? TextAlign.right : TextAlign.left,
+                            textDirection:
+                                _selectedLanguage == 'Arabic'
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
+                            maxLine: 100,
+                            height: _selectedLanguage == 'Arabic' ? 2 : null,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

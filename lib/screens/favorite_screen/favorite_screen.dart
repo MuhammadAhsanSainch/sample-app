@@ -31,6 +31,9 @@ class FavoriteScreen extends StatelessWidget {
                   hintValue: "Search",
                   borderColor: AppColors.primary,
                   outerPadding: EdgeInsets.zero,
+                  onChanged: (value) {
+                    controller.onSearch(value);
+                  },
                   prefixIcon: CustomImageView(
                     imagePath: AppConstants.searchIcon,
                     height: 24.h,
