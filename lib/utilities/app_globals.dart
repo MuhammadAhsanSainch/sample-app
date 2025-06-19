@@ -523,7 +523,10 @@ class AppGlobals {
     return selectedTime;
   }
 
-  static String formatDate(DateTime date) {
+  static String? formatDate(DateTime? date) {
+    if(date == null){
+      return null;
+    }
     return DateFormat('dd MMM yyyy').format(date);
   }
 

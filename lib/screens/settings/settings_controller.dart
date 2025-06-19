@@ -9,8 +9,7 @@ import '../../api_services/profile_services.dart';
 import '../../widgets/custom_dialog.dart';
 import '../splash.dart';
 
-class SettingsController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class SettingsController extends GetxController with GetSingleTickerProviderStateMixin {
   final TextEditingController fullNameTFController = TextEditingController();
   final TextEditingController userNameTFController = TextEditingController();
   final TextEditingController emailTFController = TextEditingController();
@@ -61,7 +60,7 @@ class SettingsController extends GetxController
 
   Future<void> pickDate() async {
     var date = await AppGlobals().selectDate(Get.context!);
-    dOBTFController.text = AppGlobals.formatDate(date);
+    dOBTFController.text = AppGlobals.formatDate(date) ?? "";
   }
 
   Future getProfile() async {
@@ -72,9 +71,7 @@ class SettingsController extends GetxController
         fullNameTFController.text = res.name ?? '';
         userNameTFController.text = res.userName ?? '';
         emailTFController.text = res.email ?? '';
-        dOBTFController.text = AppGlobals.formatDate(
-          DateTime.parse(res.dob ?? ''),
-        );
+        dOBTFController.text = AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
         genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
       }
     } on Exception catch (e) {
@@ -99,9 +96,7 @@ class SettingsController extends GetxController
         fullNameTFController.text = res.name ?? '';
         userNameTFController.text = res.userName ?? '';
         emailTFController.text = res.email ?? '';
-        dOBTFController.text = AppGlobals.formatDate(
-          DateTime.parse(res.dob ?? ''),
-        );
+        dOBTFController.text = AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
         genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
         Get.dialog(
           CustomDialog(
@@ -159,9 +154,7 @@ class SettingsController extends GetxController
     try {
       AppGlobals.isLoading(true);
       currentPassTFController.clear();
-      final res = await SettingsServices.deleteAccount({
-        "password": password,
-      });
+      final res = await SettingsServices.deleteAccount({"password": password});
       currentPassTFController.clear();
       log('res::${res?.message}');
       if (res != null) {
