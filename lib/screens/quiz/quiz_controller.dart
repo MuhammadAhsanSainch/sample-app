@@ -1,3 +1,4 @@
+import 'package:path_to_water/models/quiz_history_model.dart';
 import 'package:path_to_water/models/submit_quiz_model.dart';
 import 'package:path_to_water/screens/quiz/views/daily_quiz_history_view.dart';
 
@@ -11,39 +12,7 @@ import '../../widgets/custom_quiz_answer_dialog.dart';
 class QuizController extends GetxController {
   int initialValue = 1;
   final TextEditingController searchController = TextEditingController();
-  final List<QuizListingModel> quizList =
-      [
-        QuizListingModel(
-          title: "Quiz Rating 5",
-          date: DateTime.now(),
-          totalQuestions: 5,
-          rightAnswers: 4,
-        ),
-        QuizListingModel(
-          title: "Quiz Rating 4",
-          date: DateTime.now(),
-          totalQuestions: 5,
-          rightAnswers: 4,
-        ),
-        QuizListingModel(
-          title: "Quiz Rating 3",
-          date: DateTime.now(),
-          totalQuestions: 5,
-          rightAnswers: 4,
-        ),
-        QuizListingModel(
-          title: "Quiz Rating 5",
-          date: DateTime.now(),
-          totalQuestions: 5,
-          rightAnswers: 4,
-        ),
-        QuizListingModel(
-          title: "Quiz Rating 5",
-          date: DateTime.now(),
-          totalQuestions: 5,
-          rightAnswers: 4,
-        ),
-      ].obs;
+  final List<QuizListingModel> quizList = <QuizListingModel>[].obs;
 
   List<Map<String, dynamic>> answersPayload = [];
 
@@ -94,7 +63,7 @@ class QuizController extends GetxController {
     update(["dailyQuiz"]);
   }
 
-  void showResultDialog({required int totalQuestions,required int score}) {
+  void showResultDialog({required int totalQuestions, required int score}) {
     Get.dialog(
       CustomResultDialog(
         totalQuestions: totalQuestions,
@@ -116,6 +85,7 @@ class QuizController extends GetxController {
   RxBool isLoading = false.obs;
   DailyQuizModel? dailyQuizModel;
   SubmitQuizModel? submitQuizModel;
+  QuizHistoryModel? quizHistoryModel;
   DailyQuizModelQuestions? currentQuestion;
 
   var correctAnswersCount = 2.obs;
@@ -155,7 +125,34 @@ class QuizController extends GetxController {
         quizId: dailyQuizModel?.id ?? '',
         data: {"answers": answersPayload},
       );
-      showResultDialog(totalQuestions: totalQuestions,score: submitQuizModel?.score??0);
+      showResultDialog(
+        totalQuestions: totalQuestions,
+        score: submitQuizModel?.score ?? 0,
+      );
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future getQuizHistory() async {
+    try {
+      isLoading(true);
+      quizHistoryModel = await QuizServices.getQuizHistory(page: 1, limit: 10);
+      if (quizHistoryModel?.data?.isNotEmpty ?? false) {
+        for (var q in quizHistoryModel!.data!) {
+          quizList.add(
+            QuizListingModel(
+              title: q?.quiz?.title ?? '',
+              totalQuestions: 5,
+              rightAnswers: q?.score ?? 0,
+              date: DateTime.parse(q?.completedAt ?? ''),
+            ),
+          );
+        }
+      }
+      update(['quizHistory']);
     } on Exception catch (e) {
       ExceptionHandler().handleException(e);
     } finally {
