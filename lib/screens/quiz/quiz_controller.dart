@@ -1,13 +1,13 @@
-import 'package:path_to_water/models/quiz_history_model.dart';
-import 'package:path_to_water/models/submit_quiz_model.dart';
-import 'package:path_to_water/screens/quiz/views/daily_quiz_history_view.dart';
-
-import '../../api_core/custom_exception_handler.dart';
-import '../../api_services/quiz_services.dart';
 import '../../utilities/app_exports.dart';
 import '../../models/daily_quiz_model.dart';
+import '../../models/quiz_result_model.dart';
+import '../../models/submit_quiz_model.dart';
 import '../../models/quiz_listing_model.dart';
+import '../../models/quiz_history_model.dart';
+import '../../api_services/quiz_services.dart';
+import '../../api_core/custom_exception_handler.dart';
 import '../../widgets/custom_quiz_answer_dialog.dart';
+import '../../screens/quiz/views/daily_quiz_history_view.dart';
 
 class QuizController extends GetxController {
   int initialValue = 1;
@@ -85,13 +85,14 @@ class QuizController extends GetxController {
   RxBool isLoading = false.obs;
   DailyQuizModel? dailyQuizModel;
   SubmitQuizModel? submitQuizModel;
+  QuizResultModel? quizResultModel;
   QuizHistoryModel? quizHistoryModel;
   DailyQuizModelQuestions? currentQuestion;
 
   var correctAnswersCount = 2.obs;
 
   // Observable RxInt to hold the selected question index
-  final RxInt _selectedQuestion = 1.obs;
+  final RxInt _selectedQuestion = 0.obs;
 
   // Getter to easily access the value
   int get selectedQuestion => _selectedQuestion.value;
@@ -106,18 +107,16 @@ class QuizController extends GetxController {
       isLoading(true);
       dailyQuizModel = await QuizServices.getDailyQuiz();
       currentQuestion = dailyQuizModel?.questions?[currentQuestionIndex];
-      await Future.delayed(Duration(seconds: 1));
-      log('${dailyQuizModel?.questions?.isNotEmpty ?? false}');
-      log('${dailyQuizModel?.questions?.length ?? 0}');
       update(["dailyQuiz"]);
     } on Exception catch (e) {
+      isLoading(false);
       ExceptionHandler().handleException(e);
     } finally {
       isLoading(false);
       update(["dailyQuiz"]);
     }
   }
-
+  
   Future submitDailyQuiz({required int totalQuestions}) async {
     try {
       isLoading(true);
@@ -130,6 +129,7 @@ class QuizController extends GetxController {
         score: submitQuizModel?.score ?? 0,
       );
     } on Exception catch (e) {
+      isLoading(false);
       ExceptionHandler().handleException(e);
     } finally {
       isLoading(false);
@@ -138,12 +138,14 @@ class QuizController extends GetxController {
 
   Future getQuizHistory() async {
     try {
+      quizList.clear();
       isLoading(true);
       quizHistoryModel = await QuizServices.getQuizHistory(page: 1, limit: 10);
       if (quizHistoryModel?.data?.isNotEmpty ?? false) {
         for (var q in quizHistoryModel!.data!) {
           quizList.add(
             QuizListingModel(
+              id: q?.id??'',
               title: q?.quiz?.title ?? '',
               totalQuestions: 5,
               rightAnswers: q?.score ?? 0,
@@ -154,9 +156,25 @@ class QuizController extends GetxController {
       }
       update(['quizHistory']);
     } on Exception catch (e) {
+      isLoading(false);
       ExceptionHandler().handleException(e);
     } finally {
       isLoading(false);
+    }
+  }
+
+  Future getQuizResult({required String id}) async {
+    try {
+      isLoading(true);
+      quizResultModel = await QuizServices.getQuizResult(id: id);
+      setSelectedQuestion(1);
+      update(["quizResult"]);
+    } on Exception catch (e) {
+      isLoading(false);
+      ExceptionHandler().handleException(e);
+    } finally {
+      isLoading(false);
+      update(["quizResult"]);
     }
   }
 
@@ -164,7 +182,7 @@ class QuizController extends GetxController {
   void onInit() {
     super.onInit();
     WidgetsBinding.instance.addPostFrameCallback((d) {
-      getDailyQuiz();
+      // getDailyQuiz();
     });
   }
 }

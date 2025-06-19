@@ -13,6 +13,7 @@ class AppUrl {
   static const String getDailyQuizApi = "quizzes/daily";
   static const String submitQuizApi = "quizzes";
   static const String getQuizHistoryApi = "quizzes/attempts";
+  static const String getQuizResultApi = "quizzes/attempts";
 
   static const String ayahApi = "ayahs";
   static const String ayahFavoriteApi = "ayahs/favorites";

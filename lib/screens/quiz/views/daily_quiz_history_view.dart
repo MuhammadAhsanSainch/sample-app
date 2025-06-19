@@ -5,11 +5,11 @@ import 'package:path_to_water/utilities/app_exports.dart';
 class DailyQuizHistoryView extends StatelessWidget {
   const DailyQuizHistoryView({super.key});
 
-  QuizController get controller => Get.put(QuizController());
+  QuizController get controller => Get.find<QuizController>();
 
   @override
   Widget build(BuildContext context) {
-    // controller.getQuizHistory();
+    controller.getQuizHistory();
     return Scaffold(
       appBar: CustomAppBar(
         text: "Daily Quiz History",
@@ -21,7 +21,9 @@ class DailyQuizHistoryView extends StatelessWidget {
         init: controller,
         id: 'quizHistory',
         builder: (_) {
-          return controller.quizHistoryModel?.data?.isNotEmpty ?? false
+          return controller.isLoading.value
+              ? Center(child: CircularProgressIndicator())
+              : controller.quizHistoryModel?.data?.isNotEmpty ?? false
               ? Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Column(
@@ -49,7 +51,7 @@ class DailyQuizHistoryView extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final item = controller.quizList[index];
                           return GestureDetector(
-                            onTap: () => Get.to(() => QuizDetailView()),
+                            onTap: () => Get.to(() => QuizDetailView(id: item.id??'',)),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.r),
