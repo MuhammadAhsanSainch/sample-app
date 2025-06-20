@@ -36,13 +36,14 @@ class LoginController extends GetxController {
         UserPreferences.loginData = res?.user?.toJson() ?? {};
         UserPreferences.isLogin = true;
         UserPreferences.authToken = res?.accessToken ?? "";
+        UserPreferences.userId = res?.user?.id ?? "";
         Get.off(() => HomeView(), binding: HomeBinding());
       }
     } on Exception catch (e) {
       ExceptionHandler().handleException(e);
     } catch (e) {
       log(e.toString());
-    }finally {
+    } finally {
       AppGlobals.isLoading(false);
     }
   }

@@ -72,6 +72,7 @@ class JournalScreen extends StatelessWidget {
                                           binding: CreateJournalScreenBinding(),
                                         )?.then((value) {
                                           if (value == true) {
+                                            controller.isJournalCreated.value = true;
                                             controller.onRefresh();
                                           }
                                         });

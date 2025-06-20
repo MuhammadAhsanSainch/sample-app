@@ -54,10 +54,7 @@ class ErrorInterceptor extends Interceptor {
           log(err.message.toString());
           throw NoInternetConnectionException(err);
         }
-      default:
-        log("In default error block");
-        break;
-    }
+      }
     return handler.next(err);
   }
 }

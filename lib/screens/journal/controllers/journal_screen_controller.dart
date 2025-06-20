@@ -4,11 +4,9 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:path_to_water/api_core/custom_exception_handler.dart';
 import 'package:path_to_water/api_services/journal_service.dart';
 import 'package:path_to_water/models/journal_model.dart';
-import 'package:path_to_water/screens/journal/models/journal_model.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 
 class JournalScreenController extends GetxController {
-  List<JournalModel> journalList = [];
   int currentPage = 0;
   bool isLastPage = false;
   late PagingController<int, JournalDetail> pagingController;
@@ -20,6 +18,7 @@ class JournalScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    checkJournalCreated();
     pagingController = PagingController(
       getNextPageKey: (state) => isLastPage ? null : currentPage + 1,
       fetchPage: (int pageKey) => getJournalApi(pageKey),
@@ -41,9 +40,7 @@ class JournalScreenController extends GetxController {
       });
       isLastPage = res?.meta?.page == res?.meta?.totalPages;
       currentPage++;
-      if (isJournalCreated.value == false && pageNo == 1) {
-        isJournalCreated.value = res?.items.isNotEmpty ?? false;
-      }
+
       return res?.items ?? [];
     } on Exception catch (e) {
       ExceptionHandler().handleException(e);
@@ -51,6 +48,17 @@ class JournalScreenController extends GetxController {
       AppGlobals.isLoading(false);
     }
     return [];
+  }
+
+  Future<void> checkJournalCreated() async {
+    try {
+      final res = await JournalServices.getAllJournal({"page": 1});
+      isJournalCreated.value = res?.items.isNotEmpty ?? false;
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } finally {
+      AppGlobals.isLoading(false);
+    }
   }
 
   Future deleteJournalApi(String journalId, int index) async {

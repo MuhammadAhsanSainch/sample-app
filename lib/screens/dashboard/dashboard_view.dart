@@ -106,7 +106,7 @@ class DashboardView extends StatelessWidget {
                                   icon: AppConstants.quranIcon,
                                   dialogTitle: "Quran",
                                   dialogTitleArabic: "القرآن",
-                                  titleArabic: "سورة الملك(٦٧ )",
+                                  titleArabic: controller.quranAyatRes?.surahNameArabic ?? "-",
                                   title: controller.quranAyatRes?.surahName ?? "-",
                                   arabicText: controller.quranAyatRes?.textArabic ?? "-",
                                   englishText: controller.quranAyatRes?.textRoman ?? "-",
@@ -132,12 +132,14 @@ class DashboardView extends StatelessWidget {
                                         quranDialogTitle: "Quran",
                                         quranDialogTitleArabic: "القرآن",
                                         contentTitle: controller.quranAyatRes?.surahName ?? "-",
-                                        contentTitleArabic: "سورة الملك(٦٧ )",
+                                        contentTitleArabic:
+                                            controller.quranAyatRes?.surahNameArabic ?? "-",
                                         englishContent:
                                             controller.quranAyatRes?.detailEnglishPopup ?? "-",
                                         arabicContent:
                                             controller.quranAyatRes?.detailArabicPopup ?? "-",
-                                        date: controller.quranAyatRes?.publishDate ?? DateTime.now(),
+                                        date:
+                                            controller.quranAyatRes?.publishDate ?? DateTime.now(),
                                       ),
                                 );
                               },

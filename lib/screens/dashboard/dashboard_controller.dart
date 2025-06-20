@@ -29,6 +29,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
   Future<void> getDailyContent() async {
     try {
       AppGlobals.isLoading(true);
+      
       final res = await AyatAndHadithService.getDailyContent();
       quranAyatRes = res.ayahs.firstOrNull;
       hadithRes = res.hadiths.firstOrNull;
