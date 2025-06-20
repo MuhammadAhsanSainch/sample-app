@@ -9,6 +9,7 @@ class DailyQuizView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.getDailyQuiz();
     return GetBuilder<QuizController>(
       init: controller, // Initialize the controller for this GetBuilder
       builder: (_) {

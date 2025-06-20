@@ -1,18 +1,20 @@
-import 'package:path_to_water/models/quiz_history_model.dart';
-import 'package:path_to_water/models/submit_quiz_model.dart';
-import 'package:path_to_water/screens/quiz/views/daily_quiz_history_view.dart';
+import 'dart:async';
 
-import '../../api_core/custom_exception_handler.dart';
-import '../../api_services/quiz_services.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:path_to_water/screens/quiz/quiz_binding.dart';
+
 import '../../utilities/app_exports.dart';
 import '../../models/daily_quiz_model.dart';
-import '../../models/quiz_listing_model.dart';
+import '../../models/quiz_result_model.dart';
+import '../../models/submit_quiz_model.dart';
+import '../../models/quiz_history_model.dart';
+import '../../api_services/quiz_services.dart';
+import '../../api_core/custom_exception_handler.dart';
 import '../../widgets/custom_quiz_answer_dialog.dart';
+import '../../screens/quiz/views/daily_quiz_history_view.dart';
 
 class QuizController extends GetxController {
   int initialValue = 1;
-  final TextEditingController searchController = TextEditingController();
-  final List<QuizListingModel> quizList = <QuizListingModel>[].obs;
 
   List<Map<String, dynamic>> answersPayload = [];
 
@@ -70,7 +72,7 @@ class QuizController extends GetxController {
         correctAnswers: score,
         onViewQuizHistoryButtonTap: () {
           Navigator.pop(Get.context!); // Close result dialog
-          Get.off(() => DailyQuizHistoryView());
+          Get.off(() => DailyQuizHistoryView(), binding: QuizBinding());
         },
       ),
       barrierDismissible: false,
@@ -85,32 +87,32 @@ class QuizController extends GetxController {
   RxBool isLoading = false.obs;
   DailyQuizModel? dailyQuizModel;
   SubmitQuizModel? submitQuizModel;
-  QuizHistoryModel? quizHistoryModel;
+  QuizResultModel? quizResultModel;
   DailyQuizModelQuestions? currentQuestion;
 
-  var correctAnswersCount = 2.obs;
+  final RxInt _selectedQuestion = 0.obs;
 
-  // Observable RxInt to hold the selected question index
-  final RxInt _selectedQuestion = 1.obs;
-
-  // Getter to easily access the value
   int get selectedQuestion => _selectedQuestion.value;
 
-  // Method to update the selected question
   void setSelectedQuestion(int index) {
     _selectedQuestion.value = index;
   }
+
+  int currentPage = 0;
+  bool isLastPage = false;
+  late PagingController<int, QuizHistoryModelData> pagingController;
+  bool showLoader = true;
+  Timer? debounce;
+  final TextEditingController searchController = TextEditingController();
 
   Future getDailyQuiz() async {
     try {
       isLoading(true);
       dailyQuizModel = await QuizServices.getDailyQuiz();
       currentQuestion = dailyQuizModel?.questions?[currentQuestionIndex];
-      await Future.delayed(Duration(seconds: 1));
-      log('${dailyQuizModel?.questions?.isNotEmpty ?? false}');
-      log('${dailyQuizModel?.questions?.length ?? 0}');
       update(["dailyQuiz"]);
     } on Exception catch (e) {
+      isLoading(false);
       ExceptionHandler().handleException(e);
     } finally {
       isLoading(false);
@@ -130,41 +132,66 @@ class QuizController extends GetxController {
         score: submitQuizModel?.score ?? 0,
       );
     } on Exception catch (e) {
+      isLoading(false);
       ExceptionHandler().handleException(e);
     } finally {
       isLoading(false);
     }
   }
 
-  Future getQuizHistory() async {
+  Future<List<QuizHistoryModelData>> getQuizHistory([int? pageNo]) async {
+    try {
+      final res = await QuizServices.getQuizHistory({
+        if (pageNo != null) "page": pageNo,
+        if (searchController.text.isNotEmpty) "search": searchController.text,
+      });
+      isLastPage = (res.data?.length ?? 0) < (res.limit ?? 0);
+      currentPage++;
+      return res.data ?? [];
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    }
+    return [];
+  }
+
+  Future getQuizResult({required String id}) async {
     try {
       isLoading(true);
-      quizHistoryModel = await QuizServices.getQuizHistory(page: 1, limit: 10);
-      if (quizHistoryModel?.data?.isNotEmpty ?? false) {
-        for (var q in quizHistoryModel!.data!) {
-          quizList.add(
-            QuizListingModel(
-              title: q?.quiz?.title ?? '',
-              totalQuestions: 5,
-              rightAnswers: q?.score ?? 0,
-              date: DateTime.parse(q?.completedAt ?? ''),
-            ),
-          );
-        }
-      }
-      update(['quizHistory']);
+      quizResultModel = await QuizServices.getQuizResult(id: id);
+      setSelectedQuestion(1);
+      update(["quizResult"]);
     } on Exception catch (e) {
+      isLoading(false);
       ExceptionHandler().handleException(e);
     } finally {
       isLoading(false);
+      update(["quizResult"]);
     }
+  }
+
+  void onRefresh() {
+    pagingController.refresh();
+    currentPage = 0;
+    isLastPage = false;
+    pagingController.fetchNextPage();
+  }
+
+  onSearch(String? value) {
+    debounce?.cancel();
+    debounce = Timer(const Duration(milliseconds: 300), () {
+      onRefresh();
+    });
   }
 
   @override
   void onInit() {
     super.onInit();
+    pagingController = PagingController(
+      getNextPageKey: (state) => isLastPage ? null : currentPage + 1,
+      fetchPage: (int pageKey) => getQuizHistory(pageKey),
+    );
     WidgetsBinding.instance.addPostFrameCallback((d) {
-      getDailyQuiz();
+      pagingController.fetchNextPage();
     });
   }
 }

@@ -83,7 +83,7 @@ class QuizHistoryModel {
 }
 */
 
-  List<QuizHistoryModelData?>? data;
+  List<QuizHistoryModelData>? data;
   int? total;
   int? page;
   int? limit;
@@ -113,7 +113,7 @@ class QuizHistoryModel {
       final v = this.data;
       final arr0 = [];
       for (var v in v!) {
-        arr0.add(v!.toJson());
+        arr0.add(v.toJson());
       }
       data['data'] = arr0;
     }
