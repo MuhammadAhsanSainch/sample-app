@@ -105,6 +105,7 @@ class QuizResultModelResults {
 */
 
   String? questionText;
+  String? questionDescription;
   List<QuizResultModelResultsOptions?>? options;
   QuizResultModelResultsUserAnswer? userAnswer;
   QuizResultModelResultsCorrectAnswer? correctAnswer;
@@ -112,6 +113,7 @@ class QuizResultModelResults {
 
   QuizResultModelResults({
     this.questionText,
+    this.questionDescription,
     this.options,
     this.userAnswer,
     this.correctAnswer,
@@ -119,6 +121,7 @@ class QuizResultModelResults {
   });
   QuizResultModelResults.fromJson(Map<String, dynamic> json) {
     questionText = json['questionText']?.toString();
+    questionDescription = json['questionDescription']?.toString();
     if (json['options'] != null) {
       final v = json['options'];
       final arr0 = <QuizResultModelResultsOptions>[];
@@ -134,6 +137,7 @@ class QuizResultModelResults {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['questionText'] = questionText;
+    data['questionDescription'] = questionDescription;
     if (options != null) {
       final v = options;
       final arr0 = [];

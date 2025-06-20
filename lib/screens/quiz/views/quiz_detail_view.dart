@@ -102,7 +102,7 @@ class QuizDetailView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
-          5,
+          controller.quizResultModel?.results?.length??0,
           (index) => GestureDetector(
             onTap: () {
               // Call the controller's method to update the selected question
@@ -170,7 +170,7 @@ class QuizDetailView extends StatelessWidget {
         controller
             .quizResultModel
             ?.results?[currentQuestionIndex]
-            ?.questionText ??
+            ?.questionDescription ??
         '';
     String givenAnswer =
         controller

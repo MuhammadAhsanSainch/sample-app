@@ -1,6 +1,10 @@
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:path_to_water/screens/quiz/quiz_binding.dart';
 import 'package:path_to_water/screens/quiz/quiz_controller.dart';
 import 'package:path_to_water/screens/quiz/views/quiz_detail_view.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
+
+import '../../../models/quiz_history_model.dart';
 
 class DailyQuizHistoryView extends StatelessWidget {
   const DailyQuizHistoryView({super.key});
@@ -9,7 +13,6 @@ class DailyQuizHistoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.getQuizHistory();
     return Scaffold(
       appBar: CustomAppBar(
         text: "Daily Quiz History",
@@ -19,120 +22,139 @@ class DailyQuizHistoryView extends StatelessWidget {
       backgroundColor: AppColors.scaffoldBackground,
       body: GetBuilder<QuizController>(
         init: controller,
-        id: 'quizHistory',
         builder: (_) {
-          return controller.isLoading.value
-              ? Center(child: CircularProgressIndicator())
-              : controller.quizHistoryModel?.data?.isNotEmpty ?? false
-              ? Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: Column(
-                  children: [
-                    CustomTextFormField(
-                      controller: controller.searchController,
-                      upperLabel: "",
-                      upperLabelReqStar: "",
-                      hintValue: "Search",
-                      borderColor: AppColors.primary,
-                      outerPadding: EdgeInsets.zero,
-                      prefixIcon: CustomImageView(
-                        imagePath: AppConstants.searchIcon,
-                        height: 24.h,
-                        fit: BoxFit.contain,
+          return RefreshIndicator(
+            onRefresh: () async {
+              controller.onRefresh();
+            },
+            child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Column(
+                    children: [
+                      CustomTextFormField(
+                        controller: controller.searchController,
+                        upperLabel: "",
+                        upperLabelReqStar: "",
+                        hintValue: "Search",
+                        borderColor: AppColors.primary,
+                        outerPadding: EdgeInsets.zero,
+                        prefixIcon: CustomImageView(
+                          imagePath: AppConstants.searchIcon,
+                          height: 24.h,
+                          fit: BoxFit.contain,
+                        ),
+                        onChanged: controller.onSearch,
                       ),
-                    ),
-                    10.verticalSpace,
-                    Expanded(
-                      child: ListView.separated(
-                        itemCount: controller.quizList.length,
-                        separatorBuilder: (context, index) {
-                          return 8.verticalSpace;
-                        },
-                        itemBuilder: (context, index) {
-                          final item = controller.quizList[index];
-                          return GestureDetector(
-                            onTap: () => Get.to(() => QuizDetailView(id: item.id??'',)),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.r),
-                                color: AppColors.dialogBgColor,
-                                border: Border.all(
-                                  color:
-                                      AppGlobals.isDarkMode.value
-                                          ? AppColors.strokeDarkGreyColor
-                                          : AppColors.strokeColor,
-                                  width: 1,
-                                ),
-                              ),
-                              padding: EdgeInsets.all(12.r),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(6.r),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.lightGreenColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: SvgPicture.asset(
-                                      AppConstants.quizIcon2,
-                                    ),
-                                  ),
-                                  6.horizontalSpace,
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          spacing: 10,
-                                          children: [
-                                            CustomText(
-                                              item.title,
-                                              style: AppTextTheme.titleMedium,
+                      10.verticalSpace,
+                      Expanded(
+                        child: PagingListener(
+                          controller: controller.pagingController,
+                          builder: (context, state, fetchNextPage) {
+                            return PagedListView.separated(
+                              state: state,
+                              fetchNextPage: fetchNextPage,
+                              builderDelegate: PagedChildBuilderDelegate<
+                                QuizHistoryModelData
+                              >(
+                                animateTransitions: true,
+                                itemBuilder: (context, item, index) {
+                                  return GestureDetector(
+                                    onTap:
+                                        () => Get.to(
+                                          () => QuizDetailView(id: item.id ?? ''),
+                                          binding: QuizBinding(),
+                                        ),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8.r),
+                                        color: AppColors.dialogBgColor,
+                                        border: Border.all(
+                                          color:
+                                              AppGlobals.isDarkMode.value
+                                                  ? AppColors.strokeDarkGreyColor
+                                                  : AppColors.strokeColor,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      padding: EdgeInsets.all(12.r),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.all(6.r),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.lightGreenColor,
+                                              shape: BoxShape.circle,
                                             ),
-                                            SvgPicture.asset(AppConstants.star),
-                                          ],
-                                        ),
-                                        CustomText(
-                                          item.date.toFormatDateTime(
-                                            format: "dd MMM yyyy",
+                                            child: SvgPicture.asset(
+                                              AppConstants.quizIcon2,
+                                            ),
                                           ),
-                                          style: AppTextTheme.bodySmall,
-                                        ),
-                                        8.verticalSpace,
-                                        CustomText(
-                                          'Total Question ${item.totalQuestions} for today',
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        CustomText(
-                                          'Answer Right ${item.rightAnswers}',
-                                          style: AppTextTheme.bodySmall
-                                              .copyWith(
-                                                color: AppColors.greenColor,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                        ),
-                                      ],
+                                          6.horizontalSpace,
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  spacing: 10,
+                                                  children: [
+                                                    CustomText(
+                                                      item.quiz?.title,
+                                                      style:
+                                                          AppTextTheme
+                                                              .titleMedium,
+                                                    ),
+                                                    SvgPicture.asset(
+                                                      AppConstants.star,
+                                                    ),
+                                                  ],
+                                                ),
+                                                CustomText(
+                                                  AppGlobals.formatDate(
+                                                    DateTime.tryParse(
+                                                      item.completedAt ?? '',
+                                                    ),
+                                                  ),
+                                                  style: AppTextTheme.bodySmall,
+                                                ),
+                                                8.verticalSpace,
+                                                CustomText(
+                                                  'Total Question 5 for today',
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                                CustomText(
+                                                  'Answer Right ${item.score}',
+                                                  style: AppTextTheme.bodySmall
+                                                      .copyWith(
+                                                        color:
+                                                            AppColors.greenColor,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  );
+                                },
                               ),
-                            ),
-                          );
-                        },
+                              separatorBuilder: (context, index) {
+                                return 8.verticalSpace;
+                              },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              )
-              : Center(
-                child: CustomText(
-                  'No Quiz attempted yet!',
-                  style: AppTextTheme.titleMedium,
-                ),
-              );
+          );
         },
       ),
     );

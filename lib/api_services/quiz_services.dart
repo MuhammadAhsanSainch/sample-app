@@ -27,12 +27,12 @@ class QuizServices {
     return SubmitQuizModel.fromJson(res.data);
   }
 
-  static Future<QuizHistoryModel> getQuizHistory({
-    required int page,
-    required int limit,
-  }) async {
+  static Future<QuizHistoryModel> getQuizHistory(
+    Map<String, dynamic> queryParameters,
+  ) async {
     final res = await ApiClient().get(
-      '${AppUrl.getQuizHistoryApi}?page=$page&limit=$limit',
+      AppUrl.getQuizHistoryApi,
+      queryParameters: queryParameters,
     );
     return QuizHistoryModel.fromJson(res.data);
   }
