@@ -137,12 +137,24 @@ class DailyQuizView extends StatelessWidget {
       var option = entry.value;
       bool isSelected = controller.selectedOption.value == option?.text;
       String label = ['A', 'B', 'C', 'D'][index];
+      int? indexOfCorrectAnswer; // Use nullable int in case no correct answer is found
+
+      if (controller.currentQuestion != null && controller.currentQuestion!.options != null) {
+        for (int i = 0; i < controller.currentQuestion!.options!.length; i++) {
+          if (controller.currentQuestion!.options![i]?.isCorrect == true) {
+            indexOfCorrectAnswer = i;
+            break; // Found it, no need to check further
+          }
+        }
+      }
+      String correctLabel = ['A', 'B', 'C', 'D'][indexOfCorrectAnswer??0];
 
       return GestureDetector(
         onTap: () {
           controller.selectedOptionId.value=option?.id??'';
           controller.selectAnswer(
             label: label,
+            correctLabel: correctLabel,
             answer: option?.text ?? '',
           );
         },
