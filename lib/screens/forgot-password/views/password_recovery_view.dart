@@ -26,10 +26,10 @@ class PasswordRecoveryView extends StatelessWidget {
                         Positioned.fill(
                           // Makes the image fill the entire available space
                           child: Obx(
-                                () => Image.asset(
-                                  AppGlobals.isDarkMode.value
-                                      ? AppConstants.forgetPassBgDark
-                                      : AppConstants.forgetPassBgLight,
+                            () => Image.asset(
+                              AppGlobals.isDarkMode.value
+                                  ? AppConstants.forgetPassBgDark
+                                  : AppConstants.forgetPassBgLight,
                               // fit: BoxFit.fill,
                             ),
                           ),
@@ -48,7 +48,7 @@ class PasswordRecoveryView extends StatelessWidget {
                                   onTap: () {
                                     if (kDebugMode) {
                                       controller.emailTFController.text =
-                                      'ahsan@mailinator.com';
+                                          'ahsan@mailinator.com';
                                     }
                                   },
                                   child: CustomText(
@@ -68,7 +68,9 @@ class PasswordRecoveryView extends StatelessWidget {
                                   controller: controller.emailTFController,
                                   upperLabel: "Email Address",
                                   upperLabelReqStar: "*",
-                                  prefixIcon: SvgPicture.asset(AppConstants.mail),
+                                  prefixIcon: SvgPicture.asset(
+                                    AppConstants.mail,
+                                  ),
                                   hintValue: "Enter Email Address",
                                   validator: (value) => validateEmail(value),
                                   type: TextInputType.emailAddress,
@@ -99,7 +101,11 @@ class PasswordRecoveryView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Positioned(top: Get.height*0.05, left: 10, child: CustomBackButton()),
+                    Positioned(
+                      top: Get.height * 0.05,
+                      left: 10,
+                      child: CustomBackButton(),
+                    ),
                   ],
                 ),
               ),

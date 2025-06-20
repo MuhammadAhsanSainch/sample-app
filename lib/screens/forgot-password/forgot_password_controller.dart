@@ -1,16 +1,17 @@
 import 'dart:async';
+import 'forgot_password_binding.dart';
 import '../../utilities/app_exports.dart';
 import '../../api_services/auth_services.dart';
 import '../../api_core/custom_exception_handler.dart';
-import '../../screens/forgot-password/views/verify_code_view.dart';
-import '../../screens/forgot-password/views/reset_password_success_view.dart';
+import '/screens/forgot-password/views/verify_code_view.dart';
+import '/screens/forgot-password/views/reset_password_view.dart';
+import '/screens/forgot-password/views/reset_password_success_view.dart';
 
 class ForgotPasswordController extends GetxController {
-  final TextEditingController emailTFController = TextEditingController();
-  final TextEditingController otpTFController = TextEditingController();
-  final TextEditingController passwordTFController = TextEditingController();
-  final TextEditingController confirmPasswordTFController =
-      TextEditingController();
+  final emailTFController = TextEditingController();
+  final otpTFController = TextEditingController();
+  final passwordTFController = TextEditingController();
+  final confirmPasswordTFController = TextEditingController();
 
   static ForgotPasswordController get to {
     try {
@@ -61,10 +62,28 @@ class ForgotPasswordController extends GetxController {
       final res = await AuthServices.sendOTP({"email": emailTFController.text});
       if (res != null) {
         Get.to(
-          () => VerifyCodeView(
-            email: ForgotPasswordController.to.emailTFController.text,
-          ),
+          () => VerifyCodeView(email: emailTFController.text),
+          binding: ForgotPasswordBinding(),
         );
+      }
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      AppGlobals.isLoading(false);
+    }
+  }
+
+  Future verifyOtp() async {
+    try {
+      AppGlobals.isLoading(true);
+      final res = await AuthServices.verifyOTP({
+        "email": emailTFController.text,
+        "otp": int.parse(otpTFController.text),
+      });
+      if (res != null) {
+        Get.to(() => ResetPasswordView(), binding: ForgotPasswordBinding());
       }
     } on Exception catch (e) {
       ExceptionHandler().handleException(e);
@@ -80,7 +99,6 @@ class ForgotPasswordController extends GetxController {
       AppGlobals.isLoading(true);
       final res = await AuthServices.resetPassword({
         "email": emailTFController.text,
-        "otp": int.parse(otpTFController.text),
         "newPassword": passwordTFController.text,
       });
       if (res != null) {

@@ -1,7 +1,7 @@
-import 'package:path_to_water/screens/login/login_view.dart';
-
-import '../../utilities/app_exports.dart';
 import 'signup_controller.dart';
+import '../login/login_view.dart';
+import '../login/login_binding.dart';
+import '../../utilities/app_exports.dart';
 
 class SignupView extends StatelessWidget {
   SignupView({super.key});
@@ -226,7 +226,7 @@ class SignupView extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Get.off(() => LoginView());
+                Get.off(() => LoginView(),binding: LoginBinding());
               },
               child: CustomText(
                 "Sign In",

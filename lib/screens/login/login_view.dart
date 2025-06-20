@@ -1,10 +1,9 @@
-import 'package:path_to_water/screens/signup/signup_binding.dart';
-import 'package:path_to_water/screens/signup/signup_view.dart';
-
+import 'login_controller.dart';
+import '../signup/signup_view.dart';
+import '../signup/signup_binding.dart';
 import '../../utilities/app_exports.dart';
 import '../forgot-password/forgot_password_binding.dart';
 import '../forgot-password/views/password_recovery_view.dart';
-import 'login_controller.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});

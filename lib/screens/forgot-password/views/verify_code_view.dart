@@ -1,7 +1,5 @@
-import '../forgot_password_binding.dart';
 import '../forgot_password_controller.dart';
 import '../../../utilities/app_exports.dart';
-import '../../../screens/forgot-password/views/reset_password_view.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyCodeView extends StatelessWidget {
@@ -75,7 +73,7 @@ class VerifyCodeView extends StatelessWidget {
                               if (!verifyCodeFormKey.currentState!.validate()) {
                                 return;
                               }
-                              Get.to(() => ResetPasswordView(), binding: ForgotPasswordBinding());
+                              controller.verifyOtp();
                             },
                           ),
                           Obx(
