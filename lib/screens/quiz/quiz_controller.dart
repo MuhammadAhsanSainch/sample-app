@@ -18,10 +18,11 @@ class QuizController extends GetxController {
 
   List<Map<String, dynamic>> answersPayload = [];
 
-  void selectAnswer({required String answer, required String label}) {
+  void selectAnswer({required String answer, required String label,required String correctLabel}) {
     selectedOption.value = answer;
     selectedLabel.value = label;
-    update(); // or call update(['slider']) if needed
+    actualLabel.value = correctLabel;
+    update();
   }
 
   void nextQuestion() {
@@ -43,6 +44,8 @@ class QuizController extends GetxController {
                 ?.firstWhere((e) => e?.isCorrect == true)
                 ?.text ??
             '',
+         selectedLabel: selectedLabel.value,
+        actualLabel: actualLabel.value,
         explanation: currentQuestion?.description ?? '',
         onNextButtonTap: () => handleNextQuestion(context), // Extracted logic
       ),
@@ -81,6 +84,7 @@ class QuizController extends GetxController {
 
   int currentQuestionIndex = 0;
   var selectedLabel = ''.obs;
+  var actualLabel = ''.obs;
   var selectedOption = ''.obs;
   var selectedOptionId = ''.obs;
 

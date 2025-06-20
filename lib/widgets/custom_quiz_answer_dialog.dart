@@ -6,6 +6,8 @@ class CustomQuizAnswerDialog extends StatelessWidget {
   final String question;
   final String givenAnswer;
   final String actualAnswer;
+  final String selectedLabel;
+  final String actualLabel;
   final String explanation;
   final void Function()? onNextButtonTap;
 
@@ -14,6 +16,8 @@ class CustomQuizAnswerDialog extends StatelessWidget {
     required this.explanation,
     required this.givenAnswer,
     required this.actualAnswer,
+    required this.selectedLabel,
+    required this.actualLabel,
     required this.question,
     this.onNextButtonTap,
   });
@@ -84,7 +88,7 @@ class CustomQuizAnswerDialog extends StatelessWidget {
                         ),
                         child: Center(
                           child: CustomText(
-                            'A',
+                            selectedLabel,
                             style: AppTextTheme.bodyLarge.copyWith(
                               color: AppColors.primary,
                             ),
@@ -127,7 +131,7 @@ class CustomQuizAnswerDialog extends StatelessWidget {
                         ),
                         child: Center(
                           child: CustomText(
-                            'A',
+                            actualLabel,
                             style: AppTextTheme.bodyLarge.copyWith(
                               color: AppColors.primary,
                             ),
