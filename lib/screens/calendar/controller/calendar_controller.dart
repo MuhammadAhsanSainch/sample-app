@@ -44,18 +44,18 @@ class CalendarController extends GetxController {
       RetrieveEventsParams(startDate: startDate, endDate: endDate),
     );
     List<Event> calendarEvents = calendarEventsResult.data as List<Event>;
-    // for (var element in calendarEvents) {
-    //   DateTime? date = element.start?.toLocal();
-    //   if (date == null) continue;
+    for (var element in calendarEvents) {
+      DateTime? date = element.start?.toLocal();
+      if (date == null) continue;
 
-    //   date = DateTime(date.year, date.month, date.day);
+      date = DateTime(date.year, date.month, date.day);
 
-    //   if (events[date] == null) {
-    //     events[date] = [element];
-    //   } else {
-    //     events[date]?.add(element);
-    //   }
-    // }
-    // update(['calendarEvents']);
+      if (events[date] == null) {
+        events[date] = [element];
+      } else {
+        events[date]?.add(element);
+      }
+    }
+    update(['calendarEvents']);
   }
 }

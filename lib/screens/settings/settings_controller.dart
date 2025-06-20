@@ -52,7 +52,7 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
     );
     if (pickedFile != null) {
       imageFile = File(pickedFile.path);
-      await uploadImage({'file': imageFile?.path});
+      // await uploadImage({'file': imageFile?.path});
       log('profileImageKey: $profileImgKey');
       update();
     }
@@ -169,6 +169,7 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
               UserPreferences.loginData = {};
               UserPreferences.isLogin = false;
               UserPreferences.authToken = "";
+              UserPreferences.userId = "";
               Get.offAll(() => SplashScreen());
             },
           ),
@@ -186,6 +187,8 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
   @override
   void onInit() {
     super.onInit();
-    getProfile();
+    WidgetsBinding.instance.addPostFrameCallback((d){
+      getProfile();
+    });
   }
 }

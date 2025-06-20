@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:path_to_water/screens/home/home_binding.dart';
 import 'package:path_to_water/screens/home/home_view.dart';
-import 'package:path_to_water/screens/login/login_binding.dart';
-import 'package:path_to_water/screens/login/login_view.dart';
 
 import '../models/auth_model.dart';
 import '../utilities/app_exports.dart';
@@ -33,8 +31,8 @@ class _SplashScreenState extends State<SplashScreen> {
         Get.offAll(() => HomeView(), binding: HomeBinding());
         // Get.offAll(() => LoginView(), binding: LoginBinding());
       } else {
-        // Get.offAll(() => HomeView(), binding: HomeBinding());
-        Get.offAll(() => LoginView(), binding: LoginBinding());
+        Get.offAll(() => HomeView(), binding: HomeBinding());
+        // Get.offAll(() => LoginView(), binding: LoginBinding());
       }
     });
   }

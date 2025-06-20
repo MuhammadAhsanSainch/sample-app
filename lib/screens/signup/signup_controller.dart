@@ -44,6 +44,7 @@ class SignupController extends GetxController {
         UserPreferences.loginData = res?.user?.toJson() ?? {};
         UserPreferences.isLogin = true;
         UserPreferences.authToken = res?.accessToken ?? "";
+        UserPreferences.userId = res?.user?.id ?? "";
         Get.off(() => HomeView(), binding: HomeBinding());
       }
     } on Exception catch (e) {

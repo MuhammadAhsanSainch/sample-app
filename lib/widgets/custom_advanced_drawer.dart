@@ -38,7 +38,10 @@ class CustomAdvancedDrawer extends StatelessWidget {
               _DrawerItem(
                 label: "Home",
                 pngIcon: AppConstants.homeIcon,
-                onTap: () => controller.hideDrawer(),
+                onTap: () {
+                  homeController.currentTabIndex(0);
+                  controller.hideDrawer();
+                },
               ),
               _DrawerItem(
                 label: "Today Quiz",
