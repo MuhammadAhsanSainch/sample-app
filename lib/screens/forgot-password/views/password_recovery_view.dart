@@ -48,7 +48,7 @@ class PasswordRecoveryView extends StatelessWidget {
                                   onTap: () {
                                     if (kDebugMode) {
                                       controller.emailTFController.text =
-                                          'ahsan@mailinator.com';
+                                          'ahsan@yopmail.com';
                                     }
                                   },
                                   child: CustomText(

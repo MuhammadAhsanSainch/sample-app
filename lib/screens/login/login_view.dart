@@ -7,15 +7,15 @@ import '../forgot-password/views/password_recovery_view.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
-
+  LoginController get controller => Get.put(LoginController());
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<LoginController>(
-      init: LoginController.to,
+      init: controller,
       builder:
-          (controller) => Obx(
+          (_) => Obx(
             () => CustomLoader(
               isTrue: AppGlobals.isLoading.value,
               child: Scaffold(
@@ -50,8 +50,8 @@ class LoginView extends StatelessWidget {
                               onTap: () {
                                 if (kDebugMode) {
                                   controller.emailTFController.text =
-                                  "ahsan@mailinator.com";
-                                  controller.passwordTFController.text = "1235";
+                                  "ahsan@yopmail.com";
+                                  controller.passwordTFController.text = "1234";
                                 }
                               },
                               child: CustomText(
@@ -75,6 +75,7 @@ class LoginView extends StatelessWidget {
                                   allow: true,
                                 ),
                               ],
+                              maxLines: 1,
                             ),
 
                             ///Password
@@ -169,6 +170,7 @@ class LoginView extends StatelessWidget {
               // Replace with your Google logo asset
               onPressed: () {
                 // Handle Google sign-in
+                controller.signInWithGoogle();
               },
             ),
             const SizedBox(width: 20),

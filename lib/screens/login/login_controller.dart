@@ -1,14 +1,45 @@
-import 'package:path_to_water/api_core/custom_exception_handler.dart';
-import 'package:path_to_water/api_services/auth_services.dart';
-import 'package:path_to_water/screens/home/home_binding.dart';
-import 'package:path_to_water/screens/home/home_view.dart';
-
+import '../home/home_view.dart';
+import '../home/home_binding.dart';
 import '../../utilities/app_exports.dart';
+import '../../api_services/auth_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import '../../api_core/custom_exception_handler.dart';
 
 class LoginController extends GetxController {
+  final FirebaseAuth _auth= FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn= GoogleSignIn();
   final TextEditingController emailTFController = TextEditingController();
   final TextEditingController passwordTFController = TextEditingController();
 
+  Future<void> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) return;
+
+      final googleAuth = await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await _auth.signInWithCredential(credential);
+      emailTFController.text=user?.email??'';
+      log('Full Name :${user?.displayName}');
+      log('User Name :${user?.displayName.removeAllWhiteSpaces.toLowerCase()}');
+      log('Email :${user?.email}');
+      log('Email :${user?.photoURL}');
+    } catch (e) {
+      log('Error: ${e.toString()}');
+      Get.snackbar('Error', e.toString());
+    }
+  }
+
+  Future<void> signOut() async {
+    await _googleSignIn.signOut();
+    await _auth.signOut();
+  }
+
+  User? get user => _auth.currentUser;
   @override
   void dispose() {
     emailTFController.dispose();

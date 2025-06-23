@@ -64,7 +64,7 @@ class ProfileScreen extends StatelessWidget {
                                         ? CircleAvatar(
                                           radius: 50,
                                           backgroundImage: NetworkImage(
-                                            '${AppUrl.mediaUrl}${controller.profilePicture.value}',
+                                            controller.profilePicture.value,
                                           ),
                                         )
                                         : CircleAvatar(
@@ -180,59 +180,80 @@ class ProfileScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: CustomText(
-                        'Gender*',
+                        'Gender',
                         style: AppTextTheme.bodyMedium,
                       ),
                     ),
                     5.verticalSpace,
-                    FormField<String>(
-                      validator: (value) {
-                        final selectedValue =
-                            controller.genderTFController.text;
-                        if ((selectedValue.isEmpty ||
-                            selectedValue == 'Choose One')) {
-                          return '    This field is required';
-                        }
-                        return null;
-                      },
-                      builder: (FormFieldState<String> state) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomDropDownButton(
-                              enabled: false,
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.only(left: 16),
-                                child: SvgPicture.asset(AppConstants.gender),
-                              ),
-                              width: Get.width,
-                              initialValue:
-                                  controller.genderTFController.text.isEmpty
-                                      ? 'Choose One'
-                                      : controller.genderTFController.text,
-                              items: ['Choose One', 'Male', 'Female'],
-                              onChanged: (value) {
-                                log(value);
-                                controller.genderTFController.text = value;
-                                state.didChange(
-                                  value,
-                                ); // Notify FormField of change
-                              },
-                            ),
-                            if (state.hasError)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4),
-                                child: Text(
-                                  state.errorText!,
-                                  style: TextStyle(
-                                    color: AppColors.error,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        );
-                      },
+                    // FormField<String>(
+                    //   validator: (value) {
+                    //     final selectedValue =
+                    //         controller.genderTFController.text;
+                    //     if ((selectedValue.isEmpty ||
+                    //         selectedValue == 'Choose One')) {
+                    //       return '    This field is required';
+                    //     }
+                    //     return null;
+                    //   },
+                    //   builder: (FormFieldState<String> state) {
+                    //     return Column(
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       children: [
+                    //         CustomDropDownButton(
+                    //           enabled: false,
+                    //           prefixIcon: Padding(
+                    //             padding: const EdgeInsets.only(left: 16),
+                    //             child: SvgPicture.asset(AppConstants.gender),
+                    //           ),
+                    //           width: Get.width,
+                    //           initialValue:
+                    //               controller.genderTFController.text.isEmpty
+                    //                   ? 'Choose One'
+                    //                   : controller.genderTFController.text,
+                    //           items: ['Choose One', 'Male', 'Female'],
+                    //           onChanged: (value) {
+                    //             log(value);
+                    //             controller.genderTFController.text = value;
+                    //             state.didChange(
+                    //               value,
+                    //             ); // Notify FormField of change
+                    //           },
+                    //         ),
+                    //         if (state.hasError)
+                    //           Padding(
+                    //             padding: const EdgeInsets.only(top: 4),
+                    //             child: Text(
+                    //               state.errorText!,
+                    //               style: TextStyle(
+                    //                 color: AppColors.error,
+                    //                 fontSize: 12,
+                    //               ),
+                    //             ),
+                    //           ),
+                    //       ],
+                    //     );
+                    //   },
+                    // ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomDropDownButton(
+                          enabled: false,
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.only(left: 16),
+                            child: SvgPicture.asset(AppConstants.gender),
+                          ),
+                          width: Get.width,
+                          initialValue:
+                          controller.genderTFController.text.isEmpty
+                              ? 'Choose One'
+                              : controller.genderTFController.text,
+                          items: ['Choose One', 'Male', 'Female'],
+                          onChanged: (value) {
+                            controller.genderTFController.text = value;
+                          },
+                        ),
+                      ],
                     ),
                     20.verticalSpace,
 

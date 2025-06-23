@@ -118,7 +118,7 @@ class ApiClient {
           ).toString(),
     );
     if (!isFormData) {
-      log("Request body: ${jsonEncode(data)}");
+      log("Request body:: ${jsonEncode(data)}");
     } else {
       log("Request body: ${data.toString()}");
     }
