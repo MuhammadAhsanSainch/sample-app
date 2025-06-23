@@ -5,7 +5,7 @@ class ProfileModel {
 /*
 {
   "id": "28878f93-870a-46d2-b345-3e0c130dfb3d",
-  "email": "ahsan@mailinator.com",
+  "email": "ahsan@yopmail.com",
   "userName": "ahsansainch",
   "name": "Muhammad Ahsan",
   "gender": null,

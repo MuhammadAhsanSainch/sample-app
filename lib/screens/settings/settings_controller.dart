@@ -3,13 +3,13 @@ import 'package:dio/dio.dart' as dio;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_to_water/api_services/settings_services.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
-
 import '../../api_core/custom_exception_handler.dart';
 import '../../api_services/profile_services.dart';
 import '../../widgets/custom_dialog.dart';
 import '../splash.dart';
 
-class SettingsController extends GetxController with GetSingleTickerProviderStateMixin {
+class SettingsController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   final TextEditingController fullNameTFController = TextEditingController();
   final TextEditingController userNameTFController = TextEditingController();
   final TextEditingController emailTFController = TextEditingController();
@@ -28,19 +28,33 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
   final profilePicture = ''.obs;
 
   Future uploadImage(Map<String, dynamic> reqBody) async {
-    var map = reqBody;
-    if (map["file"] != null) {
-      map["file"] = await dio.MultipartFile.fromFile(map["file"]);
+    var data = reqBody;
+    if (data["file"] != null) {
+      data["file"] = await dio.MultipartFile.fromFile(
+        data["file"],
+        contentType: dio.DioMediaType("image", "jpeg"),
+      );
     }
-    // return NetworkService.handleApiCall(
-    //   AppUrl.apiService.uploadMedia(dio.FormData.fromMap(map)),
-    //   errorMessagePrefix: 'uploadImage',
-    // ).then((value) {
-    //   if (value['status'] == true) {
-    //     profileImgKey.value = value['data']['key'];
-    //     update();
-    //   }
-    // });
+    try {
+      AppGlobals.isLoading(true);
+      final res = await ProfileServices.uploadProfilePic(data);
+      if (res != null) {
+        log(res.toString());
+        profilePicture.value = res.logo ?? '';
+        fullNameTFController.text = res.name ?? '';
+        userNameTFController.text = res.userName ?? '';
+        emailTFController.text = res.email ?? '';
+        dOBTFController.text =
+            AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
+        genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
+      }
+    } on Exception catch (e) {
+      ExceptionHandler().handleException(e);
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      AppGlobals.isLoading(false);
+    }
   }
 
   Future<void> pickImage() async {
@@ -52,9 +66,9 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
     );
     if (pickedFile != null) {
       imageFile = File(pickedFile.path);
-      // await uploadImage({'file': imageFile?.path});
-      log('profileImageKey: $profileImgKey');
+      log('picked file:${imageFile?.path}');
       update();
+      await uploadImage({'file': imageFile?.path});
     }
   }
 
@@ -68,10 +82,12 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
       AppGlobals.isLoading(true);
       final res = await ProfileServices.getProfile();
       if (res != null) {
+        profilePicture.value = res.logo ?? '';
         fullNameTFController.text = res.name ?? '';
         userNameTFController.text = res.userName ?? '';
         emailTFController.text = res.email ?? '';
-        dOBTFController.text = AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
+        dOBTFController.text =
+            AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
         genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
       }
     } on Exception catch (e) {
@@ -88,15 +104,20 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
       AppGlobals.isLoading(true);
       final res = await ProfileServices.updateProfile({
         "name": fullNameTFController.text,
-        "gender": genderTFController.text.toUpperCase(),
+        "gender":
+            genderTFController.text == 'Choose One'
+                ? null
+                : genderTFController.text.toUpperCase(),
         "dob": AppGlobals.toISOFormatDate(dOBTFController.text),
-        // "logo": "url"
+        "logo": profilePicture.value,
       });
       if (res != null) {
+        profilePicture.value = res.logo ?? '';
         fullNameTFController.text = res.name ?? '';
         userNameTFController.text = res.userName ?? '';
         emailTFController.text = res.email ?? '';
-        dOBTFController.text = AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
+        dOBTFController.text =
+            AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
         genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
         Get.dialog(
           CustomDialog(
@@ -187,7 +208,7 @@ class SettingsController extends GetxController with GetSingleTickerProviderStat
   @override
   void onInit() {
     super.onInit();
-    WidgetsBinding.instance.addPostFrameCallback((d){
+    WidgetsBinding.instance.addPostFrameCallback((d) {
       getProfile();
     });
   }

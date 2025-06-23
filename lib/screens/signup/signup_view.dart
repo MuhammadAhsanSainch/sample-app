@@ -70,6 +70,7 @@ class SignupView extends StatelessWidget {
                                 }
                                 return null; // Return null if the input is valid
                               },
+                              maxLines: 1,
                             ),
 
                             ///User Name
@@ -87,6 +88,7 @@ class SignupView extends StatelessWidget {
                                 }
                                 return null; // Return null if the input is valid
                               },
+                              maxLines: 1,
                             ),
 
                             ///Email
@@ -104,6 +106,7 @@ class SignupView extends StatelessWidget {
                                   allow: true,
                                 ),
                               ],
+                              maxLines: 1,
                             ),
 
                             ///Password
@@ -122,6 +125,7 @@ class SignupView extends StatelessWidget {
                                 }
                                 return null; // Return null if the input is valid
                               },
+                              maxLines: 1,
                             ),
 
                             ///Confirm Password
@@ -140,6 +144,7 @@ class SignupView extends StatelessWidget {
                                     controller.passwordTFController.text,
                                     confirmPwd,
                                   ),
+                              maxLines: 1,
                             ),
 
                             SizedBox(height: Get.height * 0.025),

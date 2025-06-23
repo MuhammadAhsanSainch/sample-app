@@ -98,15 +98,21 @@ class DailyQuizHistoryView extends StatelessWidget {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Row(
-                                              spacing: 10,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 CustomText(
                                                   item.quiz?.title,
                                                   style:
                                                       AppTextTheme.titleMedium,
                                                 ),
-                                                SvgPicture.asset(
-                                                  AppConstants.star,
+                                                Row(
+                                                  spacing: 10,
+                                                  children: [
+                                                    CustomText('${item.score}'),
+                                                    SvgPicture.asset(
+                                                      AppConstants.star,
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),

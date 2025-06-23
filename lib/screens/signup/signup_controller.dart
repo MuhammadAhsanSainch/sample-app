@@ -59,8 +59,8 @@ class SignupController extends GetxController {
   void setDummyValuesToControllers() {
     fullNameTFController.text = "Muhammad Ahsan";
     userNameTFController.text = "ahsansainch";
-    emailTFController.text = "ahsan@mailinator.com";
-    passwordTFController.text = "1235";
-    confirmPasswordTFController.text = "1235";
+    emailTFController.text = "ahsan@yopmail.com";
+    passwordTFController.text = "1234";
+    confirmPasswordTFController.text = "1234";
   }
 }
