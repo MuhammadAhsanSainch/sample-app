@@ -31,8 +31,8 @@ class _SplashScreenState extends State<SplashScreen> {
         Get.offAll(() => HomeView(), binding: HomeBinding());
         // Get.offAll(() => LoginView(), binding: LoginBinding());
       } else {
-        // Get.offAll(() => HomeView(), binding: HomeBinding());
-        Get.offAll(() => LoginView(), binding: LoginBinding());
+        Get.offAll(() => HomeView(), binding: HomeBinding());
+        // Get.offAll(() => LoginView(), binding: LoginBinding());
       }
     });
   }

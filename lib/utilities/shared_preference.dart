@@ -28,6 +28,9 @@ class UserPreferences {
   static set authToken(String authToken) {prefs.setString('authToken', authToken);}
   static String get authToken => prefs.getString('authToken') ?? "";
 
+  static set userId(String id) {prefs.setString('userId', id);}
+  static String get userId => prefs.getString('userId') ?? "";
+
   static set isLogin(bool isLogin) {prefs.setBool('isLogin', isLogin);}
   static bool get isLogin => prefs.getBool('isLogin') ?? false;
 

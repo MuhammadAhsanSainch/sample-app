@@ -9,7 +9,10 @@ class AyatAndHadithService {
   static Future<DailyContent> getDailyContent() async {
     final res = await ApiClient().get(
       AppUrl.dailyContent,
-      queryParameters: {"date": DateTime.now().toUtc().toFormatDateTime(format: "yyyy-MM-dd")},
+      queryParameters: {
+        "date": DateTime.now().toUtc().toFormatDateTime(format: "yyyy-MM-dd"),
+        if (UserPreferences.isLogin) "userId": UserPreferences.userId,
+      },
     );
     return DailyContent.fromJson(res.data);
   }

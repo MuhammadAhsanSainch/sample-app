@@ -2,10 +2,10 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:path_to_water/models/journal_model.dart';
+import 'package:path_to_water/screens/journal/binding/create_journal_screen_binding.dart';
 import 'package:path_to_water/screens/journal/controllers/journal_listing_controller.dart';
 import 'package:path_to_water/screens/journal/controllers/journal_screen_controller.dart';
 import 'package:path_to_water/screens/journal/views/create_journal_screen.dart';
-import 'package:path_to_water/screens/reminder/bindings/create_reminder_screen_binding.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_calendar.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
@@ -131,7 +131,13 @@ class JournalListingScreen extends StatelessWidget {
                               index,
                               (state.items?.length ?? 0) > 1,
                             ),
+                            noItemsFoundIndicatorBuilder: (context) {
+                              return Center(
+                                child: CustomText("No Journals Found"),
+                              );
+                            },
                       ),
+                      
                       separatorBuilder: (context, index) => SizedBox.shrink(),
                     );
                   },
@@ -415,7 +421,7 @@ class JournalListingScreen extends StatelessWidget {
                                     onTap: () {
                                       Get.to(
                                         CreateJournalScreen(journal: entry),
-                                        binding: CreateReminderScreenBinding(),
+                                        binding: CreateJournalScreenBinding(),
                                       )?.then((value) {
                                         if (value == true) {
                                           journalScreenController.onRefresh();
