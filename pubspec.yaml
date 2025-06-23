@@ -53,6 +53,8 @@ dependencies:
   readmore: ^3.0.0
   device_calendar: ^4.3.3
   infinite_scroll_pagination: ^5.0.0
+  firebase_messaging: ^15.2.7
+  flutter_local_notifications: ^18.0.1
 
 dev_dependencies:
   flutter_test:
