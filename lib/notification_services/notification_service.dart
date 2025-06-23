@@ -1,34 +1,39 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationService {
-  final FlutterLocalNotificationsPlugin notificationsPlugin =
-      FlutterLocalNotificationsPlugin(); // Define In TopVariable
+  final FlutterLocalNotificationsPlugin _notificationsPlugin =
+  FlutterLocalNotificationsPlugin();
 
   Future<void> initNotification() async {
-    AndroidInitializationSettings initializationSettingsAndroid =
-        const AndroidInitializationSettings('@drawable/ic_notification');
-    var initializeSettingsIOS = DarwinInitializationSettings(
+    // const androidSettings = AndroidInitializationSettings('@drawable/ic_notification');
+    const androidSettings= AndroidInitializationSettings('@mipmap/ic_launcher'); // fallback to app icon
+
+
+    final iosSettings = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
     );
-    var initializeSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializeSettingsIOS,
+
+    final initializationSettings = InitializationSettings(
+      android: androidSettings,
+      iOS: iosSettings,
     );
-    await notificationsPlugin.initialize(
-      initializeSettings,
-      onDidReceiveNotificationResponse:
-          (NotificationResponse notificationResponse) async {},
+
+    await _notificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) async {
+        // Optional: handle notification tap
+      },
     );
   }
 
-  Future showNotification({
+  Future<void> showNotification({
     int id = 0,
     String? title,
     String? body,
     NotificationDetails? payload,
   }) async {
-    return notificationsPlugin.show(id, title, body, payload);
+    await _notificationsPlugin.show(id, title, body, payload);
   }
 }
