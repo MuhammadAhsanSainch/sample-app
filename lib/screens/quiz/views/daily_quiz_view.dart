@@ -1,6 +1,7 @@
 import 'package:path_to_water/screens/quiz/quiz_controller.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_arc_slider.dart';
+import 'package:readmore/readmore.dart';
 
 class DailyQuizView extends StatelessWidget {
   const DailyQuizView({super.key});
@@ -84,40 +85,57 @@ class DailyQuizView extends StatelessWidget {
       id: "dailyQuiz", // Ensure this ID matches the one updated in controller
       builder: (_) {
         if (controller.dailyQuizModel?.questions?.isNotEmpty ?? false) {
-          return Stack(
-            children: [
-              Positioned(
-                bottom: 2,
-                right: -2,
-                left: -2,
-                child: GetBuilder<QuizController>(
-                  id: 'slider',
-                  // Separate ID for the slider if it updates independently
-                  builder: (_) {
-                    return CustomArcSlider(
-                      maxValue:
-                          controller.dailyQuizModel?.questions?.length ?? 0,
-                      initialValue: controller.initialValue,
-                    );
-                  },
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  30.verticalSpace,
-                  CustomText(
-                    controller.currentQuestion?.text ?? '',
-                    style: AppTextTheme.headlineSmall,
-                    maxLine: 4,
-                    textAlign: TextAlign.center,
+          return SizedBox(
+            height: Get.height * 0.9,
+            child: Stack(
+              children: [
+                Positioned(
+                  bottom: 2,
+                  right: -2,
+                  left: -2,
+                  child: GetBuilder<QuizController>(
+                    id: 'slider',
+                    // Separate ID for the slider if it updates independently
+                    builder: (_) {
+                      return CustomArcSlider(
+                        maxValue:
+                        controller.dailyQuizModel?.questions?.length ?? 0,
+                        initialValue: controller.initialValue,
+                      );
+                    },
                   ),
-                  10.verticalSpace,
-                  if (controller.currentQuestion?.options?.isNotEmpty ?? false)
-                    ..._buildOptionButtons(), // Extracted option buttons
-                ],
-              ),
-            ],
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 175.h),
+                  clipBehavior: Clip.none,
+                  height: Get.height * 0.42,
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ReadMoreText(
+                          controller.currentQuestion?.text ?? '',
+                          trimMode: TrimMode.Line,
+                          trimLines: 4,
+                          colorClickableText: Colors.pink,
+                          trimCollapsedText: 'Read more',
+                          trimExpandedText: 'Read less',
+                          style: AppTextTheme.titleLarge.copyWith(
+                            fontSize: 20.sp
+                          ),
+                          moreStyle: AppTextTheme.titleLarge.copyWith(fontSize: 20.sp),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      8.verticalSpace,
+                      if (controller.currentQuestion?.options?.isNotEmpty ?? false)
+                        ..._buildOptionButtons(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           );
         } else {
           return Center(

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math' show Random;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -20,9 +19,7 @@ Future<void> listenToFCM() async {
   );
 
   // Get and save FCM token
-  if (Platform.isAndroid) {
-    AppGlobals.fcmToken = await messaging.getToken() ?? '';
-  }
+  AppGlobals.fcmToken = await messaging.getToken() ?? '';
   messaging.onTokenRefresh.listen((newToken) {
     log('New FCM Token: $newToken');
     AppGlobals.fcmToken = newToken;

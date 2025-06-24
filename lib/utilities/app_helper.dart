@@ -32,4 +32,36 @@ class Helper {
       },
     );
   }
+
+  static Future<DateTime> pickDate(
+      BuildContext context, {
+        bool isFilterDialog = false,
+        DateTime? lastDate,
+      }) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: lastDate ?? DateTime(2101),
+      confirmText: 'Ok',
+      cancelText:  'Cancel',
+      builder: (context, child) {
+        return Theme(
+          data:
+          AppGlobals.isDarkMode.value
+              ? ThemeData.dark().copyWith(
+            colorScheme: ColorScheme.dark(primary: AppColors.primary),
+          )
+              : ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(primary: AppColors.primary),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null && picked != DateTime.now()) {
+      return picked;
+    }
+    return DateTime.now();
+  }
 }

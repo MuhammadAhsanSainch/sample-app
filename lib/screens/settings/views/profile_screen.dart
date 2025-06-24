@@ -108,11 +108,11 @@ class ProfileScreen extends StatelessWidget {
 
                     ///Full Name
                     CustomTextFormField(
-                      enabled: false,
+                      readOnly: true,
                       controller: controller.fullNameTFController,
                       prefixIcon: SvgPicture.asset(AppConstants.profile),
                       upperLabel: "Full Name",
-                      upperLabelReqStar: "*",
+                      upperLabelReqStar: "",
                       hintValue: "Enter Full Name",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -124,11 +124,11 @@ class ProfileScreen extends StatelessWidget {
 
                     ///User Name
                     CustomTextFormField(
-                      enabled: false,
+                      readOnly: true,
                       controller: controller.userNameTFController,
                       prefixIcon: SvgPicture.asset(AppConstants.profile),
                       upperLabel: "User Name",
-                      upperLabelReqStar: "*",
+                      upperLabelReqStar: "",
                       hintValue: "Enter User Name",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -140,11 +140,11 @@ class ProfileScreen extends StatelessWidget {
 
                     ///Email
                     CustomTextFormField(
-                      enabled: false,
+                      readOnly: true,
                       controller: controller.emailTFController,
                       prefixIcon: SvgPicture.asset(AppConstants.mail),
                       upperLabel: "Email Address",
-                      upperLabelReqStar: "*",
+                      upperLabelReqStar: "",
                       hintValue: "Enter Email Address",
                       validator: (value) => validateEmail(value),
                       type: TextInputType.emailAddress,
@@ -158,12 +158,11 @@ class ProfileScreen extends StatelessWidget {
 
                     ///Date Of Birth
                     CustomTextFormField(
-                      enabled: false,
                       readOnly: true,
                       controller: controller.dOBTFController,
                       prefixIcon: SvgPicture.asset(AppConstants.calendar),
                       upperLabel: "Date Of Birth",
-                      upperLabelReqStar: "*",
+                      upperLabelReqStar: "",
                       hintValue: "Tap to select Date Of Birth",
                       validator: (value) => validateEmail(value),
                       type: TextInputType.emailAddress,
@@ -185,55 +184,6 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     5.verticalSpace,
-                    // FormField<String>(
-                    //   validator: (value) {
-                    //     final selectedValue =
-                    //         controller.genderTFController.text;
-                    //     if ((selectedValue.isEmpty ||
-                    //         selectedValue == 'Choose One')) {
-                    //       return '    This field is required';
-                    //     }
-                    //     return null;
-                    //   },
-                    //   builder: (FormFieldState<String> state) {
-                    //     return Column(
-                    //       crossAxisAlignment: CrossAxisAlignment.start,
-                    //       children: [
-                    //         CustomDropDownButton(
-                    //           enabled: false,
-                    //           prefixIcon: Padding(
-                    //             padding: const EdgeInsets.only(left: 16),
-                    //             child: SvgPicture.asset(AppConstants.gender),
-                    //           ),
-                    //           width: Get.width,
-                    //           initialValue:
-                    //               controller.genderTFController.text.isEmpty
-                    //                   ? 'Choose One'
-                    //                   : controller.genderTFController.text,
-                    //           items: ['Choose One', 'Male', 'Female'],
-                    //           onChanged: (value) {
-                    //             log(value);
-                    //             controller.genderTFController.text = value;
-                    //             state.didChange(
-                    //               value,
-                    //             ); // Notify FormField of change
-                    //           },
-                    //         ),
-                    //         if (state.hasError)
-                    //           Padding(
-                    //             padding: const EdgeInsets.only(top: 4),
-                    //             child: Text(
-                    //               state.errorText!,
-                    //               style: TextStyle(
-                    //                 color: AppColors.error,
-                    //                 fontSize: 12,
-                    //               ),
-                    //             ),
-                    //           ),
-                    //       ],
-                    //     );
-                    //   },
-                    // ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

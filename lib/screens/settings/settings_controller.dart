@@ -5,6 +5,7 @@ import 'package:path_to_water/api_services/settings_services.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import '../../api_core/custom_exception_handler.dart';
 import '../../api_services/profile_services.dart';
+import '../../utilities/app_helper.dart';
 import '../../widgets/custom_dialog.dart';
 import '../splash.dart';
 
@@ -73,7 +74,7 @@ class SettingsController extends GetxController
   }
 
   Future<void> pickDate() async {
-    var date = await AppGlobals().selectDate(Get.context!);
+    var date = await Helper.pickDate(Get.context!);
     dOBTFController.text = AppGlobals.formatDate(date) ?? "";
   }
 

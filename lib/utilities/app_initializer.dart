@@ -15,6 +15,7 @@ class AppInitializer {
     );
 
     final firebaseMessaging = FirebaseMessaging.instance;
+    await Future.delayed(Duration(seconds: 1));
     String? fcmToken = await firebaseMessaging.getToken();
     log("FCM Token: $fcmToken");
 

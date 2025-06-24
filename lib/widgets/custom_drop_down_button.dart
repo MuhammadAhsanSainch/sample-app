@@ -44,7 +44,7 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
         height: widget.height ?? 55,
         padding: const EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
-          color: AppColors.textFieldFillColor,
+          color: widget.enabled?  AppColors.textFieldFillColor : AppColors.textFieldBorderColor,
           border: Border.all(
             color: AppColors.textFieldBorderColor,
             width: 1,
