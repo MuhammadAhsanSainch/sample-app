@@ -34,8 +34,7 @@ class ReminderScreenController extends GetxController {
       }
       final res = await ReminderService.getAllReminder({
         if (pageNo != null) "page": pageNo,
-        "startDate": dateTime.toFormatDateTime(format: "yyyy-MM-dd"),
-        "endDate": dateTime.toFormatDateTime(format: "yyyy-MM-dd"),
+        "date": dateTime.toFormatDateTime(format: "yyyy-MM-dd"),
         if (searchController.text.isNotEmpty) "search": searchController.text,
       });
       isLastPage = (res?.data.length ?? 0) < (res?.limit ?? 0);

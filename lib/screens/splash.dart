@@ -1,10 +1,9 @@
 import 'dart:async';
-import '../models/auth_model.dart';
-import '/screens/home/home_view.dart';
-import '../utilities/app_exports.dart';
-import '/screens/login/login_view.dart';
+
 import '/screens/home/home_binding.dart';
-import '/screens/login/login_binding.dart';
+import '/screens/home/home_view.dart';
+import '../models/auth_model.dart';
+import '../utilities/app_exports.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

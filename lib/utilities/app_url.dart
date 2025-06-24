@@ -27,4 +27,6 @@ class AppUrl {
   static const String historyApi = "user/histories"; 
 
   static const String dailyContent = "dashboard"; 
+
+  static const String bannerApi = "banners"; 
 }
