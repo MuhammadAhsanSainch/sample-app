@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_to_water/api_core/custom_exception_handler.dart';
@@ -17,6 +18,8 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
   HadithModel? hadithRes;
   HistoryModel? historyRes;
 
+  final AudioPlayer player = AudioPlayer();
+
   @override
   void onInit() {
     super.onInit();
@@ -29,7 +32,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
   Future<void> getDailyContent() async {
     try {
       AppGlobals.isLoading(true);
-      
+
       final res = await AyatAndHadithService.getDailyContent();
       quranAyatRes = res.ayahs.firstOrNull;
       hadithRes = res.hadiths.firstOrNull;
@@ -141,5 +144,15 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
     } finally {
       AppGlobals.isLoading(false);
     }
+  }
+
+  onPlayIconTap(String? url) async {
+    if (url.isNullOREmpty) return;
+    if (player.state == PlayerState.playing) {
+      player.pause();
+    } else {
+      player.play(UrlSource(url!));
+    }
+    update(['quranAyat']);
   }
 }

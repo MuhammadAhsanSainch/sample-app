@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AppInitializer {
   static Future<void> initialize() async {
+  
     WidgetsFlutterBinding.ensureInitialized();
 
     await Firebase.initializeApp(

@@ -1,4 +1,5 @@
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:path_to_water/api_services/banner_service.dart';
 import 'package:path_to_water/screens/calendar/view/calendar_screen.dart';
 import 'package:path_to_water/screens/dashboard/dashboard_view.dart';
 import 'package:path_to_water/screens/favorite_screen/favorite_screen.dart';
@@ -63,9 +64,7 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    Future.delayed(Duration(seconds: 2), () {
-      Get.dialog(BannerDialogWidget());
-    });
+    getBannerAPI();
     super.onInit();
   }
 
@@ -81,5 +80,21 @@ class HomeController extends GetxController {
         },
       ),
     );
+  }
+
+  getBannerAPI() async {
+    try {
+      final res = await BannerService.getBannerAPI();
+
+      if (res.banners.isNotEmpty) {
+        final date = DateTime.now().toFormatDateTime(format: "yyyy-MM-dd");
+        final isBannerShown = UserPreferences.checkBannerShownToday(date);
+        if (isBannerShown) return;
+        await Get.dialog(BannerDialogWidget(url: res.banners.firstOrNull));
+        UserPreferences.bannerShownToday(date, true);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

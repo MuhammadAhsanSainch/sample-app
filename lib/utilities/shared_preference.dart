@@ -37,6 +37,11 @@ class UserPreferences {
   static set loginData(Map<String, dynamic> value) {prefs.setString('loginData', jsonEncode(value));}
   static Map<String, dynamic> get loginData => jsonDecode(prefs.getString('loginData') ?? "{}");
 
+  static void bannerShownToday(String date,bool value) {prefs.setBool(date, value);
+}
+  static bool checkBannerShownToday(date) => prefs.getBool(date) ?? false;
+
+
   // Function Example Syntax To Use
 
   static set saveMap(Map<String, dynamic> value) {prefs.setString('saveMap', jsonEncode(value));}

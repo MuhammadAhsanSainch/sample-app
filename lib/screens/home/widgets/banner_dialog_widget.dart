@@ -1,19 +1,18 @@
 import 'package:path_to_water/utilities/app_exports.dart';
-import 'package:path_to_water/widgets/custom_image_view.dart';
 
 class BannerDialogWidget extends StatelessWidget {
-  const BannerDialogWidget({super.key});
+  final String? url;
+  const BannerDialogWidget({super.key, required this.url});
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       insetPadding: const EdgeInsets.symmetric(horizontal: 20),
       shape: RoundedRectangleBorder(
-        
         borderRadius: BorderRadius.circular(20.0),
-        // side: BorderSide(color: AppColors.strokeColor, width: 2),
+        side: BorderSide(color: AppColors.strokeColor, width: 2),
       ),
-      
+
       clipBehavior: Clip.hardEdge,
       backgroundColor: Colors.transparent,
       child: Stack(
@@ -21,7 +20,11 @@ class BannerDialogWidget extends StatelessWidget {
         children: [
           SizedBox(
             height: 470.h,
-            child: CustomImageView(imagePath: AppConstants.welcomeBannerImage, fit: BoxFit.fill),
+            child: CustomImageView(
+              url: url,
+              fit: BoxFit.fill,
+              placeHolderWidget: SizedBox.shrink(),
+            ),
           ),
           Positioned(
             top: 14.h,

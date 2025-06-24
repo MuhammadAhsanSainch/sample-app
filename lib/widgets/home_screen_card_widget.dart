@@ -16,7 +16,10 @@ class HomeScreenCardWidget extends StatelessWidget {
   final int? maxLine;
   final void Function()? onInfoTap;
   final void Function()? onFavoriteIconTap;
+  final void Function()? onAudioPlayTap;
   final bool centerTitle;
+  final bool showPlayIcon;
+  final bool isPlaying;
   final num? ayatNumber;
   const HomeScreenCardWidget({
     super.key,
@@ -34,7 +37,10 @@ class HomeScreenCardWidget extends StatelessWidget {
     this.onInfoTap,
     this.showSahihText = true,
     this.onFavoriteIconTap,
+    this.onAudioPlayTap,
     this.centerTitle = false,
+    this.showPlayIcon = false,
+    this.isPlaying = false,
     this.ayatNumber,
   });
 
@@ -89,6 +95,16 @@ class HomeScreenCardWidget extends StatelessWidget {
                   child: Icon(Icons.info_outline, color: AppColors.primary),
                 ),
                 Spacer(),
+                Visibility(
+                  visible: showPlayIcon,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 12),
+                    child: InkWell(
+                      onTap: onAudioPlayTap,
+                      child: Icon(Icons.volume_up, color: AppColors.primary, size: 24.h),
+                    ),
+                  ),
+                ),
                 CustomImageView(
                   imagePath:
                       isFavorite == true

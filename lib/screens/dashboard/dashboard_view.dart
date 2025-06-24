@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:path_to_water/screens/dashboard/dashboard_controller.dart';
 import 'package:path_to_water/screens/home/home_controller.dart';
 import 'package:path_to_water/screens/quiz/quiz_binding.dart';
@@ -21,7 +22,7 @@ class DashboardView extends StatelessWidget {
       return CustomLoader(
         isTrue: AppGlobals.isLoading.value,
         child: Padding(
-          padding: EdgeInsets.only(top: kMinInteractiveDimension),
+          padding: EdgeInsets.only(top: kMinInteractiveDimension - 2),
           child: Column(
             children: [
               Stack(
@@ -140,6 +141,12 @@ class DashboardView extends StatelessWidget {
                                             controller.quranAyatRes?.detailArabicPopup ?? "-",
                                         date:
                                             controller.quranAyatRes?.publishDate ?? DateTime.now(),
+                                      ),
+                                  isPlaying: controller.player.state == PlayerState.playing,
+                                  showPlayIcon: true,
+                                  onAudioPlayTap:
+                                      () => controller.onPlayIconTap(
+                                        "https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3",
                                       ),
                                 );
                               },
