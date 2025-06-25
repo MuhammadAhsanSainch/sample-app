@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:path_to_water/api_core/custom_exceptions.dart';
+import 'package:path_to_water/api_core/network_controller.dart';
 import 'package:path_to_water/utilities/app_url.dart';
 import 'package:path_to_water/utilities/shared_preference.dart';
 
@@ -236,9 +238,9 @@ class ApiClient {
   }
 
   Future<void> checkInternetAvailable() async {
-    // if (!NetworkController.find.isInternetAvailable.value) {
-    //   throw HttpCustomException(code: 8000, message: "Please check your internet connection");
-    // }
+    if (!NetworkController.find.isInternetAvailable.value) {
+      throw HttpCustomException(code: 8000, message: "Please check your internet connection");
+    }
     return;
   }
 

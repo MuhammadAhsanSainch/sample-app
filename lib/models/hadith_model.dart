@@ -12,6 +12,7 @@ class HadithModel {
     required this.updatedAt,
     required this.createdBy,
     required this.publishDate,
+    this.isFavorite = false,
   });
 
   final String? id;
@@ -27,7 +28,7 @@ class HadithModel {
   final CreatedBy? createdBy;
   final DateTime? publishDate;
 
-  bool isFavorite = false;
+  bool isFavorite;
 
   factory HadithModel.fromJson(Map<String, dynamic> json) {
     return HadithModel(
@@ -43,6 +44,7 @@ class HadithModel {
       updatedAt: DateTime.tryParse(json["updated_at"] ?? ""),
       publishDate: DateTime.tryParse(json["publish_date"] ?? ""),
       createdBy: json["created_by"] == null ? null : CreatedBy.fromJson(json["created_by"]),
+      isFavorite: json["isFavorite"] ?? false,
     );
   }
 
