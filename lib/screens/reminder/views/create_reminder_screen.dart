@@ -10,13 +10,16 @@ import 'package:path_to_water/widgets/custom_tab_widget.dart';
 
 class CreateReminderScreen extends StatelessWidget {
   final ReminderDetails? reminderDetails;
-  const CreateReminderScreen({super.key, this.reminderDetails});
+  final DateTime? selectedDate;
+  const CreateReminderScreen({super.key, this.reminderDetails, this.selectedDate});
 
   CreateReminderScreenController get controller => Get.put(CreateReminderScreenController());
   @override
   Widget build(BuildContext context) {
     if (reminderDetails != null) {
       controller.setDetails(reminderDetails!);
+    } else if (selectedDate != null) {
+      controller.setDate(selectedDate);
     }
     return Scaffold(
       appBar: CustomAppBar(

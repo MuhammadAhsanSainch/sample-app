@@ -1,6 +1,7 @@
 import 'package:device_calendar/device_calendar.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:path_to_water/screens/calendar/controller/calendar_controller.dart';
+import 'package:path_to_water/screens/reminder/views/create_reminder_screen.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 
 class CalendarScreen extends StatelessWidget {
@@ -274,11 +275,12 @@ class _DualCalendarViewState extends State<DualCalendarView> {
 
     return GestureDetector(
       onTap: () {
-        if (isCurrentMonth) {
-          setState(() {
-            _selectedDate = date;
-          });
-        }
+        // if (isCurrentMonth) {
+        //   setState(() {
+        //     _selectedDate = date;
+        //   });
+        // }
+        Get.to(()=> CreateReminderScreen(selectedDate: date,));
       },
       child: Container(
         // alignment: Alignment.center,

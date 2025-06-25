@@ -3,6 +3,7 @@ import 'package:path_to_water/screens/journal/binding/create_journal_screen_bind
 import 'package:path_to_water/screens/journal/controllers/journal_screen_controller.dart';
 import 'package:path_to_water/screens/journal/views/create_journal_screen.dart';
 import 'package:path_to_water/screens/reminder/bindings/create_reminder_screen_binding.dart';
+import 'package:path_to_water/screens/reminder/controller/reminder_screen_controller.dart';
 import 'package:path_to_water/screens/reminder/views/create_reminder_screen.dart';
 import 'package:path_to_water/widgets/custom_advanced_drawer.dart';
 
@@ -54,7 +55,7 @@ class HomeView extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24),
                   ),
@@ -145,13 +146,19 @@ class HomeView extends StatelessWidget {
             ),
             floatingActionButton: Visibility(
               visible:
-                  [1, 2].contains(controller.currentTabIndex.value) ||
+                  [1].contains(controller.currentTabIndex.value) ||
                   (controller.currentTabIndex.value == 6 && controller.isJournalCreated.value),
               child: FloatingActionButton(
                 onPressed: () {
-                  if (controller.currentTabIndex.value == 1 ||
-                      controller.currentTabIndex.value == 2) {
-                    Get.to(() => CreateReminderScreen(), binding: CreateReminderScreenBinding());
+                  if (controller.currentTabIndex.value == 1) {
+                    Get.to(
+                      () => CreateReminderScreen(),
+                      binding: CreateReminderScreenBinding(),
+                    )?.then((value) {
+                      if (value == true) {
+                        Get.put(ReminderScreenController()).onRefresh();
+                      }
+                    });
                   } else if (controller.currentTabIndex.value == 6) {
                     Get.to(
                       () => CreateJournalScreen(),

@@ -5,6 +5,7 @@ import 'package:path_to_water/api_services/favorite_service.dart';
 import 'package:path_to_water/models/favorite_ayat_model.dart';
 import 'package:path_to_water/models/favorite_hadith_model.dart';
 import 'package:path_to_water/models/favorite_history_model.dart';
+import 'package:path_to_water/screens/dashboard/dashboard_controller.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
 
@@ -104,6 +105,7 @@ class FavoriteScreenController extends GetxController with GetSingleTickerProvid
           break;
         default:
       }
+      Get.put(DashboardController()).onRefresh();
     } on Exception catch (e) {
       ExceptionHandler().handleException(e);
     } finally {

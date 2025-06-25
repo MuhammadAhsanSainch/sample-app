@@ -52,6 +52,15 @@ class CreateReminderScreenController extends GetxController {
     currentTabIndex.value = setReminderType(reminderDetail?.type);
   }
 
+  setDate(DateTime? date) {
+    if (date != null) {
+      selectedDate = date;
+      selectedHijriDate = HijriCalendar.fromDate(selectedDate ?? DateTime.now());
+      selectedDateController.text =
+          "${date.toFormatDateTime(format: "dd MMM, yyyy")}/ ${selectedHijriDate?.hDay ?? ""} ${selectedHijriDate?.longMonthName ?? ""} ${selectedHijriDate?.hYear ?? ""}";
+    }
+  }
+
   createReminder({bool isEditing = false, ReminderDetails? reminderDetail}) async {
     try {
       AppGlobals.isLoading(true);

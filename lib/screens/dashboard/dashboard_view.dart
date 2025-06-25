@@ -21,8 +21,8 @@ class DashboardView extends StatelessWidget {
     return Obx(() {
       return CustomLoader(
         isTrue: AppGlobals.isLoading.value,
-        child: Padding(
-          padding: EdgeInsets.only(top: kMinInteractiveDimension - 2),
+        child: Container(
+          // padding: EdgeInsets.only(top: kMinInteractiveDimension - 2),
           child: Column(
             children: [
               Stack(
