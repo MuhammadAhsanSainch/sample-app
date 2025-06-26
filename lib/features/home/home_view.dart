@@ -53,20 +53,18 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                    bottomLeft: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
                   ),
                   color: AppColors.primary,
                 ),
                 child: SafeArea(
-                  // height: 75.h,
-                  // clipBehavior: Clip.antiAlias,
-                  // shape: CircularNotchedRectangle(),
-                  // color: AppColors.primary,
-                  // surfaceTintColor: AppColors.primary,
                   child: Obx(() {
                     return Row(
                       mainAxisSize: MainAxisSize.max,
@@ -78,9 +76,11 @@ class HomeView extends StatelessWidget {
                               controller.currentTabIndex.value = 0;
                             },
                             child: buildSvgIconWidget(
-                              assetName: AppConstants.homeIcon,
+                              assetName:
+                                  controller.currentTabIndex.value == 0
+                                      ? AppConstants.homeFilled
+                                      : AppConstants.homeOutlined,
                               label: "Home",
-                              isSelected: controller.currentTabIndex.value == 0,
                             ),
                           ),
                         ),
@@ -95,14 +95,15 @@ class HomeView extends StatelessWidget {
                               controller.currentTabIndex.value = 1;
                             },
                             child: buildSvgIconWidget(
-                              assetName: AppConstants.clockIcon,
+                              assetName:
+                                  controller.currentTabIndex.value == 1
+                                      ? AppConstants.reminderFilled
+                                      : AppConstants.reminderOutlined,
                               label: "Reminder",
-                              isSelected: controller.currentTabIndex.value == 1,
                             ),
                           ),
                         ),
                         4.horizontalSpace,
-
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
@@ -113,14 +114,15 @@ class HomeView extends StatelessWidget {
                               controller.currentTabIndex.value = 2;
                             },
                             child: buildSvgIconWidget(
-                              assetName: AppConstants.calendarIcon,
+                              assetName:
+                                  controller.currentTabIndex.value == 2
+                                      ? AppConstants.calendarFilled
+                                      : AppConstants.calendarOutlined,
                               label: "Calendar",
-                              isSelected: controller.currentTabIndex.value == 2,
                             ),
                           ),
                         ),
                         4.horizontalSpace,
-
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
@@ -131,10 +133,11 @@ class HomeView extends StatelessWidget {
                               controller.currentTabIndex.value = 3;
                             },
                             child: buildSvgIconWidget(
-                              assetName: AppConstants.profileIcon,
-
+                              assetName:
+                                  controller.currentTabIndex.value == 3
+                                      ? AppConstants.profileFilled
+                                      : AppConstants.profileOutlined,
                               label: "Profile",
-                              isSelected: controller.currentTabIndex.value == 3,
                             ),
                           ),
                         ),
@@ -147,7 +150,8 @@ class HomeView extends StatelessWidget {
             floatingActionButton: Visibility(
               visible:
                   [1].contains(controller.currentTabIndex.value) ||
-                  (controller.currentTabIndex.value == 6 && controller.isJournalCreated.value),
+                  (controller.currentTabIndex.value == 6 &&
+                      controller.isJournalCreated.value),
               child: FloatingActionButton(
                 onPressed: () {
                   if (controller.currentTabIndex.value == 1) {
@@ -184,27 +188,14 @@ class HomeView extends StatelessWidget {
   Widget buildSvgIconWidget({
     required String assetName,
     required String label,
-    bool isSelected = false,
   }) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-      decoration: BoxDecoration(
-        color: isSelected ? AppColors.lightColor : Colors.transparent,
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CustomImageView(
-            imagePath: assetName,
-            height: 22,
-            width: 22,
-            color: isSelected ? AppColors.primary : AppColors.lightColor,
-          ),
-          4.verticalSpace,
-          CustomText(label, color: isSelected ? AppColors.primary : AppColors.lightColor),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SvgPicture.asset(assetName),
+        4.verticalSpace,
+        CustomText(label, color: AppColors.lightColor),
+      ],
     );
   }
 }

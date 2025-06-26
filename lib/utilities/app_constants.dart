@@ -4,9 +4,6 @@ class AppConstants {
   AppConstants._();
 
   // Static Constant Fields
-
-  static const double padding = 15;
-
   static const String icons = 'assets/icons';
 
   static const String images = 'assets/images';
@@ -71,15 +68,18 @@ class AppConstants {
 
   static const String logo = '$icons/app_logo.png';
 
-  static const String clockIcon = '$icons/clock.png';
-
-  static const String calendarIcon = '$icons/calendar.png';
+  static const String homeFilled = '$icons/home-filled.svg';
+  static const String homeOutlined = '$icons/home-outlined.svg';
+  static const String reminderFilled = '$icons/reminder-filled.svg';
+  static const String reminderOutlined = '$icons/reminder-outlined.svg';
+  static const String calendarFilled = '$icons/calendar-filled.svg';
+  static const String calendarOutlined = '$icons/calendar-outlined.svg';
+  static const String profileFilled = '$icons/profile-filled.svg';
+  static const String profileOutlined = '$icons/profile-outlined.svg';
 
   static const String homeIcon = '$icons/home_icon.png';
-
-  static const String profileIcon = '$icons/profile-circle.png';
-  static const String person = '$icons/profile-circle.png';
   static const String menuIcon = '$icons/menu_icon.svg';
+  static const String calendarIcon = '$icons/calendar.png';
   static const String quranIcon = '$icons/quran.png';
   static const String hadithIcon = '$icons/hadith.png';
   static const String historyIcon = '$icons/history.png';
@@ -111,7 +111,6 @@ class AppConstants {
   static const String reminderCalendarIcon = '$icons/reminder_calendar_icon.png';
 
   // text-fields input whitelisting
-
   static const Pattern emailFilterPattern = r'[a-zA-Z0-9@._-]';
 
   static const Pattern passwordFilterPattern = r'[a-zA-Z0-9!#\$%^&*()=+~`<>,/?:;"|\\@._-]';
