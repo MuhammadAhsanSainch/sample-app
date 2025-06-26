@@ -1,5 +1,5 @@
-import 'package:path_to_water/screens/quiz/quiz_binding.dart';
-import 'package:path_to_water/screens/quiz/views/daily_quiz_history_view.dart';
+import 'package:path_to_water/features/quiz/quiz_binding.dart';
+import 'package:path_to_water/features/quiz/views/daily_quiz_history_view.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 
 class CustomQuizAnswerDialog extends StatelessWidget {

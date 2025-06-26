@@ -1,7 +1,7 @@
-import 'package:path_to_water/api_core/api_client.dart';
-import 'package:path_to_water/models/auth_model.dart';
-import 'package:path_to_water/models/success_message_model.dart';
-import 'package:path_to_water/utilities/app_exports.dart';
+import '../api_core/api_client.dart';
+import '../models/auth_model.dart';
+import '../models/success_message_model.dart';
+import '../utilities/app_url.dart';
 
 class AuthServices {
  static Future<AuthModel?> loginIn(Map<String, dynamic> data) async {

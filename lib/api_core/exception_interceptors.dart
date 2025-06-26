@@ -1,12 +1,9 @@
-
-import 'dart:developer';
 import 'dart:io';
-
+import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-
-import '../utilities/app_extensions.dart';
 import 'custom_exceptions.dart';
+import 'package:flutter/foundation.dart';
+import '../utilities/app_extensions.dart';
 
 class ErrorInterceptor extends Interceptor {
   final Dio dio;
@@ -47,38 +44,51 @@ class ErrorInterceptor extends Interceptor {
         log(err.message.toString());
         throw HandshakeException(err.message.toString());
       case DioExceptionType.unknown:
-        if(err.error.runtimeType == HandshakeException) {
-          log(err.message.isNotNullAndNotEmpty ? err.message.toString() : err.toString());
+        if (err.error.runtimeType == HandshakeException) {
+          log(
+            err.message.isNotNullAndNotEmpty
+                ? err.message.toString()
+                : err.toString(),
+          );
           throw HandshakeException(err.message.toString());
         } else {
           log(err.message.toString());
           throw NoInternetConnectionException(err);
         }
-      }
+    }
     return handler.next(err);
   }
 }
+
 class LoggingInterceptor extends Interceptor {
-  LoggingInterceptor({this.endpoint, this.headers, this.queryParameters, this.body,});
+  LoggingInterceptor({
+    this.endpoint,
+    this.headers,
+    this.queryParameters,
+    this.body,
+  });
+
   String? endpoint;
   Map<String, dynamic>? headers;
   Map<String, dynamic>? queryParameters;
   dynamic body;
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (kDebugMode) {
       print("LoggingInterceptor onRequest:");
       print(endpoint);
       print(headers ?? options.headers);
-      if(queryParameters != null) {
+      if (queryParameters != null) {
         print(queryParameters);
       }
-      if(body != null) {
+      if (body != null) {
         print(body);
       }
     }
     return handler.next(options);
   }
+
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     if (kDebugMode) {

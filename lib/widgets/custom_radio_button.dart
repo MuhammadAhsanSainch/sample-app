@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 
 class CustomRadio<T> extends StatelessWidget {
@@ -13,7 +12,7 @@ class CustomRadio<T> extends StatelessWidget {
   final double activeCircleSize;
 
   const CustomRadio({
-    Key? key,
+    super.key,
     required this.value,
     required this.groupValue,
     required this.onChanged,
@@ -23,7 +22,7 @@ class CustomRadio<T> extends StatelessWidget {
     this.margin,
     this.radioSize = 22,
     this.activeCircleSize = 1.5,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

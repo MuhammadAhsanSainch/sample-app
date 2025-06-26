@@ -36,7 +36,7 @@ class DualCalendarView extends StatefulWidget {
   });
 
   @override
-  _DualCalendarViewState createState() => _DualCalendarViewState();
+  State<DualCalendarView> createState() => _DualCalendarViewState();
 }
 
 class _DualCalendarViewState extends State<DualCalendarView> {

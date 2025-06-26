@@ -1,13 +1,11 @@
+import 'dart:io';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:path_to_water/utilities/app_url.dart';
-import 'package:path_to_water/utilities/shared_preference.dart';
-
-import 'custom_response_handler.dart';
+import '../utilities/app_url.dart';
 import 'exception_interceptors.dart';
+import 'custom_response_handler.dart';
+import '../utilities/shared_preference.dart';
 
 class ApiClient {
   final dio = createDio();
@@ -87,7 +85,9 @@ class ApiClient {
       dio.options.baseUrl + path,
       onReceiveProgress: onReceiveProgress,
       cancelToken: cancelToken,
-      options: options ?? Options(headers: requestHeaders(token, setBranchId: setBranchID)),
+      options:
+          options ??
+          Options(headers: requestHeaders(token, setBranchId: setBranchID)),
       queryParameters: queryParameters,
     );
     return ApiResponse.processResponse(res, showLogs: printLogs);
@@ -132,7 +132,9 @@ class ApiClient {
       dio.options.baseUrl + path,
       data: isFormData ? FormData.fromMap(data) : data,
       queryParameters: queryParameters,
-      options: options ?? Options(headers: requestHeaders(token, setBranchId: setBranchID)),
+      options:
+          options ??
+          Options(headers: requestHeaders(token, setBranchId: setBranchID)),
       cancelToken: cancelToken,
       onReceiveProgress: onReceiveProgress,
       onSendProgress: onSendProgress,
@@ -168,7 +170,9 @@ class ApiClient {
       dio.options.baseUrl + path,
       data: isFormData ? FormData.fromMap(data) : data,
       queryParameters: queryParameters,
-      options: options ?? Options(headers: requestHeaders(token, setBranchId: setBranchID)),
+      options:
+          options ??
+          Options(headers: requestHeaders(token, setBranchId: setBranchID)),
       cancelToken: cancelToken,
       onReceiveProgress: onReceiveProgress,
       onSendProgress: onSendProgress,
@@ -217,7 +221,9 @@ class ApiClient {
   }) async {
     await checkInternetAvailable();
     log("URL: ${dio.options.baseUrl + path}");
-    log(options != null ? options.toString() : requestHeaders(token).toString());
+    log(
+      options != null ? options.toString() : requestHeaders(token).toString(),
+    );
     if (!isFormData) {
       log("Request body: ${jsonEncode(data)}");
     } else {
@@ -249,13 +255,11 @@ class ApiClient {
     bool setBranchId = true,
   }) {
     Map<String, String> headers = {};
-    // var date = DateTime.now().toString();
-    // headers['RequestDateTime'] = date;
-    // headers['locale'] = LocalizationService.locale.languageCode;
     headers[HttpHeaders.contentTypeHeader] = contentType ?? "application/json";
 
     if (token != null || UserPreferences.authToken.isNotEmpty) {
-      headers[HttpHeaders.authorizationHeader] = "Bearer ${token ?? UserPreferences.authToken}";
+      headers[HttpHeaders.authorizationHeader] =
+          "Bearer ${token ?? UserPreferences.authToken}";
     }
     if (userID != null) {
       headers['USER_ID'] = userID;
@@ -276,13 +280,17 @@ class ApiClient {
   }) async {
     await checkInternetAvailable();
     log("URL: $path");
-    log("Request Headers: ${headers ?? {HttpHeaders.acceptEncodingHeader: '*'}}");
+    log(
+      "Request Headers: ${headers ?? {HttpHeaders.acceptEncodingHeader: '*'}}",
+    );
 
     Response res = await dio.download(
       path,
       saveFilePath,
       queryParameters: queryParameters,
-      options: Options(headers: headers ?? {HttpHeaders.acceptEncodingHeader: '*'}),
+      options: Options(
+        headers: headers ?? {HttpHeaders.acceptEncodingHeader: '*'},
+      ),
       cancelToken: cancelToken,
       onReceiveProgress: onReceiveProgress,
     );

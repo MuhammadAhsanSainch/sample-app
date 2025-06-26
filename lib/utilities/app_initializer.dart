@@ -14,11 +14,6 @@ class AppInitializer {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    final firebaseMessaging = FirebaseMessaging.instance;
-    await Future.delayed(Duration(seconds: 1));
-    String? fcmToken = await firebaseMessaging.getToken();
-    log("FCM Token: $fcmToken");
-
     await NotificationService().initNotification();
     await listenToFCM();
     await initializePreferences();

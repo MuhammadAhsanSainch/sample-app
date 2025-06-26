@@ -1,4 +1,4 @@
-import 'screens/splash.dart';
+import 'features/splash.dart';
 import 'utilities/app_exports.dart';
 import 'utilities/app_initializer.dart';
 
