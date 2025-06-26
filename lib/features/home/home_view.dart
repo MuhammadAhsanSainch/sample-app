@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:path_to_water/features/home/home_controller.dart';
 import 'package:path_to_water/features/journal/binding/create_journal_screen_binding.dart';
 import 'package:path_to_water/features/journal/controllers/journal_screen_controller.dart';
@@ -53,7 +54,7 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
@@ -138,6 +139,7 @@ class HomeView extends StatelessWidget {
                                       ? AppConstants.profileFilled
                                       : AppConstants.profileOutlined,
                               label: "Profile",
+                              isSelected: controller.currentTabIndex.value == 3
                             ),
                           ),
                         ),
@@ -188,11 +190,22 @@ class HomeView extends StatelessWidget {
   Widget buildSvgIconWidget({
     required String assetName,
     required String label,
+    bool isSelected = false,
   }) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SvgPicture.asset(assetName),
+        label == 'Profile'
+            ? Icon(
+              // isSelected
+              //     ? CupertinoIcons.person_alt_circle_fill
+              //     : CupertinoIcons.person_alt_circle,
+          isSelected
+              ? CupertinoIcons.person_crop_circle_fill
+              : CupertinoIcons.person_crop_circle,
+          size: 24,
+            )
+            : SvgPicture.asset(assetName),
         4.verticalSpace,
         CustomText(label, color: AppColors.lightColor),
       ],
