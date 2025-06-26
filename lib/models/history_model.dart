@@ -9,6 +9,7 @@ class HistoryModel {
     required this.updatedAt,
     required this.createdBy,
     required this.publishDate,
+    this.isFavorite = false,
   });
 
   final String? id;
@@ -21,7 +22,7 @@ class HistoryModel {
   final CreatedBy? createdBy;
   final DateTime? publishDate;
 
-  bool isFavorite = false;
+  bool isFavorite;
 
   factory HistoryModel.fromJson(Map<String, dynamic> json) {
     return HistoryModel(
@@ -34,6 +35,7 @@ class HistoryModel {
       updatedAt: DateTime.tryParse(json["updated_at"] ?? ""),
       publishDate: DateTime.tryParse(json["publish_date"] ?? ""),
       createdBy: json["created_by"] == null ? null : CreatedBy.fromJson(json["created_by"]),
+      isFavorite: json["isFavorite"] ?? false,
     );
   }
 
