@@ -5,7 +5,6 @@ import '../notification_services/fcm_controller.dart';
 import '../notification_services/notification_service.dart';
 import 'package:path_to_water/api_core/network_controller.dart';
 
-
 class AppInitializer {
   static Future<void> initialize() async {
     try {
