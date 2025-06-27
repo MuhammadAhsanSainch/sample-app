@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1056416408417",
+    "project_id": "barakah-builder",
+    "storage_bucket": "barakah-builder.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056416408417:android:a1c42ef2b8596074585b20",
+        "android_client_info": {
+          "package_name": "com.futurbyte.barakahbuilder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1056416408417-v2a51nm65bic7f3qoalr9l82dulgj4g5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC88pGIuBl4gyVyyzw7WUnjdEBPD0OGnIE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1056416408417-v2a51nm65bic7f3qoalr9l82dulgj4g5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
