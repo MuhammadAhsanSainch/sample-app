@@ -163,7 +163,7 @@ class _DrawerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Padding(
         padding: EdgeInsets.only(bottom: 8),
@@ -186,6 +186,7 @@ class _DrawerItem extends StatelessWidget {
                         Get.changeThemeMode(
                           AppGlobals.isDarkMode.value ? ThemeMode.light : ThemeMode.dark,
                         );
+                        UserPreferences.isDarkMode = AppGlobals.isDarkMode.value;
                         Get.forceAppUpdate();
                       },
                     );

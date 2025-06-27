@@ -43,7 +43,11 @@ class NetworkController extends GetxController {
   }
 
   Future<NetworkController> init() async {
-    await getConnectivityType();
+    try {
+      await getConnectivityType();
+    } catch (e) {
+      log(e.toString());
+    }
     return this;
   }
 

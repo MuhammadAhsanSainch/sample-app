@@ -20,19 +20,20 @@ class _Splashfeaturestate extends State<SplashScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 3), () {
-      if (UserPreferences.isLogin == true) {
-        AuthModel.fromJson({
-          "status": true,
-          "code": "SUCCESS",
-          "message": "Already Logged In",
-          "data": UserPreferences.loginData,
-        });
-        Get.offAll(() => HomeView(), binding: HomeBinding());
-        // Get.offAll(() => LoginView(), binding: LoginBinding());
-      } else {
-        Get.offAll(() => HomeView(), binding: HomeBinding());
-        // Get.offAll(() => LoginView(), binding: LoginBinding());
-      }
+      // if (UserPreferences.isLogin == true) {
+      //   AuthModel.fromJson({
+      //     "status": true,
+      //     "code": "SUCCESS",
+      //     "message": "Already Logged In",
+      //     "data": UserPreferences.loginData,
+      //   });
+      //   Get.offAll(() => HomeView(), binding: HomeBinding());
+      //   // Get.offAll(() => LoginView(), binding: LoginBinding());
+      // } else {
+      //   Get.offAll(() => HomeView(), binding: HomeBinding());
+      //   // Get.offAll(() => LoginView(), binding: LoginBinding());
+      // }
+      Get.offAll(() => HomeView(), binding: HomeBinding());
     });
   }
 
@@ -46,9 +47,7 @@ class _Splashfeaturestate extends State<SplashScreen> {
           Positioned.fill(
             // Makes the image fill the entire available space
             child: Image.asset(
-              AppGlobals.isDarkMode.value
-                  ? AppConstants.splashBgDark
-                  : AppConstants.splashBgLight,
+              AppGlobals.isDarkMode.value ? AppConstants.splashBgDark : AppConstants.splashBgLight,
               fit: BoxFit.cover,
             ),
           ),

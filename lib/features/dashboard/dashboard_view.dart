@@ -66,7 +66,7 @@ class DashboardView extends StatelessWidget {
                               isSelected: controller.currentTabIndex.value == 1,
                             ),
                             CustomTab(
-                              imagePath: AppConstants.quranIcon,
+                              imagePath: AppConstants.historyIcon,
                               title: "History",
                               isSelected: controller.currentTabIndex.value == 2,
                             ),
@@ -140,7 +140,7 @@ class DashboardView extends StatelessWidget {
                                           controller.quranAyatRes?.publishDate ?? DateTime.now(),
                                     ),
                                 isPlaying: controller.player.state == PlayerState.playing,
-                                showPlayIcon: true,
+                                showPlayIcon: false,
                                 onAudioPlayTap:
                                     () => controller.onPlayIconTap(
                                       "https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3",

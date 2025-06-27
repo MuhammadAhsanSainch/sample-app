@@ -5,41 +5,45 @@ import 'package:path_to_water/utilities/app_exports.dart';
 import 'notification_service.dart';
 
 Future<void> listenToFCM() async {
-  final messaging = FirebaseMessaging.instance;
+  try {
+    final messaging = FirebaseMessaging.instance;
 
-  // Request user permission
-  await messaging.requestPermission(
-    alert: true,
-    announcement: true,
-    badge: true,
-    sound: true,
-    carPlay: false,
-    criticalAlert: true,
-    provisional: false,
-  );
+    // Request user permission
+    await messaging.requestPermission(
+      alert: true,
+      announcement: true,
+      badge: true,
+      sound: true,
+      carPlay: false,
+      criticalAlert: true,
+      provisional: false,
+    );
 
-  // Get and save FCM token
-  AppGlobals.fcmToken = await messaging.getToken() ?? '';
-  messaging.onTokenRefresh.listen((newToken) {
-    log('New FCM Token: $newToken');
-    AppGlobals.fcmToken = newToken;
-  });
+    // Get and save FCM token
+    AppGlobals.fcmToken = await messaging.getToken() ?? '';
+    messaging.onTokenRefresh.listen((newToken) {
+      log('New FCM Token: $newToken');
+      AppGlobals.fcmToken = newToken;
+    });
 
-  // Enable auto-init and subscribe to topic
-  await messaging.setAutoInitEnabled(true);
-  await messaging.subscribeToTopic("general");
+    // Enable auto-init and subscribe to topic
+    await messaging.setAutoInitEnabled(true);
+    await messaging.subscribeToTopic("general");
 
-  // Show foreground notifications
-  await messaging.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+    // Show foreground notifications
+    await messaging.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
 
-  // Set up listeners
-  FirebaseMessaging.onMessage.listen(_handleMessage);
-  FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-  FirebaseMessaging.onBackgroundMessage(_handleMessage);
+    // Set up listeners
+    FirebaseMessaging.onMessage.listen(_handleMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+    FirebaseMessaging.onBackgroundMessage(_handleMessage);
+  } catch (e) {
+    log(e.toString());
+  }
 }
 
 Future<void> _handleMessage(RemoteMessage message) async {

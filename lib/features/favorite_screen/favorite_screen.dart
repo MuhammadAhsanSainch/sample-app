@@ -67,7 +67,7 @@ class FavoriteScreen extends StatelessWidget {
                           isSelected: controller.currentTabIndex.value == 1,
                         ),
                         CustomTab(
-                          imagePath: AppConstants.quranIcon,
+                          imagePath: AppConstants.historyIcon,
                           title: "History",
                           isSelected: controller.currentTabIndex.value == 2,
                         ),

@@ -86,7 +86,7 @@ class HomeScreenCardWidget extends StatelessWidget {
                     "($ayatNumber)",
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
+                    color: AppGlobals.isDarkMode.value ? AppColors.lightColor : AppColors.primary,
                   ),
                 ],
                 8.horizontalSpace,
@@ -219,11 +219,13 @@ class HomeScreenCardWidget extends StatelessWidget {
                   ),
                   8.verticalSpace,
                   Row(
+                    mainAxisAlignment:centerTitle? MainAxisAlignment.center : MainAxisAlignment.start,
                     children: [
                       CustomText(
                         (dateTime ?? DateTime.now()).toFormatDateTime(),
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
+                        color: AppColors.primary,
                       ),
                     ],
                   ),

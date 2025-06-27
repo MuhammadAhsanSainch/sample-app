@@ -1,11 +1,16 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences prefs;
 
 initializePreferences() async {
-  prefs = await SharedPreferences.getInstance();
+  try {
+    prefs = await SharedPreferences.getInstance();
+  } catch (e) {
+    log(e.toString());
+  }
 }
 
 class UserPreferences {
@@ -61,8 +66,7 @@ class UserPreferences {
     prefs.setString('loginData', jsonEncode(value));
   }
 
-  static Map<String, dynamic> get loginData =>
-      jsonDecode(prefs.getString('loginData') ?? "{}");
+  static Map<String, dynamic> get loginData => jsonDecode(prefs.getString('loginData') ?? "{}");
 
   static void bannerShownToday(String date, bool value) {
     prefs.setBool(date, value);
@@ -70,21 +74,25 @@ class UserPreferences {
 
   static bool checkBannerShownToday(date) => prefs.getBool(date) ?? false;
 
+   static set isDarkMode(bool isDarkMode) {
+    prefs.setBool('isDarkMode', isDarkMode);
+  }
+
+  static bool get isDarkMode => prefs.getBool('isDarkMode') ?? false;
+
   // Function Example Syntax To Use
 
   static set saveMap(Map<String, dynamic> value) {
     prefs.setString('saveMap', jsonEncode(value));
   }
 
-  static Map<String, dynamic> get saveMap =>
-      jsonDecode(prefs.getString('saveMap') ?? "{}");
+  static Map<String, dynamic> get saveMap => jsonDecode(prefs.getString('saveMap') ?? "{}");
 
   static set saveList(List<dynamic> value) {
     prefs.setString('saveList', jsonEncode(value));
   }
 
-  static List<dynamic> get saveList =>
-      jsonDecode(prefs.getString('saveList') ?? "{}");
+  static List<dynamic> get saveList => jsonDecode(prefs.getString('saveList') ?? "{}");
 
   static set saveString(String saveString) {
     prefs.setString('saveString', saveString);

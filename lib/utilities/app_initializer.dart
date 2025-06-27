@@ -12,23 +12,33 @@ class AppInitializer {
 
       await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+      await initializePreferences();
       await NotificationService().initNotification();
       await listenToFCM();
-      await initializePreferences();
 
       _setOrientationLock();
       await Get.putAsync<NetworkController>(() => NetworkController().init(), permanent: true);
+      setTheme();
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
   static void _setOrientationLock() {
-    bool isTablet = Get.context?.isTablet ?? false;
-    SystemChrome.setPreferredOrientations(
-      isTablet
-          ? [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]
-          : [DeviceOrientation.portraitUp],
-    );
+    try {
+      bool isTablet = Get.context?.isTablet ?? false;
+      SystemChrome.setPreferredOrientations(
+        isTablet
+            ? [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]
+            : [DeviceOrientation.portraitUp],
+      );
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  static setTheme() {
+    AppGlobals.isDarkMode.value = UserPreferences.isDarkMode;
+    Get.changeThemeMode(AppGlobals.isDarkMode.value ? ThemeMode.light : ThemeMode.dark);
   }
 }
