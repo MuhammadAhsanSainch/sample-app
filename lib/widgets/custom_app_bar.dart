@@ -1,5 +1,5 @@
+import '../utilities/app_exports.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:path_to_water/utilities/app_exports.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? bgColor;

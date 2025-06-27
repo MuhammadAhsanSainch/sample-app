@@ -1,9 +1,9 @@
-import 'package:path_to_water/api_core/api_client.dart';
-import 'package:path_to_water/models/daily_content_model.dart';
-import 'package:path_to_water/models/hadith_model.dart';
-import 'package:path_to_water/models/history_model.dart';
-import 'package:path_to_water/models/quran_ayat_model.dart';
-import 'package:path_to_water/utilities/app_exports.dart';
+import '../api_core/api_client.dart';
+import '../models/hadith_model.dart';
+import '../models/history_model.dart';
+import '../models/quran_ayat_model.dart';
+import '../utilities/app_exports.dart';
+import '../models/daily_content_model.dart';
 
 class AyatAndHadithService {
   static Future<DailyContent> getDailyContent() async {

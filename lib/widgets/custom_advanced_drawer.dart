@@ -1,17 +1,17 @@
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-import 'package:path_to_water/screens/home/home_controller.dart';
-import 'package:path_to_water/screens/login/login_binding.dart';
-import 'package:path_to_water/screens/login/login_view.dart';
-import 'package:path_to_water/screens/notification/binding/notification_binding.dart';
-import 'package:path_to_water/screens/notification/view/notification_screen.dart';
-import 'package:path_to_water/screens/quiz/quiz_binding.dart';
-import 'package:path_to_water/screens/quiz/views/daily_quiz_view.dart';
-import 'package:path_to_water/screens/settings/settings_binding.dart';
-import 'package:path_to_water/screens/settings/views/settings_screen.dart';
+import 'package:path_to_water/features/home/home_controller.dart';
+import 'package:path_to_water/features/login/login_binding.dart';
+import 'package:path_to_water/features/login/login_view.dart';
+import 'package:path_to_water/features/notification/binding/notification_binding.dart';
+import 'package:path_to_water/features/notification/view/notification_screen.dart';
+import 'package:path_to_water/features/quiz/quiz_binding.dart';
+import 'package:path_to_water/features/quiz/views/daily_quiz_view.dart';
+import 'package:path_to_water/features/settings/settings_binding.dart';
+import 'package:path_to_water/features/settings/views/settings_screen.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_switch_widget.dart';
 
-import '../screens/quiz/views/daily_quiz_history_view.dart';
+import '../features/quiz/views/daily_quiz_history_view.dart';
 
 class CustomAdvancedDrawer extends StatelessWidget {
   final Widget child;

@@ -49,7 +49,7 @@ class QuranDialogContent extends StatefulWidget {
   final String? selectedLanguage;
 
   const QuranDialogContent({
-    Key? key,
+    super.key,
     this.quranDialogTitle,
     this.quranDialogTitleArabic,
     this.contentTitle,
@@ -59,10 +59,10 @@ class QuranDialogContent extends StatefulWidget {
     this.date,
     this.showLanguageSelectionButton = true,
     this.selectedLanguage,
-  }) : super(key: key);
+  });
 
   @override
-  _QuranDialogContentState createState() => _QuranDialogContentState();
+  State<QuranDialogContent> createState() => _QuranDialogContentState();
 }
 
 class _QuranDialogContentState extends State<QuranDialogContent> {

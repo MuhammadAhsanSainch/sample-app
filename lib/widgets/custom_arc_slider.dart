@@ -39,7 +39,6 @@ class _CustomArcSliderState extends State<CustomArcSlider> {
 
   @override
   void didUpdateWidget(covariant CustomArcSlider oldWidget) {
-    // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
     if (oldWidget.initialValue != widget.initialValue) {
       setState(() {

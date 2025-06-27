@@ -1,5 +1,5 @@
-import 'package:path_to_water/screens/journal/models/calendar_entry_model.dart';
-import 'package:path_to_water/screens/notification/model/notification_model.dart';
+import 'package:path_to_water/features/journal/models/calendar_entry_model.dart';
+import 'package:path_to_water/features/notification/model/notification_model.dart';
 
 class DummyContent {
   static String quranAyatTitle = "Surah Al-Mulk (67)";
