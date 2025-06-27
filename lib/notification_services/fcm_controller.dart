@@ -21,6 +21,7 @@ Future<void> listenToFCM() async {
 
     // Get and save FCM token
     AppGlobals.fcmToken = await messaging.getToken() ?? '';
+    log('FCM Token: ${AppGlobals.fcmToken}');
     messaging.onTokenRefresh.listen((newToken) {
       log('New FCM Token: $newToken');
       AppGlobals.fcmToken = newToken;

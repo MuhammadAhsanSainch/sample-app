@@ -1,48 +1,48 @@
 {
   "project_info": {
-    "project_number": "715238618476",
-    "project_id": "islamic-mobile-app",
-    "storage_bucket": "islamic-mobile-app.firebasestorage.app"
+    "project_number": "668101359977",
+    "project_id": "barakah-builder-8bf98",
+    "storage_bucket": "barakah-builder-8bf98.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:715238618476:android:1b6660e5a94595d47b6f49",
+        "mobilesdk_app_id": "1:668101359977:android:825e483a18d4ece15165f8",
         "android_client_info": {
-          "package_name": "com.example.path_to_water"
+          "package_name": "com.futurbyte.barakahbuilder"
         }
       },
       "oauth_client": [
         {
-          "client_id": "715238618476-6g0g4r7bknjsostnqhrh6qgnut5huv2u.apps.googleusercontent.com",
+          "client_id": "668101359977-ns5bgjmgsjjihpdqsa6lmtqpcgihs6db.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.path_to_water",
+            "package_name": "com.futurbyte.barakahbuilder",
             "certificate_hash": "7f45352c983d72534dec86be9ecdd9c3c7fbac54"
           }
         },
         {
-          "client_id": "715238618476-5upmfs3ou9odvg32h75nrfdv9mmkunmq.apps.googleusercontent.com",
+          "client_id": "668101359977-4gpvkn9d4btfk9m1vnt88qcpijd689h7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDkr2uaqHxu0lvPCEEHJaUItxpXFlzykSc"
+          "current_key": "AIzaSyBQO8LcvBZvx4glXZdX8X-yZp2imXM0vRE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "715238618476-5upmfs3ou9odvg32h75nrfdv9mmkunmq.apps.googleusercontent.com",
+              "client_id": "668101359977-4gpvkn9d4btfk9m1vnt88qcpijd689h7.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "715238618476-tlfeoumv507igero0r6bdtqe6lgqu77k.apps.googleusercontent.com",
+              "client_id": "668101359977-gqs8ft83kfphveghedgbbbuko2ft3ngf.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.pathToWater"
+                "bundle_id": "com.futurbyte.barakahbuilder"
               }
             }
           ]

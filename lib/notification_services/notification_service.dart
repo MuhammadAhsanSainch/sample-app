@@ -9,7 +9,7 @@ class NotificationService {
     try {
       // const androidSettings = AndroidInitializationSettings('@drawable/ic_notification');
       const androidSettings = AndroidInitializationSettings(
-        '@mipmap/ic_launcher',
+        '@mipmap/launcher_icon',
       ); // fallback to app icon
 
       final iosSettings = DarwinInitializationSettings(

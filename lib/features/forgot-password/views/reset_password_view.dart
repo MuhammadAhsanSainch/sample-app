@@ -15,7 +15,6 @@ class ResetPasswordView extends StatelessWidget {
         isTrue: AppGlobals.isLoading.value,
         child: Scaffold(
           extendBody: true,
-          resizeToAvoidBottomInset: false,
           backgroundColor: AppColors.journalBackgroundColor,
           body: Container(
             height: Get.height,

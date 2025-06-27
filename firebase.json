@@ -1,1 +1,30 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"islamic-mobile-app","appId":"1:715238618476:android:1b6660e5a94595d47b6f49","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"islamic-mobile-app","appId":"1:715238618476:ios:bf9af979d744553d7b6f49","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"islamic-mobile-app","configurations":{"android":"1:715238618476:android:1b6660e5a94595d47b6f49","ios":"1:715238618476:ios:bf9af979d744553d7b6f49"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "barakah-builder-8bf98",
+          "appId": "1:668101359977:android:825e483a18d4ece15165f8",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "barakah-builder-8bf98",
+          "appId": "1:668101359977:ios:ffdb9159fc5cecb55165f8",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "barakah-builder-8bf98",
+          "configurations": {
+            "android": "1:668101359977:android:825e483a18d4ece15165f8",
+            "ios": "1:668101359977:ios:ffdb9159fc5cecb55165f8"
+          }
+        }
+      }
+    }
+  }
+}
