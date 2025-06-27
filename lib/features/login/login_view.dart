@@ -123,7 +123,7 @@ class LoginView extends StatelessWidget {
                           if (!loginFormKey.currentState!.validate()) {
                             return;
                           }
-                          controller.logIn();
+                          controller.logIn(null);
                         },
                       ),
                       _socialSignInSection(),
@@ -180,6 +180,7 @@ class LoginView extends StatelessWidget {
               ),
               onPressed: () {
                 // Handle Apple sign-in
+                controller.signInWithApple();
               },
             ),
           ],

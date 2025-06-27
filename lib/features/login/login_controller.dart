@@ -1,3 +1,5 @@
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
 import '../home/home_view.dart';
 import '../home/home_binding.dart';
 import '../../utilities/app_exports.dart';
@@ -23,13 +25,47 @@ class LoginController extends GetxController {
         idToken: googleAuth.idToken,
       );
       await _auth.signInWithCredential(credential);
-      emailTFController.text=user?.email??'';
       log('Full Name :${user?.displayName}');
       log('User Name :${user?.displayName.removeAllWhiteSpaces.toLowerCase()}');
       log('Email :${user?.email}');
       log('Email :${user?.photoURL}');
+      logIn({
+        "email": user?.email,
+        "authProvider": "GOOGLE"
+      });
     } catch (e) {
       log('Error: ${e.toString()}');
+      Get.snackbar('Error', e.toString());
+    }
+  }
+
+  Future<void> signInWithApple() async {
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+
+      final authResult =
+      await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+      final user = authResult.user;
+      log('Full Name : ${user?.displayName ?? appleCredential.givenName ?? 'Unknown'}');
+      log('User Name : ${(user?.displayName ?? appleCredential.givenName ?? '').removeAllWhiteSpaces.toLowerCase()}');
+      log('Email : ${user?.email ?? 'No Email (Possibly hidden by Apple)'}');
+      log('Photo URL : ${user?.photoURL ?? 'Not available'}');
+      logIn({
+        "email": user?.email,
+        "authProvider": "APPLE"
+      });
+    } catch (e) {
+      log('Apple Sign-In Error: ${e.toString()}');
       Get.snackbar('Error', e.toString());
     }
   }
@@ -55,10 +91,10 @@ class LoginController extends GetxController {
     }
   }
 
-  Future logIn() async {
+  Future logIn(Map<String, dynamic>? payload) async {
     try {
       AppGlobals.isLoading(true);
-      Map<String, dynamic> data = {
+      Map<String, dynamic> data = payload?? {
         "email": emailTFController.text,
         "password": passwordTFController.text,
       };
