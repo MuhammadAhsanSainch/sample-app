@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'login_controller.dart';
 import '../signup/signup_view.dart';
 import '../signup/signup_binding.dart';
@@ -15,123 +17,108 @@ class LoginView extends StatelessWidget {
     return Obx(
       () => CustomLoader(
         isTrue: AppGlobals.isLoading.value,
-        child: Scaffold(
-          extendBody: true,
-          backgroundColor: AppColors.scaffoldBackground,
-          resizeToAvoidBottomInset: false,
-          body: Stack(
-            children: [
-              // 1. Background Image (fixed at the bottom of the stack)
-              Positioned.fill(
-                // Makes the image fill the entire available space
-                child: Obx(
-                      () => Image.asset(
-                        AppGlobals.isDarkMode.value
-                            ? AppConstants.singInBgDark
-                            : AppConstants.singInBgLight,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                AppGlobals.isDarkMode.value
+                    ? AppConstants.singInBgDark
+                    : AppConstants.singInBgLight,
               ),
-              // 2. Content (scrollable on top of the background)
-              SingleChildScrollView(
-                padding: EdgeInsets.all(16),
-                child: Form(
-                  key: loginFormKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: Get.height * 0.3),
-                      GestureDetector(
+            ),
+          ),
+          child: Scaffold(
+            extendBody: true,
+            backgroundColor: Colors.transparent,
+            resizeToAvoidBottomInset: true,
+            body: SingleChildScrollView(
+              padding: EdgeInsets.all(16),
+              child: Form(
+                key: loginFormKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: Get.height * 0.3),
+                    GestureDetector(
+                      onTap: () {
+                        if (kDebugMode) {
+                          controller.emailTFController.text = "ahsan@yopmail.com";
+                          controller.passwordTFController.text = "1234";
+                        }
+                      },
+                      child: CustomText(
+                        "Welcome to Path To Water",
+                        style: AppTextTheme.headlineSmall,
+                      ),
+                    ),
+
+                    ///Email
+                    CustomTextFormField(
+                      controller: controller.emailTFController,
+                      prefixIcon: SvgPicture.asset(AppConstants.mail),
+                      upperLabel: "Email Address",
+                      upperLabelReqStar: "*",
+                      hintValue: "Enter Email Address",
+                      validator: (value) => validateEmail(value),
+                      type: TextInputType.emailAddress,
+                      inputFormatters: [
+                        FilteringTextInputFormatter(RegExp(r'[a-zA-Z0-9@._-]'), allow: true),
+                      ],
+                      maxLines: 1,
+                    ),
+
+                    ///Password
+                    CustomTextFormField(
+                      controller: controller.passwordTFController,
+                      upperLabel: "Password",
+                      upperLabelReqStar: "*",
+                      hintValue: "Enter Password",
+                      prefixIcon: SvgPicture.asset(AppConstants.lock),
+                      enableInteractiveSelection: true,
+                      enableSuggestions: false,
+                      obscureText: true,
+                      maxLines: 1,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Password is required';
+                        }
+                        return null; // Return null if the input is valid
+                      },
+                    ),
+                    SizedBox(height: Get.height * 0.01),
+
+                    ///Forgot Password TextButton
+                    Container(
+                      alignment: Alignment.centerRight,
+                      child: InkWell(
                         onTap: () {
-                          if (kDebugMode) {
-                            controller.emailTFController.text =
-                            "ahsan@yopmail.com";
-                            controller.passwordTFController.text = "1234";
-                          }
+                          Get.to(() => PasswordRecoveryView(), binding: ForgotPasswordBinding());
                         },
                         child: CustomText(
-                          "Welcome to Path To Water",
-                          style: AppTextTheme.headlineSmall,
+                          'Forgot Password?',
+                          style: AppTextTheme.bodyMedium.copyWith(color: AppColors.textSecondary),
                         ),
                       ),
+                    ),
+                    SizedBox(height: Get.height * 0.02),
 
-                      ///Email
-                      CustomTextFormField(
-                        controller: controller.emailTFController,
-                        prefixIcon: SvgPicture.asset(AppConstants.mail),
-                        upperLabel: "Email Address",
-                        upperLabelReqStar: "*",
-                        hintValue: "Enter Email Address",
-                        validator: (value) => validateEmail(value),
-                        type: TextInputType.emailAddress,
-                        inputFormatters: [
-                          FilteringTextInputFormatter(
-                            RegExp(r'[a-zA-Z0-9@._-]'),
-                            allow: true,
-                          ),
-                        ],
-                        maxLines: 1,
-                      ),
-
-                      ///Password
-                      CustomTextFormField(
-                        controller: controller.passwordTFController,
-                        upperLabel: "Password",
-                        upperLabelReqStar: "*",
-                        hintValue: "Enter Password",
-                        prefixIcon: SvgPicture.asset(AppConstants.lock),
-                        enableInteractiveSelection: true,
-                        enableSuggestions: false,
-                        obscureText: true,
-                        maxLines: 1,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Password is required';
-                          }
-                          return null; // Return null if the input is valid
-                        },
-                      ),
-                      SizedBox(height: Get.height * 0.01),
-
-                      ///Forgot Password TextButton
-                      Container(
-                        alignment: Alignment.centerRight,
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(
-                                  () => PasswordRecoveryView(),
-                              binding: ForgotPasswordBinding(),
-                            );
-                          },
-                          child: CustomText(
-                            'Forgot Password?',
-                            style: AppTextTheme.bodyMedium.copyWith(
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: Get.height * 0.02),
-
-                      ///Sign In Button
-                      CustomRectangleButton(
-                        width: Get.width,
-                        text: "Login",
-                        onTap: () {
-                          if (!loginFormKey.currentState!.validate()) {
-                            return;
-                          }
-                          controller.logIn();
-                        },
-                      ),
-                      _socialSignInSection(),
-                    ],
-                  ),
+                    ///Sign In Button
+                    CustomRectangleButton(
+                      width: Get.width,
+                      text: "Login",
+                      onTap: () {
+                        if (!loginFormKey.currentState!.validate()) {
+                          return;
+                        }
+                        controller.logIn();
+                      },
+                    ),
+                    _socialSignInSection(),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -161,27 +148,28 @@ class LoginView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildSocialButton(
-              icon: SvgPicture.asset(AppConstants.google),
-              // Replace with your Google logo asset
-              onPressed: () {
-                // Handle Google sign-in
-                controller.signInWithGoogle();
-              },
-            ),
-            const SizedBox(width: 20),
-            _buildSocialButton(
-              icon: SvgPicture.asset(
-                AppConstants.apple,
-                colorFilter: ColorFilter.mode(
-                  AppGlobals.isDarkMode.value ? Colors.white : Colors.black,
-                  BlendMode.srcIn,
+            if (Platform.isAndroid)
+              _buildSocialButton(
+                icon: SvgPicture.asset(AppConstants.google),
+                // Replace with your Google logo asset
+                onPressed: () {
+                  // Handle Google sign-in
+                  controller.signInWithGoogle();
+                },
+              )
+            else
+              _buildSocialButton(
+                icon: SvgPicture.asset(
+                  AppConstants.apple,
+                  colorFilter: ColorFilter.mode(
+                    AppGlobals.isDarkMode.value ? Colors.white : Colors.black,
+                    BlendMode.srcIn,
+                  ),
                 ),
+                onPressed: () {
+                  // Handle Apple sign-in
+                },
               ),
-              onPressed: () {
-                // Handle Apple sign-in
-              },
-            ),
           ],
         ),
         SizedBox(height: Get.height * 0.02),
@@ -190,10 +178,7 @@ class LoginView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomText(
-              "Don't have an account? ",
-              style: AppTextTheme.bodyLarge,
-            ),
+            CustomText("Don't have an account? ", style: AppTextTheme.bodyLarge),
             GestureDetector(
               onTap: () {
                 Get.to(() => SignupView(), binding: SignupBinding());
@@ -217,19 +202,14 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialButton({
-    required Widget icon,
-    required VoidCallback onPressed,
-  }) {
+  Widget _buildSocialButton({required Widget icon, required VoidCallback onPressed}) {
     return Container(
       width: 80, // Adjust size as needed
       height: 60, // Adjust size as needed
       decoration: BoxDecoration(
         color: AppColors.textFieldFillColor, // Dark background color from image
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppColors.textFieldBorderColor,
-        ), // Subtle border
+        border: Border.all(color: AppColors.textFieldBorderColor), // Subtle border
       ),
       child: Material(
         color: Colors.transparent,

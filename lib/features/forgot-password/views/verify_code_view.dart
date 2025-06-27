@@ -20,12 +20,8 @@ class VerifyCodeView extends StatelessWidget {
           (controller) => Obx(
             () => CustomLoader(
               isTrue: AppGlobals.isLoading.value,
-              child: Scaffold(
-                extendBody: true,
-                backgroundColor: AppColors.journalBackgroundColor,
-                resizeToAvoidBottomInset: false,
-                body: Container(
-                  height: Get.height,
+              child: Container(
+                 height: Get.height,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(
@@ -35,7 +31,11 @@ class VerifyCodeView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  child: SingleChildScrollView(
+                child: Scaffold(
+                  extendBody: true,
+                  backgroundColor: Colors.transparent,
+                  resizeToAvoidBottomInset: true,
+                  body: SingleChildScrollView(
                     padding: EdgeInsets.all(16),
                     child: Form(
                       key: verifyCodeFormKey,
@@ -60,15 +60,15 @@ class VerifyCodeView extends StatelessWidget {
                             style: AppTextTheme.bodyLarge,
                           ),
                           SizedBox(height: Get.height * 0.02),
-
+                                  
                           ///Otp widget
                           otpWidget(context, controller),
-
+                                  
                           ///Verify OTP Button
                           CustomRectangleButton(
                             width: context.width,
                             text: "Submit Code",
-
+                                  
                             onTap: () {
                               if (!verifyCodeFormKey.currentState!.validate()) {
                                 return;

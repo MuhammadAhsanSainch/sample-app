@@ -32,8 +32,8 @@ class HomeController extends GetxController {
     }
   }
 
-  var pageTitle = <String>[
-    "Home", // 0
+  final pageTitle = <String>[
+    "", // 0
     "Reminder", // 1
     "Calendar", // 2
     "My Profile", // 3
@@ -46,7 +46,7 @@ class HomeController extends GetxController {
     "Settings", // 10
   ];
 
-  var pages = <Widget>[
+  final pages = <Widget>[
     DashboardView(),
     ReminderScreen(),
     CalendarScreen(),

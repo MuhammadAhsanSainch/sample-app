@@ -102,6 +102,7 @@ class JournalListingScreen extends StatelessWidget {
                   upperLabel: "",
                   upperLabelReqStar: "",
                   hintValue: "Search",
+                  maxLines: 1,
                   borderColor: AppColors.primary,
                   outerPadding: EdgeInsets.zero,
                   prefixIcon: CustomImageView(
@@ -453,7 +454,10 @@ class JournalListingScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      CustomText(entry.description, fontSize: 14, maxLine: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 12),
+                        child: CustomText(entry.description, fontSize: 14, maxLine: 10),
+                      ),
                     ],
                   ),
                 ),

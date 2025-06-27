@@ -204,6 +204,7 @@ class HomeView extends StatelessWidget {
               ? CupertinoIcons.person_crop_circle_fill
               : CupertinoIcons.person_crop_circle,
           size: 24,
+          color: AppColors.lightColor,
             )
             : SvgPicture.asset(assetName),
         4.verticalSpace,

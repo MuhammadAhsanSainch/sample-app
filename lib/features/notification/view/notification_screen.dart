@@ -22,6 +22,7 @@ class NotificationScreen extends StatelessWidget {
               upperLabelReqStar: "",
               hintValue: "Search",
               borderColor: AppColors.primary,
+              maxLines: 1,
               outerPadding: EdgeInsets.zero,
               prefixIcon: CustomImageView(
                 imagePath: AppConstants.searchIcon,
@@ -42,7 +43,13 @@ class NotificationScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
                       color: AppColors.dialogBgColor,
-                      border: Border.all(color: AppGlobals.isDarkMode.value ? AppColors.strokeDarkGreyColor : AppColors.strokeColor, width: 1),
+                      border: Border.all(
+                        color:
+                            AppGlobals.isDarkMode.value
+                                ? AppColors.strokeDarkGreyColor
+                                : AppColors.strokeColor,
+                        width: 1,
+                      ),
                     ),
                     padding: EdgeInsets.all(12.r),
                     child: Row(

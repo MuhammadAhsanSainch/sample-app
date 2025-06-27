@@ -29,6 +29,7 @@ class FavoriteScreen extends StatelessWidget {
                   upperLabel: "",
                   upperLabelReqStar: "",
                   hintValue: "Search",
+                  maxLines: 1,
                   borderColor: AppColors.primary,
                   outerPadding: EdgeInsets.zero,
                   onChanged: (value) {
@@ -120,7 +121,7 @@ class FavoriteScreen extends StatelessWidget {
                                   icon: AppConstants.quranIcon,
                                   dialogTitle: "Quran",
                                   dialogTitleArabic: "القرآن",
-                                  titleArabic: "سورة الملك(٦٧ )",
+                                  titleArabic: controller.favoriteAyat[index].ayah?.surahNameArabic ?? "-",
                                   title: controller.favoriteAyat[index].ayah?.surahName ?? "-",
                                   arabicText:
                                       controller.favoriteAyat[index].ayah?.textArabic ?? "-",

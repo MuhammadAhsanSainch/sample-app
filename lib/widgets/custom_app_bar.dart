@@ -34,7 +34,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       surfaceTintColor: AppColors.lightColor,
       scrolledUnderElevation: 0,
       elevation: 0,
-      leadingWidth: 50,
+      leadingWidth: 56,
       leading:
           leadingWidget ??
           (showMenuIcon == true
@@ -42,7 +42,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 onTap: onMenuPressed,
                 child: Container(
                   decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primary),
-                  margin: EdgeInsets.only(left: 8),
+                  margin: EdgeInsets.only(left: 16),
                   padding: EdgeInsets.all(10),
                   height: 20,
                   width: 20,

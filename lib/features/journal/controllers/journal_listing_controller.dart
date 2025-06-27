@@ -5,13 +5,32 @@ import 'package:path_to_water/utilities/app_exports.dart';
 class JournalListingController extends GetxController with GetSingleTickerProviderStateMixin {
   DateTime focusedMonth = DateTime.now(); // For month/year display
   DateTime selectedDate = DateTime.now(); // For month/year display
-  String get focusedHijriMonthText =>
-      "${HijriCalendar.fromDate(focusedMonth).getLongMonthName()}, ${HijriCalendar.fromDate(focusedMonth).hYear}";
+  String get focusedHijriMonthText {
+    final firstDayGregorian = DateTime(focusedMonth.year, focusedMonth.month, 1);
+    final lastDayGregorian = DateTime(focusedMonth.year, focusedMonth.month + 1, 0);
+
+    final hijriStartDate = HijriCalendar.fromDate(firstDayGregorian);
+    final hijriEndDate = HijriCalendar.fromDate(lastDayGregorian);
+
+    String startHijriName = hijriStartDate.getLongMonthName();
+    String endHijriName = hijriEndDate.getLongMonthName();
+    String startHijriYear = hijriStartDate.hYear.toString();
+    String endHijriYear = hijriEndDate.hYear.toString();
+
+    if (startHijriName == endHijriName && startHijriYear == endHijriYear) {
+      return "$startHijriName $startHijriYear";
+    } else if (startHijriYear == endHijriYear) {
+      return "$startHijriName – $endHijriName $startHijriYear";
+    } else {
+      // Spans across Hijri years
+      return "$startHijriName $startHijriYear – $endHijriName $endHijriYear";
+    }
+  }
+  // "${HijriCalendar.fromDate(focusedMonth).getLongMonthName()}, ${HijriCalendar.fromDate(focusedMonth).hYear}";
 
   bool isEnglishCalendar = true;
   List<DateTime> visibleDates = [];
   final TextEditingController searchController = TextEditingController();
-
 
   @override
   void onInit() {
@@ -19,7 +38,6 @@ class JournalListingController extends GetxController with GetSingleTickerProvid
     focusedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
     generateVisibleDates(selectedDate);
   }
-
 
   void onDateSelected(DateTime date) {
     selectedDate = date;
