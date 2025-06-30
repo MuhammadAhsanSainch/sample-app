@@ -113,7 +113,7 @@ class LoginView extends StatelessWidget {
                         if (!loginFormKey.currentState!.validate()) {
                           return;
                         }
-                        controller.logIn();
+                        controller.logIn(null);
                       },
                     ),
                     _socialSignInSection(),
