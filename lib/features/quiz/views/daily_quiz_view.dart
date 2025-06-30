@@ -90,42 +90,49 @@ class DailyQuizView extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned(
-                  bottom: 2,
+                  bottom: 0,
                   right: -2,
                   left: -2,
-                  child: GetBuilder<QuizController>(
-                    id: 'slider',
-                    // Separate ID for the slider if it updates independently
-                    builder: (_) {
-                      return CustomArcSlider(
-                        maxValue:
-                        controller.dailyQuizModel?.questions?.length ?? 0,
-                        initialValue: controller.initialValue,
-                      );
-                    },
+                  child: SafeArea(
+                    child: GetBuilder<QuizController>(
+                      id: 'slider',
+                      // Separate ID for the slider if it updates independently
+                      builder: (_) {
+                        return CustomArcSlider(
+                          maxValue:
+                          controller.dailyQuizModel?.questions?.length ?? 0,
+                          initialValue: controller.initialValue,
+                        );
+                      },
+                    ),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 175.h),
+                  // margin: EdgeInsets.only(top: 175.h),
                   clipBehavior: Clip.none,
-                  height: Get.height * 0.42,
+                  height: Get.height ,
+                  margin: EdgeInsets.only(bottom: 170.h),
+                  alignment: Alignment.bottomCenter,
                   child: ListView(
                     shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ReadMoreText(
-                          controller.currentQuestion?.text ?? '',
+                          (controller.currentQuestion?.text ?? ''),
                           trimMode: TrimMode.Line,
                           trimLines: 4,
-                          colorClickableText: Colors.pink,
+                          colorClickableText: AppColors.error,
                           trimCollapsedText: 'Read more',
                           trimExpandedText: 'Read less',
                           style: AppTextTheme.titleLarge.copyWith(
                             fontSize: 20.sp
                           ),
-                          moreStyle: AppTextTheme.titleLarge.copyWith(fontSize: 20.sp),
+                          moreStyle: AppTextTheme.titleLarge.copyWith(fontSize: 16.sp),
+                          lessStyle: AppTextTheme.titleLarge.copyWith(fontSize: 16.sp,color: AppColors.error),
                           textAlign: TextAlign.center,
+                          
                         ),
                       ),
                       8.verticalSpace,
