@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:path_to_water/api_services/social_auth_service.dart';
+
 import 'login_controller.dart';
 import '../signup/signup_view.dart';
 import '../signup/signup_binding.dart';
@@ -25,10 +29,10 @@ class LoginView extends StatelessWidget {
               Positioned.fill(
                 // Makes the image fill the entire available space
                 child: Obx(
-                      () => Image.asset(
-                        AppGlobals.isDarkMode.value
-                            ? AppConstants.singInBgDark
-                            : AppConstants.singInBgLight,
+                  () => Image.asset(
+                    AppGlobals.isDarkMode.value
+                        ? AppConstants.singInBgDark
+                        : AppConstants.singInBgLight,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -46,8 +50,7 @@ class LoginView extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           if (kDebugMode) {
-                            controller.emailTFController.text =
-                            "ahsan@yopmail.com";
+                            controller.emailTFController.text = "ahsan@yopmail.com";
                             controller.passwordTFController.text = "1234";
                           }
                         },
@@ -67,10 +70,7 @@ class LoginView extends StatelessWidget {
                         validator: (value) => validateEmail(value),
                         type: TextInputType.emailAddress,
                         inputFormatters: [
-                          FilteringTextInputFormatter(
-                            RegExp(r'[a-zA-Z0-9@._-]'),
-                            allow: true,
-                          ),
+                          FilteringTextInputFormatter(RegExp(r'[a-zA-Z0-9@._-]'), allow: true),
                         ],
                         maxLines: 1,
                       ),
@@ -100,16 +100,11 @@ class LoginView extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: InkWell(
                           onTap: () {
-                            Get.to(
-                                  () => PasswordRecoveryView(),
-                              binding: ForgotPasswordBinding(),
-                            );
+                            Get.to(() => PasswordRecoveryView(), binding: ForgotPasswordBinding());
                           },
                           child: CustomText(
                             'Forgot Password?',
-                            style: AppTextTheme.bodyMedium.copyWith(
-                              color: AppColors.textSecondary,
-                            ),
+                            style: AppTextTheme.bodyMedium.copyWith(color: AppColors.textSecondary),
                           ),
                         ),
                       ),
@@ -122,7 +117,6 @@ class LoginView extends StatelessWidget {
                         onTap: () {
                           if (!loginFormKey.currentState!.validate()) {
                             return;
-
                           }
                           controller.logIn(null);
                         },
@@ -162,28 +156,31 @@ class LoginView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildSocialButton(
-              icon: SvgPicture.asset(AppConstants.google),
-              // Replace with your Google logo asset
-              onPressed: () {
-                // Handle Google sign-in
-                controller.signInWithGoogle();
-              },
-            ),
-            const SizedBox(width: 20),
-            _buildSocialButton(
-              icon: SvgPicture.asset(
-                AppConstants.apple,
-                colorFilter: ColorFilter.mode(
-                  AppGlobals.isDarkMode.value ? Colors.white : Colors.black,
-                  BlendMode.srcIn,
+            if (Platform.isAndroid)
+              _buildSocialButton(
+                icon: SvgPicture.asset(AppConstants.google),
+                // Replace with your Google logo asset
+                onPressed: () {
+                  // Handle Google sign-in
+                  SocialAuthService.signInWithGoogle();
+                },
+              )
+            else ...[
+              const SizedBox(width: 20),
+              _buildSocialButton(
+                icon: SvgPicture.asset(
+                  AppConstants.apple,
+                  colorFilter: ColorFilter.mode(
+                    AppGlobals.isDarkMode.value ? Colors.white : Colors.black,
+                    BlendMode.srcIn,
+                  ),
                 ),
+                onPressed: () {
+                  // Handle Apple sign-in
+                  SocialAuthService.signInWithApple();
+                },
               ),
-              onPressed: () {
-                // Handle Apple sign-in
-                controller.signInWithApple();
-              },
-            ),
+            ],
           ],
         ),
         SizedBox(height: Get.height * 0.02),
@@ -192,10 +189,7 @@ class LoginView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomText(
-              "Don't have an account? ",
-              style: AppTextTheme.bodyLarge,
-            ),
+            CustomText("Don't have an account? ", style: AppTextTheme.bodyLarge),
             GestureDetector(
               onTap: () {
                 Get.to(() => SignupView(), binding: SignupBinding());
@@ -219,19 +213,14 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialButton({
-    required Widget icon,
-    required VoidCallback onPressed,
-  }) {
+  Widget _buildSocialButton({required Widget icon, required VoidCallback onPressed}) {
     return Container(
       width: 80, // Adjust size as needed
       height: 60, // Adjust size as needed
       decoration: BoxDecoration(
         color: AppColors.textFieldFillColor, // Dark background color from image
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppColors.textFieldBorderColor,
-        ), // Subtle border
+        border: Border.all(color: AppColors.textFieldBorderColor), // Subtle border
       ),
       child: Material(
         color: Colors.transparent,

@@ -67,6 +67,9 @@ Future<void> _handleMessage(RemoteMessage message) async {
           channelDescription: "Android Notification",
           importance: Importance.max,
           playSound: true,
+          colorized: true,
+          icon: "@mipmap/launcher_icon",
+          
         ),
         iOS: DarwinNotificationDetails(),
       ),

@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:path_to_water/api_services/social_auth_service.dart';
+
 import 'signup_controller.dart';
 import '../login/login_view.dart';
 import '../login/login_binding.dart';
@@ -58,9 +62,7 @@ class SignupView extends StatelessWidget {
                             ///Full Name
                             CustomTextFormField(
                               controller: controller.fullNameTFController,
-                              prefixIcon: SvgPicture.asset(
-                                AppConstants.profile,
-                              ),
+                              prefixIcon: SvgPicture.asset(AppConstants.profile),
                               upperLabel: "Full Name",
                               upperLabelReqStar: "*",
                               hintValue: "Enter Full Name",
@@ -76,9 +78,7 @@ class SignupView extends StatelessWidget {
                             ///User Name
                             CustomTextFormField(
                               controller: controller.userNameTFController,
-                              prefixIcon: SvgPicture.asset(
-                                AppConstants.profile,
-                              ),
+                              prefixIcon: SvgPicture.asset(AppConstants.profile),
                               upperLabel: "User Name",
                               upperLabelReqStar: "*",
                               hintValue: "Enter User Name",
@@ -130,8 +130,7 @@ class SignupView extends StatelessWidget {
 
                             ///Confirm Password
                             CustomTextFormField(
-                              controller:
-                                  controller.confirmPasswordTFController,
+                              controller: controller.confirmPasswordTFController,
                               upperLabel: "Confirm Password",
                               upperLabelReqStar: "*",
                               hintValue: "Enter Confirm Password",
@@ -197,26 +196,31 @@ class SignupView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildSocialButton(
-              icon: SvgPicture.asset(AppConstants.google),
-              // Replace with your Google logo asset
-              onPressed: () {
-                // Handle Google sign-in
-              },
-            ),
-            const SizedBox(width: 20),
-            _buildSocialButton(
-              icon: SvgPicture.asset(
-                AppConstants.apple,
-                colorFilter: ColorFilter.mode(
-                  AppGlobals.isDarkMode.value ? Colors.white : Colors.black,
-                  BlendMode.srcIn,
+            if (Platform.isAndroid)
+              _buildSocialButton(
+                icon: SvgPicture.asset(AppConstants.google),
+                // Replace with your Google logo asset
+                onPressed: () {
+                  // Handle Google sign-in
+                  SocialAuthService.signInWithGoogle();
+                },
+              )
+            else ...[
+              const SizedBox(width: 20),
+              _buildSocialButton(
+                icon: SvgPicture.asset(
+                  AppConstants.apple,
+                  colorFilter: ColorFilter.mode(
+                    AppGlobals.isDarkMode.value ? Colors.white : Colors.black,
+                    BlendMode.srcIn,
+                  ),
                 ),
+                onPressed: () {
+                  // Handle Apple sign-in
+                  SocialAuthService.signInWithApple();
+                },
               ),
-              onPressed: () {
-                // Handle Apple sign-in
-              },
-            ),
+            ],
           ],
         ),
         SizedBox(height: Get.height * 0.02),
@@ -225,13 +229,10 @@ class SignupView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomText(
-              "Already Have An Account? ",
-              style: AppTextTheme.bodyLarge,
-            ),
+            CustomText("Already Have An Account? ", style: AppTextTheme.bodyLarge),
             GestureDetector(
               onTap: () {
-                Get.off(() => LoginView(),binding: LoginBinding());
+                Get.off(() => LoginView(), binding: LoginBinding());
               },
               child: CustomText(
                 "Sign In",
@@ -252,19 +253,14 @@ class SignupView extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialButton({
-    required Widget icon,
-    required VoidCallback onPressed,
-  }) {
+  Widget _buildSocialButton({required Widget icon, required VoidCallback onPressed}) {
     return Container(
       width: 80, // Adjust size as needed
       height: 60, // Adjust size as needed
       decoration: BoxDecoration(
         color: AppColors.textFieldFillColor, // Dark background color from image
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppColors.textFieldBorderColor,
-        ), // Subtle border
+        border: Border.all(color: AppColors.textFieldBorderColor), // Subtle border
       ),
       child: Material(
         color: Colors.transparent,
