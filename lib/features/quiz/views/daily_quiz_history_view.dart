@@ -14,11 +14,7 @@ class DailyQuizHistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        text: "Daily Quiz History",
-        centerTitle: true,
-        showBackIcon: true,
-      ),
+      appBar: CustomAppBar(text: "Daily Quiz History", centerTitle: true, showBackIcon: true),
       backgroundColor: AppColors.scaffoldBackground,
       body: GetBuilder<QuizController>(
         init: controller,
@@ -44,6 +40,7 @@ class DailyQuizHistoryView extends StatelessWidget {
                       fit: BoxFit.contain,
                     ),
                     onChanged: controller.onSearch,
+                    maxLines: 1,
                   ),
                   10.verticalSpace,
                   Expanded(
@@ -53,9 +50,7 @@ class DailyQuizHistoryView extends StatelessWidget {
                         return PagedListView.separated(
                           state: state,
                           fetchNextPage: fetchNextPage,
-                          builderDelegate: PagedChildBuilderDelegate<
-                            QuizHistoryModelData
-                          >(
+                          builderDelegate: PagedChildBuilderDelegate<QuizHistoryModelData>(
                             animateTransitions: true,
                             itemBuilder: (context, item, index) {
                               return GestureDetector(
@@ -78,8 +73,7 @@ class DailyQuizHistoryView extends StatelessWidget {
                                   ),
                                   padding: EdgeInsets.all(12.r),
                                   child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         padding: EdgeInsets.all(6.r),
@@ -87,40 +81,32 @@ class DailyQuizHistoryView extends StatelessWidget {
                                           color: AppColors.lightGreenColor,
                                           shape: BoxShape.circle,
                                         ),
-                                        child: SvgPicture.asset(
-                                          AppConstants.quizIcon2,
-                                        ),
+                                        child: SvgPicture.asset(AppConstants.quizIcon2),
                                       ),
                                       6.horizontalSpace,
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 CustomText(
                                                   item.quiz?.title,
-                                                  style:
-                                                      AppTextTheme.titleMedium,
+                                                  style: AppTextTheme.titleMedium,
                                                 ),
                                                 Row(
                                                   spacing: 10,
                                                   children: [
                                                     CustomText('${item.score}'),
-                                                    SvgPicture.asset(
-                                                      AppConstants.star,
-                                                    ),
+                                                    SvgPicture.asset(AppConstants.star),
                                                   ],
                                                 ),
                                               ],
                                             ),
                                             CustomText(
                                               AppGlobals.formatDate(
-                                                DateTime.tryParse(
-                                                  item.completedAt ?? '',
-                                                ),
+                                                DateTime.tryParse(item.completedAt ?? ''),
                                               ),
                                               style: AppTextTheme.bodySmall,
                                             ),
@@ -132,11 +118,10 @@ class DailyQuizHistoryView extends StatelessWidget {
                                             ),
                                             CustomText(
                                               'Answer Right ${item.score}',
-                                              style: AppTextTheme.bodySmall
-                                                  .copyWith(
-                                                    color: AppColors.greenColor,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
+                                              style: AppTextTheme.bodySmall.copyWith(
+                                                color: AppColors.greenColor,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
                                           ],
                                         ),

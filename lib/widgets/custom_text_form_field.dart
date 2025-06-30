@@ -71,7 +71,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             children: [
               CustomText(widget.upperLabel, style: AppTextTheme.bodyMedium),
               CustomText(
-                ' ${widget.upperLabelReqStar}',
+                widget.upperLabelReqStar,
                 style: AppTextTheme.bodyMedium.copyWith(color: Colors.red),
               ),
             ],

@@ -19,6 +19,7 @@ class SettingsController extends GetxController
   final TextEditingController currentPassTFController = TextEditingController();
   final TextEditingController newPassTFController = TextEditingController();
   final TextEditingController confirmNewTFController = TextEditingController();
+  
 
   RxBool isNotification = false.obs;
 

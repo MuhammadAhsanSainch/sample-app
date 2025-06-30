@@ -181,6 +181,7 @@ class ReminderListingScreen extends StatelessWidget {
                   upperLabel: "",
                   upperLabelReqStar: "",
                   hintValue: "Search",
+                  maxLines: 1,
                   borderColor: AppColors.primary,
                   outerPadding: EdgeInsets.zero,
                   prefixIcon: CustomImageView(

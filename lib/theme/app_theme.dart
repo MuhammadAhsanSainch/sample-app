@@ -23,7 +23,8 @@ class AppTheme {
     colorScheme: ColorScheme.light(
       primary: AppColors.primary,
       secondary: AppColors.secondary,
-      surface: AppColors.surface,
+      surface: AppColors.dark,
+      onSurface: AppColors.dark,
     ),
     // Add other theme properties as needed
   );
@@ -47,7 +48,8 @@ class AppTheme {
     colorScheme: ColorScheme.dark(
       primary: AppColors.primary,
       secondary: AppColors.secondary,
-      surface: AppColors.surface,
+      surface: AppColors.lightColor,
+      onSurface: AppColors.lightColor
     ),
     // Add other theme properties as needed
   );

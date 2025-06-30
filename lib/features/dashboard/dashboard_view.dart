@@ -42,7 +42,7 @@ class DashboardView extends StatelessWidget {
                     return SizedBox(
                       width: size.width,
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20.w),
+                        margin: EdgeInsets.symmetric(horizontal: 16.w),
                         padding: EdgeInsets.symmetric(vertical: 10),
                         height: 48.h,
                         decoration: BoxDecoration(
@@ -91,7 +91,7 @@ class DashboardView extends StatelessWidget {
               child: RefreshIndicator(
                 onRefresh: () async => controller.onRefresh(),
                 child: ListView(
-                  padding: EdgeInsets.only(left: 20.w, right: 20.w),
+                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
                   children: [
                     Obx(() {
                       switch (controller.currentTabIndex.value) {
