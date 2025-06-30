@@ -50,19 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDkr2uaqHxu0lvPCEEHJaUItxpXFlzykSc',
-    appId: '1:715238618476:android:1b6660e5a94595d47b6f49',
-    messagingSenderId: '715238618476',
-    projectId: 'islamic-mobile-app',
-    storageBucket: 'islamic-mobile-app.firebasestorage.app',
+    apiKey: 'AIzaSyC88pGIuBl4gyVyyzw7WUnjdEBPD0OGnIE',
+    appId: '1:1056416408417:android:a1c42ef2b8596074585b20',
+    messagingSenderId: '1056416408417',
+    projectId: 'barakah-builder',
+    storageBucket: 'barakah-builder.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD1xh6EHlWLqaMzPWaFBx3_aMyS-zqmn30',
-    appId: '1:715238618476:ios:bf9af979d744553d7b6f49',
-    messagingSenderId: '715238618476',
-    projectId: 'islamic-mobile-app',
-    storageBucket: 'islamic-mobile-app.firebasestorage.app',
-    iosBundleId: 'com.example.pathToWater',
+    apiKey: 'AIzaSyAsUEIt3YU8K61Rat-BKOqY9Hw1uYg5Pho',
+    appId: '1:1056416408417:ios:f2cb79a62de7ff25585b20',
+    messagingSenderId: '1056416408417',
+    projectId: 'barakah-builder',
+    storageBucket: 'barakah-builder.firebasestorage.app',
+    iosClientId: '1056416408417-ejlhfs4v7l86i26nsop32clu5hjn3ir8.apps.googleusercontent.com',
+    iosBundleId: 'com.futurbyte.barakahbuilder',
   );
+
 }

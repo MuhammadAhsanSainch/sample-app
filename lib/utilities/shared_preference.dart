@@ -66,6 +66,12 @@ class UserPreferences {
     prefs.setString('loginData', jsonEncode(value));
   }
 
+   static set isSocialLogin(bool isSocialLogin) {
+    prefs.setBool('isSocialLogin', isSocialLogin);
+  }
+
+  static bool get isSocialLogin => prefs.getBool('isSocialLogin') ?? false;
+
   static Map<String, dynamic> get loginData => jsonDecode(prefs.getString('loginData') ?? "{}");
 
   static void bannerShownToday(String date, bool value) {

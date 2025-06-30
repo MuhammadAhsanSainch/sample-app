@@ -21,6 +21,7 @@ Future<void> listenToFCM() async {
 
     // Get and save FCM token
     AppGlobals.fcmToken = await messaging.getToken() ?? '';
+    log('FCM Token: ${AppGlobals.fcmToken}');
     messaging.onTokenRefresh.listen((newToken) {
       log('New FCM Token: $newToken');
       AppGlobals.fcmToken = newToken;
@@ -66,6 +67,9 @@ Future<void> _handleMessage(RemoteMessage message) async {
           channelDescription: "Android Notification",
           importance: Importance.max,
           playSound: true,
+          colorized: true,
+          icon: "@mipmap/launcher_icon",
+          
         ),
         iOS: DarwinNotificationDetails(),
       ),

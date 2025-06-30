@@ -1,4 +1,4 @@
-package com.example.path_to_water
+package com.futurbyte.barakahbuilder
 
 import io.flutter.embedding.android.FlutterActivity
 

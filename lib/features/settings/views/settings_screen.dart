@@ -23,27 +23,20 @@ class SettingsScreen extends StatelessWidget {
           children: [
             20.verticalSpace,
             Divider(color: AppColors.dividerColor, thickness: 2.5),
-            ListTile(
-              leading: SvgPicture.asset(AppConstants.lock),
-              contentPadding: EdgeInsets.zero,
-              title: CustomText(
-                'Change Password',
-                style: AppTextTheme.bodyLarge,
+            if (UserPreferences.isSocialLogin == false) ...[
+              ListTile(
+                leading: SvgPicture.asset(AppConstants.lock),
+                contentPadding: EdgeInsets.zero,
+                title: CustomText('Change Password', style: AppTextTheme.bodyLarge),
+                trailing: Icon(CupertinoIcons.chevron_right, color: AppColors.primary),
+                onTap: () => Get.to(() => ChangePasswordScreen()),
               ),
-              trailing: Icon(
-                CupertinoIcons.chevron_right,
-                color: AppColors.primary,
-              ),
-              onTap: () => Get.to(() => ChangePasswordScreen()),
-            ),
-            Divider(color: AppColors.dividerColor, thickness: 2.5),
+              Divider(color: AppColors.dividerColor, thickness: 2.5),
+            ],
             ListTile(
               leading: SvgPicture.asset(AppConstants.notification),
               contentPadding: EdgeInsets.zero,
-              title: CustomText(
-                'Notifications Preferences',
-                style: AppTextTheme.bodyLarge,
-              ),
+              title: CustomText('Notifications Preferences', style: AppTextTheme.bodyLarge),
               trailing: Obx(() {
                 return CustomSwitchWidget(
                   value: controller.isNotification.value,
@@ -70,8 +63,7 @@ class SettingsScreen extends StatelessWidget {
                 Get.dialog(
                   CustomDialog(
                     title: "Delete Account",
-                    message:
-                        "Are you sure to delete your account? All your data will be deleted",
+                    message: "Are you sure to delete your account? All your data will be deleted",
                     imageIcon: AppConstants.trashIcon,
                     btnText: "Yes, Delete Account",
                     showCloseIcon: true,
@@ -80,16 +72,13 @@ class SettingsScreen extends StatelessWidget {
                       Get.dialog(
                         CustomDialogWithTextField(
                           title: "Enter Password To Delete Account",
-                          passwordTFController:
-                              controller.currentPassTFController,
+                          passwordTFController: controller.currentPassTFController,
                           imageIcon: AppConstants.trashIcon,
                           btnText: "Yes, Delete Account",
                           showCloseIcon: true,
                           onButtonTap: () {
                             Get.close(0);
-                            controller.deleteAccount(
-                              controller.currentPassTFController.text,
-                            );
+                            controller.deleteAccount(controller.currentPassTFController.text);
                           },
                         ),
                       );

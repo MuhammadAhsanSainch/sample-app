@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:path_to_water/api_services/social_auth_service.dart';
+
 import 'login_controller.dart';
 import '../signup/signup_view.dart';
 import '../signup/signup_binding.dart';
@@ -111,7 +113,7 @@ class LoginView extends StatelessWidget {
                         if (!loginFormKey.currentState!.validate()) {
                           return;
                         }
-                        controller.logIn();
+                        controller.logIn(null);
                       },
                     ),
                     _socialSignInSection(),
@@ -154,10 +156,11 @@ class LoginView extends StatelessWidget {
                 // Replace with your Google logo asset
                 onPressed: () {
                   // Handle Google sign-in
-                  controller.signInWithGoogle();
+                  SocialAuthService.signInWithGoogle();
                 },
               )
-            else
+            else ...[
+              const SizedBox(width: 20),
               _buildSocialButton(
                 icon: SvgPicture.asset(
                   AppConstants.apple,
@@ -168,8 +171,10 @@ class LoginView extends StatelessWidget {
                 ),
                 onPressed: () {
                   // Handle Apple sign-in
+                  SocialAuthService.signInWithApple();
                 },
               ),
+            ],
           ],
         ),
         SizedBox(height: Get.height * 0.02),
