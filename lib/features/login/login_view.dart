@@ -122,6 +122,7 @@ class LoginView extends StatelessWidget {
                         onTap: () {
                           if (!loginFormKey.currentState!.validate()) {
                             return;
+
                           }
                           controller.logIn(null);
                         },
