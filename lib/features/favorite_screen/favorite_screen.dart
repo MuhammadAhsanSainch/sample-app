@@ -146,7 +146,7 @@ class FavoriteScreen extends StatelessWidget {
                                         quranDialogTitleArabic: "القرآن",
                                         contentTitle:
                                             controller.favoriteAyat[index].ayah?.surahName ?? "-",
-                                        contentTitleArabic: "سورة الملك(٦٧ )",
+                                        contentTitleArabic: controller.favoriteAyat[index].ayah?.surahNameArabic ?? "-",
                                         englishContent:
                                             controller
                                                 .favoriteAyat[index]
