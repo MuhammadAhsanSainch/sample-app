@@ -6,31 +6,18 @@ class JournalListingController extends GetxController with GetSingleTickerProvid
   DateTime selectedDate = DateTime.now();
 
   DateTime get focusedMonth =>
-      DateTime(selectedDate.year, selectedDate.month, 1); // For month/year display
+      DateTime(selectedDate.year, selectedDate.month, selectedDate.day); // For month/year display
 
   String get focusedHijriMonthText {
-    final firstDayGregorian = DateTime(focusedMonth.year, focusedMonth.month, 1);
-    final lastDayGregorian = DateTime(focusedMonth.year, focusedMonth.month + 1, 0);
+    final firstDayGregorian = DateTime(focusedMonth.year, focusedMonth.month, focusedMonth.day);
 
     final hijriStartDate = HijriCalendar.fromDate(firstDayGregorian);
-    final hijriEndDate = HijriCalendar.fromDate(lastDayGregorian);
 
     String startHijriName = hijriStartDate.getLongMonthName();
-    String endHijriName = hijriEndDate.getLongMonthName();
     String startHijriYear = hijriStartDate.hYear.toString();
-    String endHijriYear = hijriEndDate.hYear.toString();
-    return "$startHijriName $startHijriYear";
 
-    if (startHijriName == endHijriName && startHijriYear == endHijriYear) {
-      return "$startHijriName $startHijriYear";
-    } else if (startHijriYear == endHijriYear) {
-      return "$startHijriName – $endHijriName $startHijriYear";
-    } else {
-      // Spans across Hijri years
-      return "$startHijriName $startHijriYear – $endHijriName $endHijriYear";
-    }
+    return "${hijriStartDate.hDay} $startHijriName $startHijriYear";
   }
-  // "${HijriCalendar.fromDate(focusedMonth).getLongMonthName()}, ${HijriCalendar.fromDate(focusedMonth).hYear}";
 
   bool isEnglishCalendar = true;
   List<DateTime> visibleDates = [];

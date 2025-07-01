@@ -56,7 +56,7 @@ class JournalListingScreen extends StatelessWidget {
                       children: [
                         CustomText(
                           controller.isEnglishCalendar
-                              ? controller.focusedMonth.toFormatDateTime(format: "MMMM, yyyy")
+                              ? controller.focusedMonth.toFormatDateTime(format: "dd MMMM, yyyy")
                               : controller.focusedHijriMonthText,
                         ),
                         8.horizontalSpace,
@@ -96,24 +96,24 @@ class JournalListingScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: CustomTextFormField(
-                  controller: journalScreenController.searchController,
-                  upperLabel: "",
-                  upperLabelReqStar: "",
-                  hintValue: "Search",
-                  maxLines: 1,
-                  borderColor: AppColors.primary,
-                  outerPadding: EdgeInsets.zero,
-                  prefixIcon: CustomImageView(
-                    imagePath: AppConstants.searchIcon,
-                    height: 24.h,
-                    fit: BoxFit.contain,
-                  ),
-                  onChanged: journalScreenController.onSearch,
-                ),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 16.w),
+              //   child: CustomTextFormField(
+              //     controller: journalScreenController.searchController,
+              //     upperLabel: "",
+              //     upperLabelReqStar: "",
+              //     hintValue: "Search",
+              //     maxLines: 1,
+              //     borderColor: AppColors.primary,
+              //     outerPadding: EdgeInsets.zero,
+              //     prefixIcon: CustomImageView(
+              //       imagePath: AppConstants.searchIcon,
+              //       height: 24.h,
+              //       fit: BoxFit.contain,
+              //     ),
+              //     onChanged: journalScreenController.onSearch,
+              //   ),
+              // ),
               12.verticalSpace,
               Expanded(
                 child: PagingListener(
