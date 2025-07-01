@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:path_to_water/features/home/home_controller.dart';
 import 'package:path_to_water/features/journal/binding/create_journal_screen_binding.dart';
+import 'package:path_to_water/features/journal/binding/journal_search_screen_binding.dart';
 import 'package:path_to_water/features/journal/controllers/journal_screen_controller.dart';
 import 'package:path_to_water/features/journal/views/create_journal_screen.dart';
+import 'package:path_to_water/features/journal/views/journal_search_screen.dart';
 import 'package:path_to_water/features/reminder/bindings/create_reminder_screen_binding.dart';
+import 'package:path_to_water/features/reminder/bindings/reminder_search_screen_binding.dart';
 import 'package:path_to_water/features/reminder/controller/reminder_screen_controller.dart';
 import 'package:path_to_water/features/reminder/views/create_reminder_screen.dart';
+import 'package:path_to_water/features/reminder/views/reminder_search_screen.dart';
 import 'package:path_to_water/widgets/custom_advanced_drawer.dart';
 
 import '../../utilities/app_exports.dart';
@@ -37,6 +41,38 @@ class HomeView extends StatelessWidget {
                 }
                 controller.drawerController.showDrawer();
               },
+              trailingWidget: Visibility(
+                visible:
+                    (controller.currentTabIndex.value == 1 && controller.isReminderCreated.value) ||
+                    (controller.currentTabIndex.value == 6 && controller.isJournalCreated.value),
+                child: Padding(
+                  padding: EdgeInsets.only(right: 8.w),
+                  child: IconButton(
+                    onPressed: () {
+                      if (controller.currentTabIndex.value == 1) {
+                        Get.to(
+                          () => ReminderSearchScreen(),
+                          binding: ReminderScreenSearchBinding(),
+                        )?.then((value) {
+                          Get.put(ReminderScreenController()).onRefresh();
+                        });
+                      } else if (controller.currentTabIndex.value == 6) {
+                        Get.to(
+                          () => JournalSearchScreen(),
+                          binding: JournalSearchScreenBinding(),
+                        )?.then((value) {
+                          Get.put(JournalScreenController()).onRefresh();
+                        });
+                      }
+                    },
+                    icon: CustomImageView(
+                      imagePath: AppConstants.searchIcon,
+                      height: 24.h,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              ),
             ),
             extendBodyBehindAppBar: controller.currentTabIndex.value == 0,
             extendBody: [0, 1, 6, 8].contains(controller.currentTabIndex.value),
@@ -54,7 +90,7 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                // margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
@@ -82,6 +118,7 @@ class HomeView extends StatelessWidget {
                                       ? AppConstants.homeFilled
                                       : AppConstants.homeOutlined,
                               label: "Home",
+                              isSelected: controller.currentTabIndex.value == 0,
                             ),
                           ),
                         ),
@@ -101,6 +138,7 @@ class HomeView extends StatelessWidget {
                                       ? AppConstants.reminderFilled
                                       : AppConstants.reminderOutlined,
                               label: "Reminder",
+                              isSelected: controller.currentTabIndex.value == 1,
                             ),
                           ),
                         ),
@@ -120,6 +158,7 @@ class HomeView extends StatelessWidget {
                                       ? AppConstants.calendarFilled
                                       : AppConstants.calendarOutlined,
                               label: "Calendar",
+                              isSelected: controller.currentTabIndex.value == 2,
                             ),
                           ),
                         ),
@@ -139,7 +178,7 @@ class HomeView extends StatelessWidget {
                                       ? AppConstants.profileFilled
                                       : AppConstants.profileOutlined,
                               label: "Profile",
-                              isSelected: controller.currentTabIndex.value == 3
+                              isSelected: controller.currentTabIndex.value == 3,
                             ),
                           ),
                         ),
@@ -151,9 +190,8 @@ class HomeView extends StatelessWidget {
             ),
             floatingActionButton: Visibility(
               visible:
-                  [1].contains(controller.currentTabIndex.value) ||
-                  (controller.currentTabIndex.value == 6 &&
-                      controller.isJournalCreated.value),
+                  (controller.currentTabIndex.value == 1 && controller.isReminderCreated.value) ||
+                  (controller.currentTabIndex.value == 6 && controller.isJournalCreated.value),
               child: FloatingActionButton(
                 onPressed: () {
                   if (controller.currentTabIndex.value == 1) {
@@ -200,15 +238,21 @@ class HomeView extends StatelessWidget {
               // isSelected
               //     ? CupertinoIcons.person_alt_circle_fill
               //     : CupertinoIcons.person_alt_circle,
-          isSelected
-              ? CupertinoIcons.person_crop_circle_fill
-              : CupertinoIcons.person_crop_circle,
-          size: 24,
-          color: AppColors.lightColor,
+              isSelected
+                  ? CupertinoIcons.person_crop_circle_fill
+                  : CupertinoIcons.person_crop_circle,
+              size: 24,
+              color: isSelected ? AppColors.lightColor : AppColors.lightColor.withAlpha(180),
             )
-            : SvgPicture.asset(assetName),
+            : CustomImageView(
+              svgPath: assetName,
+              color: isSelected ? AppColors.lightColor : AppColors.lightColor.withAlpha(180),
+            ),
         4.verticalSpace,
-        CustomText(label, color: AppColors.lightColor),
+        CustomText(
+          label,
+          color: isSelected ? AppColors.lightColor : AppColors.lightColor.withAlpha(180),
+        ),
       ],
     );
   }

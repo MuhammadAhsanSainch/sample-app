@@ -1,6 +1,6 @@
-import 'package:device_calendar/device_calendar.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:path_to_water/features/calendar/controller/calendar_controller.dart';
+import 'package:path_to_water/features/calendar/models/islamic_event_model.dart';
 import 'package:path_to_water/features/reminder/views/create_reminder_screen.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 
@@ -251,7 +251,7 @@ class _DualCalendarViewState extends State<DualCalendarView> {
                 date.year == _selectedDate!.year &&
                 date.month == _selectedDate!.month &&
                 date.day == _selectedDate!.day;
-            List<Event> events = widget.controller.events[date] ?? [];
+            List<IslamicEvents> events = widget.controller.events[date] ?? [];
             return _buildDayCell(date, isCurrentMonth, isToday, isSelected, events);
           },
         );
@@ -264,7 +264,7 @@ class _DualCalendarViewState extends State<DualCalendarView> {
     bool isCurrentMonth,
     bool isToday,
     bool isSelected,
-    List<Event> events,
+    List<IslamicEvents> events,
   ) {
     HijriCalendar hijriDate = HijriCalendar.fromDate(date);
 
@@ -280,7 +280,7 @@ class _DualCalendarViewState extends State<DualCalendarView> {
         //     _selectedDate = date;
         //   });
         // }
-        Get.to(()=> CreateReminderScreen(selectedDate: date,));
+        Get.to(() => CreateReminderScreen(selectedDate: date));
       },
       child: Container(
         // alignment: Alignment.center,
@@ -311,7 +311,7 @@ class _DualCalendarViewState extends State<DualCalendarView> {
             Visibility(
               visible: events.isNotEmpty,
               child: Tooltip(
-                message: events.firstOrNull?.title ?? "",
+                message: events.firstOrNull?.summary ?? "",
                 child: Container(
                   margin: EdgeInsets.all(2),
                   padding: EdgeInsets.all(2),
@@ -321,9 +321,9 @@ class _DualCalendarViewState extends State<DualCalendarView> {
                     color: AppColors.primary.withAlpha(50),
                   ),
                   child: CustomText(
-                    events.firstOrNull?.title ?? "",
+                    events.firstOrNull?.summary ?? "",
                     maxLine: 2,
-                    fontSize: 9,
+                    fontSize: 8,
                     textAlign: TextAlign.center,
                   ),
                 ),

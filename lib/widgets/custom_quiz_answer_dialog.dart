@@ -51,10 +51,7 @@ class CustomQuizAnswerDialog extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(top: 12.h),
-                  child: SvgPicture.asset(
-                    AppConstants.illustration,
-                    height: 40.h,
-                  ),
+                  child: SvgPicture.asset(AppConstants.illustration, height: 40.h),
                 ),
                 10.verticalSpace,
                 CustomText(
@@ -66,10 +63,7 @@ class CustomQuizAnswerDialog extends StatelessWidget {
                   width: Get.width,
                   margin: EdgeInsets.symmetric(vertical: 5),
                   decoration: BoxDecoration(
-                    color:
-                        givenAnswer == actualAnswer
-                            ? AppColors.primary
-                            : AppColors.error,
+                    color: givenAnswer == actualAnswer ? AppColors.primary : AppColors.error,
                     border: Border.all(color: AppColors.textFieldBorderColor),
                     borderRadius: BorderRadius.circular(9),
                   ),
@@ -89,18 +83,14 @@ class CustomQuizAnswerDialog extends StatelessWidget {
                         child: Center(
                           child: CustomText(
                             selectedLabel,
-                            style: AppTextTheme.bodyLarge.copyWith(
-                              color: AppColors.primary,
-                            ),
+                            style: AppTextTheme.bodyLarge.copyWith(color: AppColors.primary),
                           ),
                         ),
                       ),
                       Expanded(
                         child: CustomText(
                           givenAnswer,
-                          style: AppTextTheme.bodyLarge.copyWith(
-                            color: Colors.white,
-                          ),
+                          style: AppTextTheme.bodyLarge.copyWith(color: Colors.white),
                         ),
                       ),
                     ],
@@ -132,37 +122,26 @@ class CustomQuizAnswerDialog extends StatelessWidget {
                         child: Center(
                           child: CustomText(
                             actualLabel,
-                            style: AppTextTheme.bodyLarge.copyWith(
-                              color: AppColors.primary,
-                            ),
+                            style: AppTextTheme.bodyLarge.copyWith(color: AppColors.primary),
                           ),
                         ),
                       ),
                       Expanded(
                         child: CustomText(
                           actualAnswer,
-                          style: AppTextTheme.bodyLarge.copyWith(
-                            color: Colors.white,
-                          ),
+                          style: AppTextTheme.bodyLarge.copyWith(color: Colors.white),
                         ),
                       ),
                     ],
                   ),
                 ),
                 10.verticalSpace,
-                CustomText(
-                  question,
-                  style: AppTextTheme.titleMedium,
-                  maxLine: 2,
-                ),
+                CustomText(question, style: AppTextTheme.titleMedium, maxLine: 2),
                 8.verticalSpace,
                 CustomText(
                   explanation,
                   style: AppTextTheme.bodyLarge.copyWith(
-                    color:
-                        AppGlobals.isDarkMode.value
-                            ? AppColors.lightColor
-                            : AppColors.grey500,
+                    color: AppGlobals.isDarkMode.value ? AppColors.lightColor : AppColors.grey500,
                   ),
                   maxLine: 6,
                 ),
@@ -215,7 +194,7 @@ class CustomResultDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> filledStars = List.generate(
       correctAnswers,
-          (index) => SvgPicture.asset(
+      (index) => SvgPicture.asset(
         AppConstants.star,
         width: 24, // Optional: specify size
         height: 24, // Optional: specify size
@@ -223,13 +202,16 @@ class CustomResultDialog extends StatelessWidget {
       ),
     );
     List<Widget> unFilledStars = List.generate(
-      totalQuestions-correctAnswers,
-          (index) => SvgPicture.asset(
+      totalQuestions - correctAnswers,
+      (index) => SvgPicture.asset(
         AppConstants.star,
         key: ValueKey('star_$index'), // Good practice for keys
         width: 24, // Optional: specify size
         height: 24, // Optional: specify size
-        colorFilter: ColorFilter.mode(AppColors.darkGreenColor, BlendMode.srcIn), // Optional: color the SVG
+        colorFilter: ColorFilter.mode(
+          AppColors.darkGreenColor,
+          BlendMode.srcIn,
+        ), // Optional: color the SVG
       ),
     );
     return Dialog(
@@ -260,33 +242,33 @@ class CustomResultDialog extends StatelessWidget {
                   ),
                 ),
                 10.verticalSpace,
-                CustomText(
-                  'Quiz Finished',
-                  style: AppTextTheme.headlineSmall,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomText('Your Rating ', style: AppTextTheme.headlineSmall),
-                    ...filledStars,
-                    ...unFilledStars,
-                    Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(30),
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Color(0xffF9A304),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(child: Text('$correctAnswers',style: AppTextTheme.titleMedium.copyWith(fontSize: 18),)),
-                        ),
-                      ),
-                    )
-                  ],
+                CustomText('Quiz Finished', style: AppTextTheme.headlineSmall),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText('Your Rating ', style: AppTextTheme.headlineSmall),
+                      ...filledStars,
+                      ...unFilledStars,
+                      // Material(
+                      //   color: Colors.transparent,
+                      //   child: InkWell(
+                      //     borderRadius: BorderRadius.circular(30),
+                      //     child: Container(
+                      //       height: 40,
+                      //       width: 40,
+                      //       padding: const EdgeInsets.all(8),
+                      //       decoration: BoxDecoration(
+                      //         color: Color(0xffF9A304),
+                      //         shape: BoxShape.circle,
+                      //       ),
+                      //       child: Center(child: Text('$correctAnswers',style: AppTextTheme.titleMedium.copyWith(fontSize: 18),)),
+                      //     ),
+                      //   ),
+                      // )
+                    ],
+                  ),
                 ),
                 10.verticalSpace,
                 CustomText(
@@ -326,14 +308,11 @@ class CustomResultDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
                 onTap: () {
                   Navigator.of(context).pop();
-                  Get.off(() => DailyQuizHistoryView(),binding: QuizBinding());
+                  Get.off(() => DailyQuizHistoryView(), binding: QuizBinding());
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
+                  decoration: BoxDecoration(color: Colors.red, shape: BoxShape.circle),
                   child: Icon(Icons.close, color: Colors.white, size: 20),
                 ),
               ),

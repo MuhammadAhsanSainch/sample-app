@@ -91,7 +91,12 @@ class LoginController extends GetxController {
     try {
       AppGlobals.isLoading(true);
       Map<String, dynamic> data =
-          payload ?? {"email": emailTFController.text, "password": passwordTFController.text};
+          payload ??
+          {
+            "email": emailTFController.text,
+            "password": passwordTFController.text,
+            "fcmToken": AppGlobals.fcmToken,
+          };
       final res = await AuthServices.loginIn(data);
       if (res?.user != null) {
         UserPreferences.loginData = res?.user?.toJson() ?? {};

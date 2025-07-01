@@ -9,6 +9,7 @@ import 'package:path_to_water/features/journal/views/journal_screen.dart';
 import 'package:path_to_water/features/login/login_binding.dart';
 import 'package:path_to_water/features/login/login_view.dart';
 import 'package:path_to_water/features/quiz/views/daily_quiz_view.dart';
+import 'package:path_to_water/features/reminder/controller/reminder_screen_controller.dart';
 import 'package:path_to_water/features/reminder/views/reminder_screen.dart';
 import 'package:path_to_water/features/settings/views/profile_screen.dart';
 import 'package:path_to_water/features/settings/views/settings_screen.dart';
@@ -61,6 +62,7 @@ class HomeController extends GetxController {
   ];
 
   RxBool get isJournalCreated => Get.put(JournalScreenController()).isJournalCreated;
+  RxBool get isReminderCreated => Get.put(ReminderScreenController()).isReminderCreated;
 
   @override
   void onInit() {

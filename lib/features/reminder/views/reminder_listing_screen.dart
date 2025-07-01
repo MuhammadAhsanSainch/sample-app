@@ -1,6 +1,7 @@
 import 'package:hijri/hijri_calendar.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:path_to_water/features/reminder/widgets/reminder_item_widget.dart';
 import 'package:path_to_water/models/reminder_detail_model.dart';
 import 'package:path_to_water/features/reminder/bindings/create_reminder_screen_binding.dart';
 import 'package:path_to_water/features/reminder/controller/reminder_listing_controller.dart';
@@ -174,24 +175,24 @@ class ReminderListingScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: CustomTextFormField(
-                  controller: reminderScreenController.searchController,
-                  upperLabel: "",
-                  upperLabelReqStar: "",
-                  hintValue: "Search",
-                  maxLines: 1,
-                  borderColor: AppColors.primary,
-                  outerPadding: EdgeInsets.zero,
-                  prefixIcon: CustomImageView(
-                    imagePath: AppConstants.searchIcon,
-                    height: 24.h,
-                    fit: BoxFit.contain,
-                  ),
-                  onChanged: reminderScreenController.onSearch,
-                ),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 16.w),
+              //   child: CustomTextFormField(
+              //     controller: reminderScreenController.searchController,
+              //     upperLabel: "",
+              //     upperLabelReqStar: "",
+              //     hintValue: "Search",
+              //     maxLines: 1,
+              //     borderColor: AppColors.primary,
+              //     outerPadding: EdgeInsets.zero,
+              //     prefixIcon: CustomImageView(
+              //       imagePath: AppConstants.searchIcon,
+              //       height: 24.h,
+              //       fit: BoxFit.contain,
+              //     ),
+              //     onChanged: reminderScreenController.onSearch,
+              //   ),
+              // ),
               12.verticalSpace,
               Expanded(
                 child: PagingListener(
@@ -204,39 +205,44 @@ class ReminderListingScreen extends StatelessWidget {
                       builderDelegate: PagedChildBuilderDelegate<ReminderDetails>(
                         animateTransitions: true,
                         itemBuilder:
-                            (context, item, index) => _buildEntryItem(
-                              item,
-                              index == (state.items?.length ?? 0) - 1,
-                              context,
-                              index,
-                              (state.items?.length ?? 0) > 1,
+                            (context, item, index) => ReminderEntryItem(
+                              entry: item,
+                              isLast: index == (state.items?.length ?? 0) - 1,
+                              index: index,
+                              showLine: (state.items?.length ?? 0) > 1,
+                              onEditTap: () {
+                                Get.to(
+                                  () => CreateReminderScreen(reminderDetails: item),
+                                  binding: CreateReminderScreenBinding(),
+                                )?.then((value) {
+                                  if (value == true) {
+                                    reminderScreenController.onRefresh();
+                                  }
+                                });
+                              },
+                              onDeleteTap: () {
+                                Get.dialog(
+                                  CustomDialog(
+                                    message: "Are you sure you want to delete this reminder?",
+                                    imageIcon: AppConstants.trashIcon,
+                                    title: "Delete Reminder",
+                                    btnText: "Delete",
+                                    onButtonTap: () {
+                                      reminderScreenController.deleteReminderApi(item.id ?? "");
+                                      Get.back();
+                                    },
+                                  ),
+                                );
+                              },
                             ),
                       ),
-                      
+
                       separatorBuilder: (context, index) => SizedBox.shrink(),
                     );
                   },
                 ),
-                // DummyContent.allEntries.isEmpty
-                //     ? Center(
-                //       child: Text(
-                //         'No entries for this date.',
-                //         style: TextStyle(color: Colors.grey[600]),
-                //       ),
-                //     )
-                //     : _buildEntriesList(DummyContent.allEntries, context),
               ),
-              // Expanded(
-              //   child:
-              //       DummyContent.allEntries.isEmpty
-              //           ? Center(
-              //             child: Text(
-              //               'No entries for this date.',
-              //               style: TextStyle(color: Colors.grey[600]),
-              //             ),
-              //           )
-              //           : _buildEntriesList(DummyContent.allEntries, context),
-              // ),
+
               120.verticalSpace,
             ],
           ),
@@ -297,179 +303,6 @@ class ReminderListingScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  // Widget _buildEntriesList(List<CalendarEntry> list, BuildContext context) {
-  //   return ListView.builder(
-  //     padding: EdgeInsets.symmetric(horizontal: 16.0),
-  //     itemCount: list.length,
-  //     itemBuilder: (context, index) {
-  //       final entry = list[index];
-  //       bool isLast = index == list.length - 1;
-  //       return _buildEntryItem(entry, isLast, context);
-  //     },
-  //   );
-  // }
-
-  Widget _buildEntryItem(
-    ReminderDetails entry,
-    bool isLast,
-    BuildContext context,
-    int index,
-    bool showLine,
-  ) {
-    final timeFormatted = entry.time; // e.g., 10:30 PM
-
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: showLine ? MainAxisAlignment.start : MainAxisAlignment.center,
-            children: [
-              if (showLine && index == 0)
-                8.verticalSpace
-              else if (showLine && index != 0)
-                Container(
-                  width: 1, // Line thickness
-                  height: 8,
-                  color: AppColors.primary, // Spacing around line
-                ),
-              Container(
-                width: 60.w,
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-                child: CustomText(timeFormatted, color: Colors.white, fontSize: 11),
-              ),
-              if (showLine)
-                Expanded(
-                  child: Container(
-                    width: 1, // Line thickness
-                    margin: isLast ? EdgeInsets.only(bottom: 16.h) : null,
-                    color: AppColors.primary, // Spacing around line
-                  ),
-                )
-              else
-                12.verticalSpace,
-            ],
-          ),
-          22.horizontalSpace,
-          // Content Card
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                showQuranInfoDialog(
-                  context,
-                  quranDialogTitle: "Reminder",
-                  contentTitle: entry.title,
-                  englishContent: entry.description,
-                  showLanguageSelectionButton: false,
-                  date: entry.date,
-                );
-              },
-              child: Card(
-                elevation: 0,
-                margin: EdgeInsets.only(bottom: 16, top: 2), // Card margin
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                  side: BorderSide(color: AppColors.strokeColor),
-                ),
-                color: AppColors.dialogBgColor,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 12, bottom: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: CustomText(entry.title, fontWeight: FontWeight.w500)),
-                          PopupMenuButton<String>(
-                            icon: Icon(Icons.more_vert, color: AppColors.primary),
-                            onSelected: (value) {},
-                            color:
-                                AppGlobals.isDarkMode.value ? AppColors.grey700 : AppColors.grey100,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                              side: BorderSide(color: AppColors.greenStrokeColor),
-                            ),
-                            itemBuilder:
-                                (BuildContext context) => <PopupMenuEntry<String>>[
-                                  PopupMenuItem<String>(
-                                    height: 30.h,
-                                    value: 'edit',
-                                    onTap: () {
-                                      Get.to(
-                                        () => CreateReminderScreen(reminderDetails: entry),
-                                        binding: CreateReminderScreenBinding(),
-                                      )?.then((value) {
-                                        if (value == true) {
-                                          reminderScreenController.onRefresh();
-                                        }
-                                      });
-                                    },
-                                    child: Row(
-                                      children: [
-                                        CustomImageView(
-                                          svgPath: AppConstants.editSvgIcon,
-                                          height: 14.h,
-                                          color: AppColors.surface,
-                                        ),
-                                        SizedBox(width: 8),
-                                        CustomText('Edit', fontSize: 12),
-                                      ],
-                                    ),
-                                  ),
-                                  PopupMenuItem<String>(
-                                    height: 30.h,
-                                    value: 'delete',
-                                    child: Row(
-                                      children: [
-                                        CustomImageView(
-                                          svgPath: AppConstants.trashSvgIcon,
-                                          height: 14.h,
-                                          color: Colors.redAccent,
-                                        ),
-                                        SizedBox(width: 8),
-                                        CustomText('Delete', fontSize: 12),
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      Get.dialog(
-                                        CustomDialog(
-                                          message: "Are you sure you want to delete this reminder?",
-                                          imageIcon: AppConstants.trashIcon,
-                                          title: "Delete Reminder",
-                                          btnText: "Delete",
-                                          onButtonTap: () {
-                                            reminderScreenController.deleteReminderApi(
-                                              entry.id ?? "",
-                                            );
-                                            Get.back();
-                                          },
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                          ),
-                        ],
-                      ),
-                      CustomText(entry.description, fontSize: 14, maxLine: 10),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

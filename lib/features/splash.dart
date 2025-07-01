@@ -2,7 +2,6 @@ import 'dart:async';
 
 import '/features/home/home_binding.dart';
 import '/features/home/home_view.dart';
-import '../models/auth_model.dart';
 import '../utilities/app_exports.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,19 +19,6 @@ class _Splashfeaturestate extends State<SplashScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 3), () {
-      // if (UserPreferences.isLogin == true) {
-      //   AuthModel.fromJson({
-      //     "status": true,
-      //     "code": "SUCCESS",
-      //     "message": "Already Logged In",
-      //     "data": UserPreferences.loginData,
-      //   });
-      //   Get.offAll(() => HomeView(), binding: HomeBinding());
-      //   // Get.offAll(() => LoginView(), binding: LoginBinding());
-      // } else {
-      //   Get.offAll(() => HomeView(), binding: HomeBinding());
-      //   // Get.offAll(() => LoginView(), binding: LoginBinding());
-      // }
       Get.offAll(() => HomeView(), binding: HomeBinding());
     });
   }
