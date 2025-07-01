@@ -49,9 +49,9 @@ class JournalScreen extends StatelessWidget {
                               ),
                               24.verticalSpace,
                               CustomText(
-                                'Lorem ipsum dolor sit amet consectetur. Egestas arcu tincidunt',
+                                'Save your daily reflections, duas, and spiritual thoughts.\nA private space to track and deepen your faith journey',
                                 fontSize: 16.sp,
-                                maxLine: 3,
+                                maxLine: 5,
                                 textAlign: TextAlign.center,
                               ),
                               24.verticalSpace,

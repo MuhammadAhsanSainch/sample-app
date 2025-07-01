@@ -166,6 +166,7 @@ class AppColors {
 
 class AppFonts {
   static const String primary = 'Poppins';
+  static const String secondary = 'NotoSans';
   // Add other font families as needed
 }
 

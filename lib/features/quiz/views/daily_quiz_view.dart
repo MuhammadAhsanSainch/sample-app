@@ -62,18 +62,14 @@ class DailyQuizView extends StatelessWidget {
       children: [
         Positioned.fill(
           child: Image.asset(
-            AppGlobals.isDarkMode.value
-                ? AppConstants.quizBgDark
-                : AppConstants.quizBgLight,
+            AppGlobals.isDarkMode.value ? AppConstants.quizBgDark : AppConstants.quizBgLight,
             fit: BoxFit.cover,
           ),
         ),
         Obx(
           () =>
               controller.isLoading.value
-                  ? const Center(
-                    child: CircularProgressIndicator(),
-                  ) // Use const for performance
+                  ? const Center(child: CircularProgressIndicator()) // Use const for performance
                   : _buildQuizContent(), // Extracted quiz content
         ),
       ],
@@ -99,8 +95,7 @@ class DailyQuizView extends StatelessWidget {
                       // Separate ID for the slider if it updates independently
                       builder: (_) {
                         return CustomArcSlider(
-                          maxValue:
-                          controller.dailyQuizModel?.questions?.length ?? 0,
+                          maxValue: controller.dailyQuizModel?.questions?.length ?? 0,
                           initialValue: controller.initialValue,
                         );
                       },
@@ -109,30 +104,34 @@ class DailyQuizView extends StatelessWidget {
                 ),
                 Container(
                   // margin: EdgeInsets.only(top: 175.h),
-                  clipBehavior: Clip.none,
-                  height: Get.height ,
+                  height: Get.height,
                   margin: EdgeInsets.only(bottom: 170.h),
-                  alignment: Alignment.bottomCenter,
                   child: ListView(
                     shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
                     children: [
+                      12.verticalSpace,
+                      CustomImageView(
+                        imagePath: AppConstants.dailyQuizIcon,
+                        height: 120.h,
+                        fit: BoxFit.fitHeight,
+                      ),
+                      12.verticalSpace,
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ReadMoreText(
-                          (controller.currentQuestion?.text ?? ''),
+                          (controller.currentQuestion?.text ?? '') , 
                           trimMode: TrimMode.Line,
                           trimLines: 4,
                           colorClickableText: AppColors.error,
                           trimCollapsedText: 'Read more',
-                          trimExpandedText: 'Read less',
-                          style: AppTextTheme.titleLarge.copyWith(
-                            fontSize: 20.sp
+                          trimExpandedText: ' Read less',
+                          style: AppTextTheme.titleLarge.copyWith(fontSize: 16.sp),
+                          moreStyle: AppTextTheme.titleLarge.copyWith(fontSize: 14.sp),
+                          lessStyle: AppTextTheme.titleLarge.copyWith(
+                            fontSize: 14.sp,
+                            color: AppColors.error,
                           ),
-                          moreStyle: AppTextTheme.titleLarge.copyWith(fontSize: 16.sp),
-                          lessStyle: AppTextTheme.titleLarge.copyWith(fontSize: 16.sp,color: AppColors.error),
                           textAlign: TextAlign.center,
-                          
                         ),
                       ),
                       8.verticalSpace,
@@ -145,12 +144,7 @@ class DailyQuizView extends StatelessWidget {
             ),
           );
         } else {
-          return Center(
-            child: CustomText(
-              'No Quiz For Today!',
-              style: AppTextTheme.titleLarge,
-            ),
-          );
+          return Center(child: CustomText('No Quiz For Today!', style: AppTextTheme.titleLarge));
         }
       },
     );
@@ -172,11 +166,11 @@ class DailyQuizView extends StatelessWidget {
           }
         }
       }
-      String correctLabel = ['A', 'B', 'C', 'D'][indexOfCorrectAnswer??0];
+      String correctLabel = ['A', 'B', 'C', 'D'][indexOfCorrectAnswer ?? 0];
 
       return GestureDetector(
         onTap: () {
-          controller.selectedOptionId.value=option?.id??'';
+          controller.selectedOptionId.value = option?.id ?? '';
           controller.selectAnswer(
             label: label,
             correctLabel: correctLabel,
@@ -188,8 +182,7 @@ class DailyQuizView extends StatelessWidget {
           width: Get.width,
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
-            color:
-                isSelected ? AppColors.primary : AppColors.textFieldFillColor,
+            color: isSelected ? AppColors.primary : AppColors.textFieldFillColor,
             border: Border.all(color: AppColors.textFieldBorderColor),
             borderRadius: BorderRadius.circular(9),
           ),
@@ -202,18 +195,13 @@ class DailyQuizView extends StatelessWidget {
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color:
-                      isSelected ? Colors.white : AppColors.textFieldFillColor,
-                  border: Border.all(
-                    color: isSelected ? Colors.white : AppColors.primary,
-                  ),
+                  color: isSelected ? Colors.white : AppColors.textFieldFillColor,
+                  border: Border.all(color: isSelected ? Colors.white : AppColors.primary),
                 ),
                 child: Center(
                   child: CustomText(
                     label,
-                    style: AppTextTheme.bodyLarge.copyWith(
-                      color: AppColors.primary,
-                    ),
+                    style: AppTextTheme.bodyLarge.copyWith(color: AppColors.primary),
                   ),
                 ),
               ),

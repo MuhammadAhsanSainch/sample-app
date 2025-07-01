@@ -3,6 +3,8 @@ class AppConstants {
 
   AppConstants._();
 
+  static const String appName = "Barakah Builder";
+  
   // Static Constant Fields
   static const String icons = 'assets/icons';
 
@@ -10,7 +12,7 @@ class AppConstants {
 
   ///Images
   static const String splashBgLight = '$images/splash_bg_light.png';
-  static const String splashBgDark = '$images/splash_bg_dark.jpeg';
+  static const String splashBgDark = '$images/splash_bg_dark.png';
   static const String singInBgLight = '$images/sign_in_bg_light.png';
   static const String singInBgDark = '$images/sign_in_bg_dark.png';
   static const String singUpBgLight = '$images/sign_up_bg_light.png';
@@ -109,6 +111,7 @@ class AppConstants {
   static const String editSvgIcon = '$icons/edit-2.svg';
   static const String trashSvgIcon = '$icons/trash.svg';
   static const String reminderCalendarIcon = '$icons/reminder_calendar_icon.png';
+  static const String dailyQuizIcon = '$icons/daily_quiz_icon.png';
 
   // text-fields input whitelisting
   static const Pattern emailFilterPattern = r'[a-zA-Z0-9@._-]';

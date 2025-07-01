@@ -57,6 +57,7 @@ class VerifyCodeView extends StatelessWidget {
                           ),
                           CustomText(
                             'Your Key to Safe and Instant Verification',
+                            maxLine: 2,
                             style: AppTextTheme.bodyLarge,
                           ),
                           SizedBox(height: Get.height * 0.02),

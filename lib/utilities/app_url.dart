@@ -29,4 +29,6 @@ class AppUrl {
   static const String dailyContent = "dashboard"; 
 
   static const String bannerApi = "banners"; 
+
+  static const String eventAPI = "events/islamic"; 
 }

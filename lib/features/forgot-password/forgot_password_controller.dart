@@ -22,12 +22,12 @@ class ForgotPasswordController extends GetxController {
   }
 
   var otp = ''.obs; // For storing the OTP value
-  var timerSeconds = 600.obs; // Timer for countdown
+  var timerSeconds = 60.obs; // Timer for countdown
   Timer? _timer;
 
   // Starts the countdown timer
   void startTimer() {
-    timerSeconds.value = 600;
+    timerSeconds.value = 60;
     if (_timer != null) _timer!.cancel(); // Cancel previous timer if any
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (timerSeconds.value > 0) {

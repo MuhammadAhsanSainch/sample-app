@@ -11,6 +11,8 @@ class CustomText extends StatelessWidget {
   final TextDirection? textDirection;
   final TextOverflow? overflow;
   final double? height;
+  final String? fontFamily;
+
 
   const CustomText(
     this.text, {
@@ -23,7 +25,8 @@ class CustomText extends StatelessWidget {
     this.textAlign,
     this.style,
     this.textDirection,
-    this.height
+    this.height,
+    this.fontFamily,
   });
 
   @override
@@ -35,7 +38,7 @@ class CustomText extends StatelessWidget {
           TextStyle(
             color: color ?? AppColors.textPrimary,
             fontWeight: fontWeight ?? FontWeight.normal,
-            fontFamily: AppFonts.primary,
+            fontFamily: fontFamily ?? AppFonts.primary,
             fontSize: fontSize,
             letterSpacing: 0,
             height: height

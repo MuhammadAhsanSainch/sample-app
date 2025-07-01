@@ -1,6 +1,7 @@
 import 'package:hijri/hijri_calendar.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:path_to_water/features/journal/widigets/journal_item_widget.dart';
 import 'package:path_to_water/models/journal_model.dart';
 import 'package:path_to_water/features/journal/binding/create_journal_screen_binding.dart';
 import 'package:path_to_water/features/journal/controllers/journal_listing_controller.dart';
@@ -125,20 +126,46 @@ class JournalListingScreen extends StatelessWidget {
                       builderDelegate: PagedChildBuilderDelegate<JournalDetail>(
                         animateTransitions: true,
                         itemBuilder:
-                            (context, item, index) => _buildEntryItem(
-                              item,
-                              index == (state.items?.length ?? 0) - 1,
-                              context,
-                              index,
-                              (state.items?.length ?? 0) > 1,
+                            (context, item, index) => JournalEntryItem(
+                              entry: item,
+                              isLast: index == (state.items?.length ?? 0) - 1,
+                              context: context,
+                              index: index,
+                              showLine: (state.items?.length ?? 0) > 1,
+                              showTime: true,
+                              onEditTap: () {
+                                Get.to(
+                                  CreateJournalScreen(journal: item),
+                                  binding: CreateJournalScreenBinding(),
+                                )?.then((value) {
+                                  if (value == true) {
+                                    journalScreenController.onRefresh();
+                                  }
+                                });
+                              },
+                              onDeleteTap: () {
+                                Get.dialog(
+                                  CustomDialog(
+                                    message: "Are you sure you want to delete?",
+                                    imageIcon: AppConstants.trashIcon,
+                                    title: "Delete Journal Entry",
+                                    btnText: "Delete",
+                                    onButtonTap: () {
+                                      journalScreenController.deleteJournalApi(
+                                        item.id ?? "",
+                                        index,
+                                      );
+                                      Get.back();
+                                    },
+                                  ),
+                                );
+                              },
                             ),
-                            noItemsFoundIndicatorBuilder: (context) {
-                              return Center(
-                                child: CustomText("No Journals Found"),
-                              );
-                            },
+                        noItemsFoundIndicatorBuilder: (context) {
+                          return Center(child: CustomText("No Journals Found"));
+                        },
                       ),
-                      
+
                       separatorBuilder: (context, index) => SizedBox.shrink(),
                     );
                   },
@@ -304,7 +331,7 @@ class JournalListingScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEntryItem(
+  Widget _buildEntryItem1(
     JournalDetail entry,
     bool isLast,
     BuildContext context,
@@ -374,7 +401,7 @@ class JournalListingScreen extends StatelessWidget {
                 ),
                 color: AppColors.dialogBgColor,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 12,bottom: 12),
+                  padding: const EdgeInsets.only(left: 12, bottom: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

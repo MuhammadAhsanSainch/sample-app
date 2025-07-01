@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_quran_info_dialog.dart';
 
@@ -162,6 +163,7 @@ class HomeScreenCardWidget extends StatelessWidget {
                   englishContent: englishText,
                   selectedLanguage: "English",
                   date: dateTime ?? DateTime.now(),
+                  style: GoogleFonts.montserrat(),
                 );
               },
               child: Padding(
@@ -175,6 +177,8 @@ class HomeScreenCardWidget extends StatelessWidget {
                         englishText ?? '',
                         maxLine: 2,
                         textAlign: centerTitle ? TextAlign.center : null,
+                        fontFamily: AppFonts.secondary,
+                        style: GoogleFonts.montserrat(),
                       ),
                     ),
                   ],
@@ -219,7 +223,8 @@ class HomeScreenCardWidget extends StatelessWidget {
                   ),
                   8.verticalSpace,
                   Row(
-                    mainAxisAlignment:centerTitle? MainAxisAlignment.center : MainAxisAlignment.start,
+                    mainAxisAlignment:
+                        centerTitle ? MainAxisAlignment.center : MainAxisAlignment.start,
                     children: [
                       CustomText(
                         (dateTime ?? DateTime.now()).toFormatDateTime(),

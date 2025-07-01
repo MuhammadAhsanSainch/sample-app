@@ -50,7 +50,7 @@ class LoginView extends StatelessWidget {
                         }
                       },
                       child: CustomText(
-                        "Welcome to Path To Water",
+                        "Welcome to ${AppConstants.appName}",
                         style: AppTextTheme.headlineSmall,
                       ),
                     ),

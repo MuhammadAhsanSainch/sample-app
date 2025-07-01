@@ -20,31 +20,15 @@ class SocialAuthService {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) return;
-      User? user = _auth.currentUser;
-
-      // final googleAuth = await googleUser.authentication;
-      // final credential = GoogleAuthProvider.credential(
-      //   accessToken: googleAuth.accessToken,
-      //   idToken: googleAuth.idToken,
-      // );
-      // await _auth.signInWithCredential(credential);
-      log('Full Name :${user?.displayName}');
-      log('User Name :${user!.displayName?.removeAllWhiteSpaces.toLowerCase()}');
-      log('Email :${user?.email}');
-      log('Email :${user?.photoURL}');
 
       //Login
-      await _logIn(
-        {
-          "email": user.email,
-          "userName": user.displayName?.removeAllWhiteSpaces.toLowerCase(),
-          "name": user.displayName,
-          "authProvider": "GOOGLE",
-        },
-
-        // {"email": user?.email, "authProvider": "GOOGLE"},
-        onSuccess,
-      );
+      await _logIn({
+        "email": googleUser.email,
+        "userName":
+            (googleUser.displayName?.removeAllWhiteSpaces ?? googleUser.email).toLowerCase(),
+        "name": googleUser.displayName,
+        "authProvider": "GOOGLE",
+      }, onSuccess);
     } catch (e) {
       log('Error: ${e.toString()}');
       Get.snackbar('Error', e.toString());
@@ -75,9 +59,11 @@ class SocialAuthService {
       await _logIn(
         {
           "email": user?.email,
-          "userName": (user?.displayName?.removeAllWhiteSpaces ?? user?.email)?.toLowerCase(),
+          "userName":
+              (user?.displayName?.removeAllWhiteSpaces ?? user?.email)
+                  ?.toLowerCase(),
           "name": user?.displayName,
-          "authProvider": "GOOGLE",
+          "authProvider": "APPLE",
         },
 
         // {"email": user?.email, "authProvider": "APPLE"},
@@ -106,7 +92,7 @@ class SocialAuthService {
         UserPreferences.authToken = res?.accessToken ?? "";
         UserPreferences.userId = res?.user?.id ?? "";
         if (onSuccess != null) {
-          onSuccess?.call();
+          onSuccess.call();
         } else {
           Get.to(() => HomeView(), binding: HomeBinding());
         }

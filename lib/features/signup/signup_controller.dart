@@ -9,8 +9,7 @@ class SignupController extends GetxController {
   final TextEditingController userNameTFController = TextEditingController();
   final TextEditingController emailTFController = TextEditingController();
   final TextEditingController passwordTFController = TextEditingController();
-  final TextEditingController confirmPasswordTFController =
-      TextEditingController();
+  final TextEditingController confirmPasswordTFController = TextEditingController();
 
   @override
   void dispose() {
@@ -38,6 +37,7 @@ class SignupController extends GetxController {
         "password": passwordTFController.text,
         "userName": userNameTFController.text,
         "name": fullNameTFController.text,
+        "fcmToken": AppGlobals.fcmToken,
       };
       final res = await AuthServices.signUp(data);
       if (res?.user != null) {

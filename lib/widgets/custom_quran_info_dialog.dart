@@ -11,6 +11,7 @@ Future<void> showQuranInfoDialog(
   DateTime? date,
   bool showLanguageSelectionButton = true,
   String? selectedLanguage,
+  TextStyle? style,
 }) {
   return showDialog<void>(
     context: context,
@@ -30,6 +31,7 @@ Future<void> showQuranInfoDialog(
           date: date,
           showLanguageSelectionButton: showLanguageSelectionButton,
           selectedLanguage: selectedLanguage,
+          style: style,
         ),
       );
     },
@@ -47,6 +49,7 @@ class QuranDialogContent extends StatefulWidget {
   final DateTime? date;
   final bool showLanguageSelectionButton;
   final String? selectedLanguage;
+  final TextStyle? style;
 
   const QuranDialogContent({
     super.key,
@@ -59,6 +62,7 @@ class QuranDialogContent extends StatefulWidget {
     this.date,
     this.showLanguageSelectionButton = true,
     this.selectedLanguage,
+    this.style,
   });
 
   @override
@@ -174,6 +178,7 @@ class _QuranDialogContentState extends State<QuranDialogContent> {
                                     : TextDirection.ltr,
                             maxLine: 100,
                             height: _selectedLanguage == 'Arabic' ? 2 : null,
+                            style: widget.style,
                           ),
                         ),
                       ],

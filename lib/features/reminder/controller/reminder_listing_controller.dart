@@ -3,8 +3,11 @@ import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 
 class ReminderListingController extends GetxController {
-  DateTime focusedMonth = DateTime.now(); // For month/year display
   DateTime selectedDate = DateTime.now(); // For month/year display
+
+  DateTime get focusedMonth =>
+      DateTime(selectedDate.year, selectedDate.month, 1); // For month/year display
+
   String get focusedHijriMonthText {
     final firstDayGregorian = DateTime(focusedMonth.year, focusedMonth.month, 1);
     final lastDayGregorian = DateTime(focusedMonth.year, focusedMonth.month + 1, 0);
@@ -16,6 +19,8 @@ class ReminderListingController extends GetxController {
     String endHijriName = hijriEndDate.getLongMonthName();
     String startHijriYear = hijriStartDate.hYear.toString();
     String endHijriYear = hijriEndDate.hYear.toString();
+
+    return "$startHijriName $startHijriYear";
 
     if (startHijriName == endHijriName && startHijriYear == endHijriYear) {
       return "$startHijriName $startHijriYear";
@@ -35,15 +40,14 @@ class ReminderListingController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    focusedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
     generateVisibleDates(selectedDate);
   }
 
   void onDateSelected(DateTime date) {
     selectedDate = date;
-    if (selectedDate.month != focusedMonth.month || selectedDate.year != focusedMonth.year) {
-      focusedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
-    }
+    // if (selectedDate.month != focusedMonth.month || selectedDate.year != focusedMonth.year) {
+    //   focusedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
+    // }
 
     update();
   }
@@ -52,7 +56,7 @@ class ReminderListingController extends GetxController {
     visibleDates.clear();
     // Show 3 days before, centerDate, and 3 days after (total 7 days)
     // Adjust this range as needed
-    for (int i = 1; i < DateTime(centerDate.year, centerDate.month, 0).day; i++) {
+    for (int i = -180; i < 360; i++) {
       // Show a wider range for better scrolling
       visibleDates.add(DateTime(centerDate.year, centerDate.month, i));
     }
