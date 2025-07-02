@@ -5,8 +5,11 @@ import 'package:path_to_water/utilities/app_exports.dart';
 class JournalListingController extends GetxController with GetSingleTickerProviderStateMixin {
   DateTime selectedDate = DateTime.now();
 
-  DateTime get focusedMonth =>
-      DateTime(selectedDate.year, selectedDate.month, selectedDate.day); // For month/year display
+  DateTime focusedMonth = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+    1,
+  ); // For month/year display
 
   String get focusedHijriMonthText {
     final firstDayGregorian = DateTime(focusedMonth.year, focusedMonth.month, focusedMonth.day);
@@ -16,7 +19,7 @@ class JournalListingController extends GetxController with GetSingleTickerProvid
     String startHijriName = hijriStartDate.getLongMonthName();
     String startHijriYear = hijriStartDate.hYear.toString();
 
-    return "${hijriStartDate.hDay} $startHijriName $startHijriYear";
+    return "$startHijriName $startHijriYear";
   }
 
   bool isEnglishCalendar = true;
@@ -26,12 +29,16 @@ class JournalListingController extends GetxController with GetSingleTickerProvid
   @override
   void onInit() {
     super.onInit();
+    focusedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
     generateVisibleDates(selectedDate);
   }
 
   void onDateSelected(DateTime date) {
     selectedDate = date;
-
+    if (focusedMonth.month != selectedDate.month || focusedMonth.year != selectedDate.year) {
+      focusedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
+      update(["calendar"]);
+    }
     update();
   }
 

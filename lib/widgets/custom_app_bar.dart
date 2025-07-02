@@ -54,7 +54,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 onTap: onBackPressed ?? () => Get.back(),
                 child: Container(
                   decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.primary),
-                    margin: EdgeInsets.only(left: 8),
+                    margin: EdgeInsets.only(left: 16),
                     padding: EdgeInsets.all(10),
                     height: 20,
                     width: 20,

@@ -1,16 +1,17 @@
+import 'dart:async';
+
 import 'package:hijri/hijri_calendar.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:path_to_water/features/reminder/widgets/reminder_item_widget.dart';
-import 'package:path_to_water/models/reminder_detail_model.dart';
 import 'package:path_to_water/features/reminder/bindings/create_reminder_screen_binding.dart';
 import 'package:path_to_water/features/reminder/controller/reminder_listing_controller.dart';
 import 'package:path_to_water/features/reminder/controller/reminder_screen_controller.dart';
 import 'package:path_to_water/features/reminder/views/create_reminder_screen.dart';
+import 'package:path_to_water/features/reminder/widgets/reminder_item_widget.dart';
+import 'package:path_to_water/models/reminder_detail_model.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
 import 'package:path_to_water/widgets/custom_calendar.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
-import 'package:path_to_water/widgets/custom_quran_info_dialog.dart';
 import 'package:path_to_water/widgets/custom_tab_widget.dart';
 
 class ReminderListingScreen extends StatelessWidget {
@@ -24,6 +25,7 @@ class ReminderListingScreen extends StatelessWidget {
     ReminderScreenController(),
   );
   final double _itemExtent = 70.w;
+  Timer? timer;
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
@@ -31,6 +33,20 @@ class ReminderListingScreen extends StatelessWidget {
       initState: (state) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           controller.scrollToSelectedDate(scrollController);
+        });
+        scrollController.addListener(() {
+          timer?.cancel();
+          timer = Timer(Duration(milliseconds: 50), () {
+            if (scrollController.hasClients) {
+              int scrollIndex = scrollController.offset ~/ _itemExtent;
+
+              log(scrollIndex.toString());
+              DateTime month = DateTime.now().add(Duration(days: scrollIndex - 180));
+
+              controller.focusedMonth = month;
+              controller.update(['calendar']);
+            }
+          });
         });
       },
       builder: (_) {
@@ -54,10 +70,16 @@ class ReminderListingScreen extends StatelessWidget {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomText(
-                          controller.isEnglishCalendar
-                              ? controller.focusedMonth.toFormatDateTime(format: "MMMM, yyyy")
-                              : controller.focusedHijriMonthText,
+                        GetBuilder(
+                          init: controller,
+                          id: "calendar",
+                          builder: (_) {
+                            return CustomText(
+                              controller.isEnglishCalendar
+                                  ? controller.focusedMonth.toFormatDateTime(format: "MMMM, yyyy")
+                                  : controller.focusedHijriMonthText,
+                            );
+                          },
                         ),
                         8.horizontalSpace,
                         GestureDetector(

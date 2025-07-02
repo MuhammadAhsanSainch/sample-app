@@ -5,31 +5,21 @@ import 'package:path_to_water/utilities/app_exports.dart';
 class ReminderListingController extends GetxController {
   DateTime selectedDate = DateTime.now(); // For month/year display
 
-  DateTime get focusedMonth =>
-      DateTime(selectedDate.year, selectedDate.month, 1); // For month/year display
+  DateTime focusedMonth = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+    1,
+  ); // For month/year display
 
   String get focusedHijriMonthText {
     final firstDayGregorian = DateTime(focusedMonth.year, focusedMonth.month, 1);
-    final lastDayGregorian = DateTime(focusedMonth.year, focusedMonth.month + 1, 0);
 
     final hijriStartDate = HijriCalendar.fromDate(firstDayGregorian);
-    final hijriEndDate = HijriCalendar.fromDate(lastDayGregorian);
 
     String startHijriName = hijriStartDate.getLongMonthName();
-    String endHijriName = hijriEndDate.getLongMonthName();
     String startHijriYear = hijriStartDate.hYear.toString();
-    String endHijriYear = hijriEndDate.hYear.toString();
 
     return "$startHijriName $startHijriYear";
-
-    if (startHijriName == endHijriName && startHijriYear == endHijriYear) {
-      return "$startHijriName $startHijriYear";
-    } else if (startHijriYear == endHijriYear) {
-      return "$startHijriName – $endHijriName $startHijriYear";
-    } else {
-      // Spans across Hijri years
-      return "$startHijriName $startHijriYear – $endHijriName $endHijriYear";
-    }
   }
   // "${HijriCalendar.fromDate(focusedMonth).getLongMonthName()}, ${HijriCalendar.fromDate(focusedMonth).hYear}";
 
@@ -45,9 +35,10 @@ class ReminderListingController extends GetxController {
 
   void onDateSelected(DateTime date) {
     selectedDate = date;
-    // if (selectedDate.month != focusedMonth.month || selectedDate.year != focusedMonth.year) {
-    //   focusedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
-    // }
+    if (selectedDate.month != focusedMonth.month || selectedDate.year != focusedMonth.year) {
+      focusedMonth = DateTime(selectedDate.year, selectedDate.month, 1);
+      update(["calendar"]);
+    }
 
     update();
   }

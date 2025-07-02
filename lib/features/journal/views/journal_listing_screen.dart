@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:hijri/hijri_calendar.dart';
 import 'package:infinite_carousel/infinite_carousel.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -23,6 +25,8 @@ class JournalListingScreen extends StatelessWidget {
   final JournalScreenController journalScreenController = Get.put<JournalScreenController>(
     JournalScreenController(),
   );
+  final double itemExtent = 70.w;
+  Timer? timer;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,19 @@ class JournalListingScreen extends StatelessWidget {
       initState: (state) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           controller.scrollToSelectedDate(infiniteScrollController);
+        });
+        infiniteScrollController.addListener(() {
+          timer?.cancel();
+          timer = Timer(Duration(milliseconds: 50), () {
+            if (infiniteScrollController.hasClients) {
+              int scrollIndex = infiniteScrollController.offset ~/ itemExtent;
+              log(scrollIndex.toString());
+              DateTime month = DateTime.now().add(Duration(days: scrollIndex - 180));
+
+              controller.focusedMonth = month;
+              controller.update(['calendar']);
+            }
+          });
         });
       },
       builder: (_) {
@@ -54,10 +71,16 @@ class JournalListingScreen extends StatelessWidget {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomText(
-                          controller.isEnglishCalendar
-                              ? controller.focusedMonth.toFormatDateTime(format: "dd MMMM, yyyy")
-                              : controller.focusedHijriMonthText,
+                        GetBuilder(
+                          init: controller,
+                          id: "calendar",
+                          builder: (_) {
+                            return CustomText(
+                              controller.isEnglishCalendar
+                                  ? controller.focusedMonth.toFormatDateTime(format: "MMMM, yyyy")
+                                  : controller.focusedHijriMonthText,
+                            );
+                          },
                         ),
                         8.horizontalSpace,
                         GestureDetector(

@@ -75,13 +75,16 @@ class CustomAdvancedDrawer extends StatelessWidget {
                   Get.to(() => NotificationScreen(), binding: NotificationBinding());
                 },
               ),
-              _DrawerItem(
-                label: "Subscription",
-                pngIcon: AppConstants.subscriptionIcon,
-                onTap: () {
-                  controller.hideDrawer();
-                  homeController.currentTabIndex(8);
-                },
+              Visibility(
+                visible: false,
+                child: _DrawerItem(
+                  label: "Subscription",
+                  pngIcon: AppConstants.subscriptionIcon,
+                  onTap: () {
+                    controller.hideDrawer();
+                    homeController.currentTabIndex(8);
+                  },
+                ),
               ),
               _DrawerItem(label: "Dark Mode", pngIcon: AppConstants.themeIcon, showSwitch: true),
               _DrawerItem(
