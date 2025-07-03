@@ -136,8 +136,7 @@ class DashboardView extends StatelessWidget {
                                           controller.quranAyatRes?.detailEnglishPopup ?? "-",
                                       arabicContent:
                                           controller.quranAyatRes?.detailArabicPopup ?? "-",
-                                      date:
-                                          controller.quranAyatRes?.publishDate ?? DateTime.now(),
+                                      date: controller.quranAyatRes?.publishDate ?? DateTime.now(),
                                     ),
                                 isPlaying: controller.player.state == PlayerState.playing,
                                 showPlayIcon: false,
@@ -204,8 +203,8 @@ class DashboardView extends StatelessWidget {
                                 isFavorite: controller.historyRes?.isFavorite ?? false,
                                 showSahihText: false,
                                 centerTitle: true,
+                                showInfoIcon: false,
                                 dateTime: controller.hadithRes?.publishDate ?? DateTime.now(),
-
                                 onFavoriteIconTap: () {
                                   if (!homeController.isLogin) {
                                     homeController.showLoginDialog();

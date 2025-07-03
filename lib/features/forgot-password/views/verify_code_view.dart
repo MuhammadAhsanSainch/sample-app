@@ -10,6 +10,7 @@ class VerifyCodeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return GetBuilder<ForgotPasswordController>(
       init: Get.put(ForgotPasswordController()),
       initState: (state) {
@@ -21,16 +22,20 @@ class VerifyCodeView extends StatelessWidget {
             () => CustomLoader(
               isTrue: AppGlobals.isLoading.value,
               child: Container(
-                 height: Get.height,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                        AppGlobals.isDarkMode.value
-                            ? AppConstants.otpCodeBgDark
-                            : AppConstants.otpCodeBgLight,
-                      ),
+                height: size.height,
+                width: size.width,
+
+                decoration: BoxDecoration(
+                  color: AppColors.scaffoldBackground,
+                  image: DecorationImage(
+                    image: AssetImage(
+                      AppGlobals.isDarkMode.value
+                          ? AppConstants.otpCodeBgDark
+                          : AppConstants.otpCodeBgLight,
                     ),
+                    fit: BoxFit.fill,
                   ),
+                ),
                 child: Scaffold(
                   extendBody: true,
                   backgroundColor: Colors.transparent,
@@ -50,10 +55,7 @@ class VerifyCodeView extends StatelessWidget {
                                 controller.otpTFController.text = '1234';
                               }
                             },
-                            child: CustomText(
-                              'OTP Code',
-                              style: AppTextTheme.headlineSmall,
-                            ),
+                            child: CustomText('OTP Code', style: AppTextTheme.headlineSmall),
                           ),
                           CustomText(
                             'Your Key to Safe and Instant Verification',
@@ -61,15 +63,15 @@ class VerifyCodeView extends StatelessWidget {
                             style: AppTextTheme.bodyLarge,
                           ),
                           SizedBox(height: Get.height * 0.02),
-                                  
+
                           ///Otp widget
                           otpWidget(context, controller),
-                                  
+
                           ///Verify OTP Button
                           CustomRectangleButton(
                             width: context.width,
                             text: "Submit Code",
-                                  
+
                             onTap: () {
                               if (!verifyCodeFormKey.currentState!.validate()) {
                                 return;
@@ -144,8 +146,7 @@ class VerifyCodeView extends StatelessWidget {
         if (v.isNullOREmpty) {
           return "Enter OTP".tr;
         } else if (v!.length < 4) {
-          return "Enter 4 digits OTP sent to ${controller.emailTFController.text}"
-              .tr;
+          return "Enter 4 digits OTP sent to ${controller.emailTFController.text}".tr;
         } else {
           return null;
         }
@@ -163,19 +164,15 @@ class VerifyCodeView extends StatelessWidget {
     );
   }
 
-  Widget timerWidget(
-    BuildContext context,
-    ForgotPasswordController controller,
-  ) {
+  Widget timerWidget(BuildContext context, ForgotPasswordController controller) {
     if (controller.timerSeconds.value > 0) {
       // Calculate minutes and seconds
       int minutes = controller.timerSeconds.value ~/ 60; // Integer division
-      int seconds = controller.timerSeconds.value % 60;  // Modulo for remaining seconds
+      int seconds = controller.timerSeconds.value % 60; // Modulo for remaining seconds
 
       // Format seconds with leading zero if less than 10
       String formattedSeconds = seconds.toString().padLeft(2, '0');
       String formattedMinutes = minutes.toString().padLeft(2, '0');
-
 
       return Padding(
         padding: const EdgeInsets.only(top: 12),

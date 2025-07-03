@@ -22,12 +22,14 @@ class SignupView extends StatelessWidget {
               isTrue: AppGlobals.isLoading.value,
               child: Container(
                 decoration: BoxDecoration(
+                  color: AppColors.scaffoldBackground,
                   image: DecorationImage(
                     image: AssetImage(
                       AppGlobals.isDarkMode.value
                           ? AppConstants.singUpBgDark
                           : AppConstants.singUpBgLight,
                     ),
+                    fit: BoxFit.fill,
                   ),
                 ),
                 child: Scaffold(
@@ -188,7 +190,7 @@ class SignupView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             if (Platform.isAndroid)
+            if (Platform.isAndroid)
               _buildSocialButton(
                 icon: SvgPicture.asset(AppConstants.google),
                 // Replace with your Google logo asset

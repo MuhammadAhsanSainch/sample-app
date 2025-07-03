@@ -21,6 +21,7 @@ class HomeScreenCardWidget extends StatelessWidget {
   final bool centerTitle;
   final bool showPlayIcon;
   final bool isPlaying;
+  final bool showInfoIcon;
   final num? ayatNumber;
   const HomeScreenCardWidget({
     super.key,
@@ -42,6 +43,7 @@ class HomeScreenCardWidget extends StatelessWidget {
     this.centerTitle = false,
     this.showPlayIcon = false,
     this.isPlaying = false,
+    this.showInfoIcon = true,
     this.ayatNumber,
   });
 
@@ -91,9 +93,12 @@ class HomeScreenCardWidget extends StatelessWidget {
                   ),
                 ],
                 8.horizontalSpace,
-                InkWell(
-                  onTap: onInfoTap,
-                  child: Icon(Icons.info_outline, color: AppColors.primary),
+                Visibility(
+                  visible: showInfoIcon,
+                  child: InkWell(
+                    onTap: onInfoTap,
+                    child: Icon(Icons.info_outline, color: AppColors.primary),
+                  ),
                 ),
                 Spacer(),
                 Visibility(
@@ -163,7 +168,7 @@ class HomeScreenCardWidget extends StatelessWidget {
                   englishContent: englishText,
                   selectedLanguage: "English",
                   date: dateTime ?? DateTime.now(),
-                  style: GoogleFonts.montserrat(),
+                  style: GoogleFonts.montserrat(color: AppColors.textPrimary),
                 );
               },
               child: Padding(
@@ -178,7 +183,7 @@ class HomeScreenCardWidget extends StatelessWidget {
                         maxLine: 2,
                         textAlign: centerTitle ? TextAlign.center : null,
                         fontFamily: AppFonts.secondary,
-                        style: GoogleFonts.montserrat(),
+                        style: GoogleFonts.montserrat(color: AppColors.textPrimary),
                       ),
                     ),
                   ],

@@ -327,9 +327,12 @@ class JournalListingScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: DefaultTabController(
               length: 2,
+              initialIndex: controller.isEnglishCalendar ? 0 : 1,
+
               child: TabBar(
                 dividerColor: Colors.transparent,
                 labelPadding: EdgeInsets.zero,
+
                 tabs: [
                   CustomTab(title: "English Calendar", isSelected: controller.isEnglishCalendar),
                   CustomTab(

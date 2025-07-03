@@ -9,6 +9,8 @@ import 'package:path_to_water/features/home/home_binding.dart';
 import 'package:path_to_water/features/home/home_view.dart';
 import 'package:path_to_water/utilities/app_extensions.dart';
 import 'package:path_to_water/utilities/app_globals.dart';
+import 'package:path_to_water/utilities/app_helper.dart';
+import 'package:path_to_water/utilities/app_routes.dart';
 import 'package:path_to_water/utilities/shared_preference.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -28,6 +30,7 @@ class SocialAuthService {
             (googleUser.displayName?.removeAllWhiteSpaces ?? googleUser.email).toLowerCase(),
         "name": googleUser.displayName,
         "authProvider": "GOOGLE",
+        "fcmToken": AppGlobals.fcmToken,
       }, onSuccess);
     } catch (e) {
       log('Error: ${e.toString()}');
@@ -59,11 +62,10 @@ class SocialAuthService {
       await _logIn(
         {
           "email": user?.email,
-          "userName":
-              (user?.displayName?.removeAllWhiteSpaces ?? user?.email)
-                  ?.toLowerCase(),
+          "userName": (user?.displayName?.removeAllWhiteSpaces ?? user?.email)?.toLowerCase(),
           "name": user?.displayName,
           "authProvider": "APPLE",
+          "fcmToken": AppGlobals.fcmToken,
         },
 
         // {"email": user?.email, "authProvider": "APPLE"},
@@ -91,10 +93,12 @@ class SocialAuthService {
         UserPreferences.isSocialLogin = true;
         UserPreferences.authToken = res?.accessToken ?? "";
         UserPreferences.userId = res?.user?.id ?? "";
+        Helper.subscribeToTopic(UserPreferences.userId);
+
         if (onSuccess != null) {
           onSuccess.call();
         } else {
-          Get.to(() => HomeView(), binding: HomeBinding());
+          Get.to(() => HomeView(), binding: HomeBinding(), routeName: AppRoutes.home);
         }
       }
     } on Exception catch (e) {

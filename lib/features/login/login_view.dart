@@ -16,17 +16,22 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return Obx(
       () => CustomLoader(
         isTrue: AppGlobals.isLoading.value,
         child: Container(
+          width: size.width,
           decoration: BoxDecoration(
+            color: AppColors.scaffoldBackground,
+
             image: DecorationImage(
               image: AssetImage(
                 AppGlobals.isDarkMode.value
                     ? AppConstants.singInBgDark
                     : AppConstants.singInBgLight,
               ),
+              fit: BoxFit.fill,
             ),
           ),
           child: Scaffold(
@@ -52,6 +57,8 @@ class LoginView extends StatelessWidget {
                       child: CustomText(
                         "Welcome to ${AppConstants.appName}",
                         style: AppTextTheme.headlineSmall,
+                        maxLine: 3,
+                        // textAlign: TextAlign.center,
                       ),
                     ),
 
@@ -117,6 +124,7 @@ class LoginView extends StatelessWidget {
                       },
                     ),
                     _socialSignInSection(),
+                    50.verticalSpace,
                   ],
                 ),
               ),

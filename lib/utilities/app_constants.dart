@@ -123,4 +123,12 @@ class AppConstants {
   static const Pattern numberFilterPattern = r'[0-9]';
 
   static const String dateFormat = "dd MMM yyyy";
+
+
+  //Notification IDs
+  static const String quranAyatNotificationID  = "ayah";
+  static const String hadithNotificationID  = "hadith";
+  static const String historyNotificationID  = "history";
+  static const String reminderNotificationID  = "quiz";
+  static const String quizNotificationID  = "reminder";
 }

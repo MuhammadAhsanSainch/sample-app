@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:path_to_water/api_services/banner_service.dart';
 import 'package:path_to_water/features/calendar/view/calendar_screen.dart';
@@ -14,6 +15,8 @@ import 'package:path_to_water/features/reminder/views/reminder_screen.dart';
 import 'package:path_to_water/features/settings/views/profile_screen.dart';
 import 'package:path_to_water/features/settings/views/settings_screen.dart';
 import 'package:path_to_water/features/subscription/view/subscription_screen.dart';
+import 'package:path_to_water/models/extra_payload.dart';
+import 'package:path_to_water/utilities/app_helper.dart';
 import 'package:path_to_water/widgets/custom_dialog.dart';
 
 import '../../utilities/app_exports.dart';
@@ -24,6 +27,8 @@ class HomeController extends GetxController {
   final AdvancedDrawerController drawerController = AdvancedDrawerController();
 
   bool get isLogin => UserPreferences.isLogin;
+
+  var drawerOpen = false;
 
   static HomeController get find {
     try {
@@ -67,6 +72,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     getBannerAPI();
+    _checkNotification();
     super.onInit();
   }
 
@@ -97,6 +103,16 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  void _checkNotification() async {
+    final RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
+
+    if (remoteMessage != null) {
+      var payload = ExtraPayload.fromJson(remoteMessage.data);
+
+      Helper.navigateFromNotification(payload);
     }
   }
 }

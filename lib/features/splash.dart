@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:path_to_water/utilities/app_routes.dart';
+
 import '/features/home/home_binding.dart';
 import '/features/home/home_view.dart';
 import '../utilities/app_exports.dart';
@@ -19,7 +21,7 @@ class _Splashfeaturestate extends State<SplashScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 3), () {
-      Get.offAll(() => HomeView(), binding: HomeBinding());
+      Get.offAll(() => HomeView(), binding: HomeBinding(),routeName: AppRoutes.home);
     });
   }
 

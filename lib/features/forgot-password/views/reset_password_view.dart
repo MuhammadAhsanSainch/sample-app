@@ -23,6 +23,7 @@ class ResetPasswordView extends StatelessWidget {
                           ? AppConstants.resetPassBgDark
                           : AppConstants.resetPassBgLight,
                     ),
+                    fit: BoxFit.fill,
                   ),
                 ),
                 child: Scaffold(

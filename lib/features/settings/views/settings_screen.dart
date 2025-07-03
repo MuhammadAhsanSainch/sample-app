@@ -1,3 +1,5 @@
+import 'package:path_to_water/utilities/app_helper.dart';
+
 import '../../../widgets/custom_dialog.dart';
 import '../settings_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,6 +44,16 @@ class SettingsScreen extends StatelessWidget {
                   value: controller.isNotification.value,
                   onChanged: (value) {
                     controller.isNotification.toggle();
+
+                    UserPreferences.isNotification = controller.isNotification.value;
+                    if (UserPreferences.isNotification) {
+                      Helper.subscribeToTopic("all");
+                      Helper.subscribeToTopic(UserPreferences.userId);
+                    } else {
+                      Helper.unsubscribeFromTopic("all");
+                      Helper.unsubscribeFromTopic(UserPreferences.userId);
+                    }
+
                     // AppGlobals.isDarkMode.toggle();
                     // Get.changeThemeMode(
                     //   AppGlobals.isDarkMode.value ? ThemeMode.light : ThemeMode.dark,

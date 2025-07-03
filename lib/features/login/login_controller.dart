@@ -1,3 +1,6 @@
+import 'package:path_to_water/utilities/app_helper.dart';
+import 'package:path_to_water/utilities/app_routes.dart';
+
 import '../../api_core/custom_exception_handler.dart';
 import '../../api_services/auth_services.dart';
 import '../../utilities/app_exports.dart';
@@ -104,7 +107,8 @@ class LoginController extends GetxController {
         UserPreferences.isSocialLogin = false;
         UserPreferences.authToken = res?.accessToken ?? "";
         UserPreferences.userId = res?.user?.id ?? "";
-        Get.off(() => HomeView(), binding: HomeBinding());
+        Helper.subscribeToTopic(UserPreferences.userId);
+        Get.off(() => HomeView(), binding: HomeBinding(), routeName: AppRoutes.home);
       }
     } on Exception catch (e) {
       ExceptionHandler().handleException(e);

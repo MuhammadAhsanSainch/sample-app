@@ -9,8 +9,7 @@ import '../../utilities/app_helper.dart';
 import '../../widgets/custom_dialog.dart';
 import '../splash.dart';
 
-class SettingsController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+class SettingsController extends GetxController with GetSingleTickerProviderStateMixin {
   final TextEditingController fullNameTFController = TextEditingController();
   final TextEditingController userNameTFController = TextEditingController();
   final TextEditingController emailTFController = TextEditingController();
@@ -19,9 +18,8 @@ class SettingsController extends GetxController
   final TextEditingController currentPassTFController = TextEditingController();
   final TextEditingController newPassTFController = TextEditingController();
   final TextEditingController confirmNewTFController = TextEditingController();
-  
 
-  RxBool isNotification = false.obs;
+  RxBool isNotification = true.obs;
 
   // Function to pick an image
   File? imageFile;
@@ -46,8 +44,7 @@ class SettingsController extends GetxController
         fullNameTFController.text = res.name ?? '';
         userNameTFController.text = res.userName ?? '';
         emailTFController.text = res.email ?? '';
-        dOBTFController.text =
-            AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
+        dOBTFController.text = AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
         genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
       }
     } on Exception catch (e) {
@@ -88,8 +85,7 @@ class SettingsController extends GetxController
         fullNameTFController.text = res.name ?? '';
         userNameTFController.text = res.userName ?? '';
         emailTFController.text = res.email ?? '';
-        dOBTFController.text =
-            AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
+        dOBTFController.text = AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
         genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
       }
     } on Exception catch (e) {
@@ -107,9 +103,7 @@ class SettingsController extends GetxController
       final res = await ProfileServices.updateProfile({
         "name": fullNameTFController.text,
         "gender":
-            genderTFController.text == 'Choose One'
-                ? null
-                : genderTFController.text.toUpperCase(),
+            genderTFController.text == 'Choose One' ? null : genderTFController.text.toUpperCase(),
         "dob": AppGlobals.toISOFormatDate(dOBTFController.text),
         "logo": profilePicture.value,
       });
@@ -118,8 +112,7 @@ class SettingsController extends GetxController
         fullNameTFController.text = res.name ?? '';
         userNameTFController.text = res.userName ?? '';
         emailTFController.text = res.email ?? '';
-        dOBTFController.text =
-            AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
+        dOBTFController.text = AppGlobals.formatDate(DateTime.tryParse(res.dob ?? '')) ?? "";
         genderTFController.text = res.gender?.toTitleCase() ?? 'Choose One';
         Get.dialog(
           CustomDialog(
@@ -193,6 +186,8 @@ class SettingsController extends GetxController
               UserPreferences.isLogin = false;
               UserPreferences.authToken = "";
               UserPreferences.userId = "";
+              Helper.unsubscribeFromTopic(UserPreferences.userId);
+
               Get.offAll(() => SplashScreen());
             },
           ),
