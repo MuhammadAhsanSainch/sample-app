@@ -61,7 +61,7 @@ class NotificationService {
       await FirebaseMessaging.instance.requestPermission(alert: true, badge: true, sound: true);
 
       if (Platform.isAndroid) {
-        var initializationSettingsAndroid = const AndroidInitializationSettings('notify_icon');
+        var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/launcher_icon');
         // var initializationSettingsIOS = IOSInitializationSettings();
         var initializationSettings = InitializationSettings(
           android: initializationSettingsAndroid /*, iOS: initializationSettingsIOS*/,
@@ -91,7 +91,7 @@ class NotificationService {
                   channel.id,
                   channel.name,
                   channelDescription: channel.description,
-                  icon: 'notify_icon',
+                  icon: '@mipmap/launcher_icon',
                 ),
               ),
               payload: Platform.isAndroid ? jsonEncode(message.data) : null,
@@ -106,13 +106,13 @@ class NotificationService {
       });
 
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-        log(message.data.toString());
+        print(message.data.toString());
         var payload = ExtraPayload.fromJson(message.data);
 
         Helper.navigateFromNotification(payload);
       });
     } catch (e) {
-      log(e.toString());
+      print(e.toString());
     }
   }
 

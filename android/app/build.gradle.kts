@@ -41,6 +41,8 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         multiDexEnabled = true
+        // targetSdkVersion 28
+
 
         
     }
