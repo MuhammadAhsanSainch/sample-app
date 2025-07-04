@@ -28,6 +28,8 @@ class NotificationService {
       await Firebase.initializeApp();
 
       // Get and save FCM token
+      await Future.delayed(Duration(seconds: 2));
+
       AppGlobals.fcmToken = await FirebaseMessaging.instance.getToken() ?? '';
       log('FCM Token: ${AppGlobals.fcmToken}');
       FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
