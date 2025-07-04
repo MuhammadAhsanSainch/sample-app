@@ -27,6 +27,20 @@ class CreateReminderScreenController extends GetxController {
   HijriCalendar? selectedHijriDate;
   TimeOfDay? selectedTime;
 
+  DateTime? get utcDate {
+    try {
+      return DateTime(
+        selectedDate!.year,
+        selectedDate!.month,
+        selectedDate!.day,
+        selectedTime!.hour,
+        selectedTime!.minute,
+      ).toUtc();
+    } catch (e) {
+      return null;
+    }
+  }
+
   RxBool isRepeat = false.obs;
 
   RxInt currentTabIndex = 0.obs;
@@ -50,6 +64,21 @@ class CreateReminderScreenController extends GetxController {
     descriptionController.text = reminderDetail?.description ?? "";
     selectedReminderType = reminderDetail?.type == "once" ? ReminderType.once : ReminderType.repeat;
     currentTabIndex.value = setReminderType(reminderDetail?.type);
+    try {
+      selectedTime = TimeOfDay.fromDateTime(
+        DateTime.utc(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+          int.parse(reminderDetail?.time?.split(":")[0] ?? "0"),
+          int.parse(reminderDetail?.time?.split(":")[1] ?? "0"),
+        ).toLocal(),
+      );
+      selectedTimeController.text = selectedTime?.format(Get.context!) ?? "";
+    } catch (e) {
+      log(e.toString());
+    }
+    
   }
 
   setDate(DateTime? date) {
@@ -75,14 +104,13 @@ class CreateReminderScreenController extends GetxController {
       //         selectedTime!.minute,
       //       ).toUtc();
       // }
+
       Map<String, dynamic> data = {
         "title": reminderTitleController.text,
         if (selectedReminderType == ReminderType.once || [2, 3].contains(currentTabIndex.value))
-          "date": selectedDate.toFormatDateTime(format: "yyyy-MM-dd"),
+          "date": utcDate.toFormatDateTime(format: "yyyy-MM-dd"),
         "time":
-            selectedTime != null
-                ? "${selectedTime?.hour}:${selectedTime?.minute}"
-                : selectedTimeController.text,
+            utcDate != null ? "${utcDate?.hour}:${utcDate?.minute}" : selectedTimeController.text,
         "description": descriptionController.text,
         "type":
             selectedReminderType == ReminderType.once

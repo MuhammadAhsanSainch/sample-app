@@ -4,7 +4,7 @@ class AppConstants {
   AppConstants._();
 
   static const String appName = "Barakah Builder";
-  
+
   // Static Constant Fields
   static const String icons = 'assets/icons';
 
@@ -35,8 +35,8 @@ class AppConstants {
   static const String welcomeBannerImage = '$images/welcome_banner_image.png';
   static const String customDialogBgImage = '$images/custom_dialog_bg_image.png';
   static const String customDialogBgDarkImage = '$images/custom_dialog_bg_dark_image.png';
-  static const String answerDialogImage='$images/answer_dialog_image.png';
-  static const String resultImage='$images/result_image.png';
+  static const String answerDialogImage = '$images/answer_dialog_image.png';
+  static const String resultImage = '$images/result_image.png';
   static const String profileBgLight = '$images/profile_bg_light.png';
   static const String profileBgDark = '$images/profile_bg_dark.png';
   static const String createJournalBgDarkImage = '$images/create_journal_bg_dark_image.png';
@@ -48,7 +48,6 @@ class AppConstants {
   static const String subscriptionImage = '$images/subscription_image.png';
   static const String subscriptionDarkImage = '$images/subscription_dark_image.png';
   static const String calendarBgImage = '$images/calendar_bg_image.png';
-
 
   ///Icons
   static const String profile = '$icons/profile-circle.svg';
@@ -65,8 +64,8 @@ class AppConstants {
   static const String notification = '$icons/notification.svg';
   static const String deleteAccount = '$icons/delete_account_icon.svg';
   static const String profilePlaceHolder = '$icons/profile_placeholder.png';
-  static const String star= '$icons/star.svg';
-  static const String quizIcon2= '$icons/quiz_icon2.svg';
+  static const String star = '$icons/star.svg';
+  static const String quizIcon2 = '$icons/quiz_icon2.svg';
 
   static const String logo = '$icons/app_logo.png';
 
@@ -124,11 +123,10 @@ class AppConstants {
 
   static const String dateFormat = "dd MMM yyyy";
 
-
   //Notification IDs
-  static const String quranAyatNotificationID  = "ayah";
-  static const String hadithNotificationID  = "hadith";
-  static const String historyNotificationID  = "history";
-  static const String reminderNotificationID  = "quiz";
-  static const String quizNotificationID  = "reminder";
+  static const String quranAyatNotificationID = "ayah";
+  static const String hadithNotificationID = "hadith";
+  static const String historyNotificationID = "history";
+  static const String quizNotificationID = "quiz";
+  static const String reminderNotificationID = "reminder";
 }

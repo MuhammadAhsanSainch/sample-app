@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:path_to_water/main.dart';
 import 'package:path_to_water/models/extra_payload.dart';
 import 'package:path_to_water/notification_services/notification_badge_service.dart';
 import 'package:path_to_water/utilities/app_exports.dart';
@@ -37,7 +36,7 @@ class NotificationService {
         AppGlobals.fcmToken = newToken;
       });
       // Set the background messaging handler early on, as a named top-level function
-      FirebaseMessaging.onBackgroundMessage(notificationTapBackground);
+     
       if (UserPreferences.isNotification) {
         Helper.subscribeToTopic("all");
       }
@@ -95,6 +94,11 @@ class NotificationService {
               payload: Platform.isAndroid ? jsonEncode(message.data) : null,
             );
           }
+        }
+        if (Platform.isIOS) {
+          print("Got new notification");
+          int count = await NotificationBadgeService.getBadgeCount();
+          NotificationBadgeService.updateBadgeCount(count + 1);
         }
       });
 

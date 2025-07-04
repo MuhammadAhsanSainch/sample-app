@@ -79,6 +79,7 @@ class Helper {
     bool isNewRouteSameAsCurrent = false;
 
     final HomeController homeController = Get.put(HomeController());
+    homeController.drawerController.hideDrawer();
 
     switch (payload.refId.toString()) {
       case AppConstants.quranAyatNotificationID:

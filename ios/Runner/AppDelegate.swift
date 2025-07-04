@@ -36,6 +36,19 @@ import UserNotifications // <-- Import this for notification permissions
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+    
+    override func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+      ) {
+        // This forwards the notification data to the Firebase SDK
+        Messaging.messaging().appDidReceiveMessage(userInfo)
+        
+        // Note: The original Objective-C code did not call the completionHandler,
+        // which can cause issues. Calling super's implementation is good practice.
+        super.application(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
+      }
     // Define these at the class level for easy reuse
     let appGroupID = "group.com.futurbyte.barakahbuilder.notificationservice" // <-- Use your App Group ID
     let badgeKey = "notificationBadgeCount"

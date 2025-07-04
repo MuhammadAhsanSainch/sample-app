@@ -1,5 +1,4 @@
 import 'package:path_to_water/features/journal/models/calendar_entry_model.dart';
-import 'package:path_to_water/features/notification/model/notification_model.dart';
 
 class DummyContent {
   static String quranAyatTitle = "Surah Al-Mulk (67)";
@@ -61,48 +60,48 @@ class DummyContent {
     ),
   ];
 
-  static final List<NotificationModel> notificationList = [
-    NotificationModel(
-      title: "Lorem ipsum dolor sit amet.",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      date: DateTime.now(),
-      status: "Pending",
-    ),
-    NotificationModel(
-      title: "Lorem ipsum dolor sit amet.",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      date: DateTime.now().subtract(Duration(days: 1)),
-      status: "Rejected",
-    ),
-    NotificationModel(
-      title: "Lorem ipsum dolor sit amet.",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      date: DateTime.now().subtract(Duration(days: 2)),
-      status: "Accepted",
-    ),
-    NotificationModel(
-      title: "Lorem ipsum dolor sit amet.",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      date: DateTime.now().subtract(Duration(days: 3)),
-      status: "Pending",
-    ),
-    NotificationModel(
-      title: "Lorem ipsum dolor sit amet.",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      date: DateTime.now().subtract(Duration(days: 4)),
-      status: "Rejected",
-    ),
-    NotificationModel(
-      title: "Lorem ipsum dolor sit amet.",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      date: DateTime.now().subtract(Duration(days: 5)),
-      status: "Accepted",
-    ),
-    NotificationModel(
-      title: "Lorem ipsum dolor sit amet.",
-      description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      date: DateTime.now().subtract(Duration(days: 6)),
-      status: "Pending",
-    ),
-  ];
+  // static final List<NotificationModel> notificationList = [
+  //   NotificationModel(
+  //     title: "Lorem ipsum dolor sit amet.",
+  //     description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+  //     date: DateTime.now(),
+  //     status: "Pending",
+  //   ),
+  //   NotificationModel(
+  //     title: "Lorem ipsum dolor sit amet.",
+  //     description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+  //     date: DateTime.now().subtract(Duration(days: 1)),
+  //     status: "Rejected",
+  //   ),
+  //   NotificationModel(
+  //     title: "Lorem ipsum dolor sit amet.",
+  //     description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+  //     date: DateTime.now().subtract(Duration(days: 2)),
+  //     status: "Accepted",
+  //   ),
+  //   NotificationModel(
+  //     title: "Lorem ipsum dolor sit amet.",
+  //     description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+  //     date: DateTime.now().subtract(Duration(days: 3)),
+  //     status: "Pending",
+  //   ),
+  //   NotificationModel(
+  //     title: "Lorem ipsum dolor sit amet.",
+  //     description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+  //     date: DateTime.now().subtract(Duration(days: 4)),
+  //     status: "Rejected",
+  //   ),
+  //   NotificationModel(
+  //     title: "Lorem ipsum dolor sit amet.",
+  //     description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+  //     date: DateTime.now().subtract(Duration(days: 5)),
+  //     status: "Accepted",
+  //   ),
+  //   NotificationModel(
+  //     title: "Lorem ipsum dolor sit amet.",
+  //     description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+  //     date: DateTime.now().subtract(Duration(days: 6)),
+  //     status: "Pending",
+  //   ),
+  // ];
 }

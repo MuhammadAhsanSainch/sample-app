@@ -1,21 +1,28 @@
+import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:path_to_water/notification_services/notification_badge_service.dart';
 
 import 'features/splash.dart';
 import 'utilities/app_exports.dart';
 import 'utilities/app_initializer.dart';
 
-// @pragma('vm:entry-point')
-Future<void> notificationTapBackground(RemoteMessage message) async {
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   log(message.data.toString());
+  log("Notification Received");
   debugPrint(message.data.toString());
-
-  // await Firebase.initializeApp();
+  if (Platform.isIOS) {
+    int count = await NotificationBadgeService.getBadgeCount();
+    NotificationBadgeService.updateBadgeCount(count + 1);
+  }
 }
 
 void main() async {
   await AppInitializer.initialize();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
 }
 

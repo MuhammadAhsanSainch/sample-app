@@ -21,6 +21,21 @@ class ReminderEntryItem extends StatelessWidget {
     this.onDeleteTap,
   });
 
+  String get time {
+    try {
+      final DateTime dateTime = DateTime.utc(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day,
+        int.parse(entry.time!.split(":").first),
+        int.parse(entry.time!.split(":").last),
+      ).toLocal();
+      return dateTime.toFormatDateTime(format: "hh:mm");
+    } catch (e) {
+      return entry.time ?? "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
@@ -49,7 +64,7 @@ class ReminderEntryItem extends StatelessWidget {
                     color: AppColors.primary,
                     borderRadius: BorderRadius.circular(4.r),
                   ),
-                  child: CustomText(entry.time, color: Colors.white, fontSize: 11),
+                  child: CustomText(time, color: Colors.white, fontSize: 11),
                 ),
                 if (showLine)
                   Expanded(

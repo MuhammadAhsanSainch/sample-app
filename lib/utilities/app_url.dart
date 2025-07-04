@@ -31,4 +31,5 @@ class AppUrl {
   static const String bannerApi = "banners"; 
 
   static const String eventAPI = "events/islamic"; 
+  static const String notificationAPI = "notifications"; 
 }
