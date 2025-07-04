@@ -1,11 +1,22 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_to_water/notification_services/notification_badge_service.dart';
 
 import 'features/splash.dart';
 import 'utilities/app_exports.dart';
 import 'utilities/app_initializer.dart';
+
+/// Streams are created so that app can respond to notification-related events
+/// since the plugin is initialized in the `main` function
+final StreamController<NotificationResponse> selectNotificationStream =
+    StreamController<NotificationResponse>.broadcast();
+
+const MethodChannel platform = MethodChannel('dexterx.dev/flutter_local_notifications_example');
+
+const String portName = 'notification_send_port';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {

@@ -30,15 +30,18 @@ class NotificationService {
       await Future.delayed(Duration(seconds: 2));
 
       AppGlobals.fcmToken = await FirebaseMessaging.instance.getToken() ?? '';
-      log('FCM Token: ${AppGlobals.fcmToken}');
+      print('FCM Token: ${AppGlobals.fcmToken}');
       FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
-        log('New FCM Token: $newToken');
+        print('New FCM Token: $newToken');
         AppGlobals.fcmToken = newToken;
       });
       // Set the background messaging handler early on, as a named top-level function
-     
+
       if (UserPreferences.isNotification) {
         Helper.subscribeToTopic("all");
+      }
+      if (Platform.isIOS) {
+        NotificationBadgeService.updateBadgeCount(0);
       }
 
       /// Create an Android Notification Channel.
@@ -72,8 +75,8 @@ class NotificationService {
 
       FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
         if (Platform.isAndroid) {
-          debugPrint("onSelectNotification clicked");
-          debugPrint(message.data.toString());
+          print("onSelectNotification clicked");
+          print(message.data.toString());
 
           var map = (message.notification);
           if (map != null) {
@@ -105,7 +108,7 @@ class NotificationService {
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
         log(message.data.toString());
         var payload = ExtraPayload.fromJson(message.data);
-        NotificationBadgeService.updateBadgeCount(0);
+
         Helper.navigateFromNotification(payload);
       });
     } catch (e) {

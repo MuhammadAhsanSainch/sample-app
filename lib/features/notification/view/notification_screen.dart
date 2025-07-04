@@ -105,7 +105,7 @@ class NotificationScreen extends StatelessWidget {
                                         ),
                                         8.verticalSpace,
                                         CustomText(
-                                          item.createdAt.toFormatDateTime(
+                                          item.createdAt?.toLocal().toFormatDateTime(
                                             format: "hh:mm a, dd/MM/yyyy",
                                           ),
                                           fontSize: 10.sp,
@@ -123,85 +123,6 @@ class NotificationScreen extends StatelessWidget {
                   },
                 ),
               ),
-              // Expanded(
-              //   child: ListView.separated(
-              //     itemCount: DummyContent.notificationList.length,
-              //     separatorBuilder: (context, index) {
-              //       return 8.verticalSpace;
-              //     },
-              //     itemBuilder: (context, index) {
-              //       final item = DummyContent.notificationList[index];
-              //       return Container(
-              //         decoration: BoxDecoration(
-              //           borderRadius: BorderRadius.circular(8.r),
-              //           color: AppColors.dialogBgColor,
-              //           border: Border.all(
-              //             color:
-              //                 AppGlobals.isDarkMode.value
-              //                     ? AppColors.strokeDarkGreyColor
-              //                     : AppColors.strokeColor,
-              //             width: 1,
-              //           ),
-              //         ),
-              //         padding: EdgeInsets.all(12.r),
-              //         child: Row(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           children: [
-              //             Container(
-              //               margin: EdgeInsets.only(top: 4.r),
-              //               padding: EdgeInsets.all(4.r),
-              //               decoration: BoxDecoration(
-              //                 shape: BoxShape.circle,
-              //                 color: getStatusColor(item.status),
-              //               ),
-              //               child: Icon(
-              //                 getStatusIcon(item.status),
-              //                 color: AppColors.lightColor,
-              //                 size: 16.r,
-              //               ),
-              //             ),
-              //             12.horizontalSpace,
-              //             Expanded(
-              //               child: Column(
-              //                 crossAxisAlignment: CrossAxisAlignment.start,
-              //                 children: [
-              //                   Row(
-              //                     children: [
-              //                       Expanded(
-              //                         child: CustomText(
-              //                           item.title,
-              //                           fontSize: 14.sp,
-              //                           fontWeight: FontWeight.w500,
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                   4.verticalSpace,
-              //                   Row(
-              //                     children: [
-              //                       Expanded(
-              //                         child: CustomText(
-              //                           item.description,
-              //                           fontSize: 12.sp,
-              //                           maxLine: 5,
-              //                         ),
-              //                       ),
-              //                     ],
-              //                   ),
-              //                   8.verticalSpace,
-              //                   CustomText(
-              //                     item.date.toFormatDateTime(format: "hh:mm a, dd/MM/yyyy"),
-              //                     fontSize: 10.sp,
-              //                   ),
-              //                 ],
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // ),
             ],
           ),
         ),
