@@ -171,7 +171,7 @@ class _QuranDialogContentState extends State<QuranDialogContent> {
                                 ? widget.englishContent
                                 : widget.arabicContent,
                             textAlign:
-                                _selectedLanguage == 'Arabic' ? TextAlign.right : TextAlign.left,
+                                _selectedLanguage == 'Arabic' ? TextAlign.center : TextAlign.left,
                             textDirection:
                                 _selectedLanguage == 'Arabic'
                                     ? TextDirection.rtl

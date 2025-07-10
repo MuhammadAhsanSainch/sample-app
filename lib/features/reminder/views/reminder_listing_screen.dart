@@ -175,7 +175,7 @@ class ReminderListingScreen extends StatelessWidget {
                                     isSelected: controller.isEnglishCalendar,
                                   ),
                                   CustomTab(
-                                    title: "Arabic Calendar",
+                                    title: "Hijri Calendar",
                                     isSelected: controller.isEnglishCalendar == false,
                                   ),
                                 ],

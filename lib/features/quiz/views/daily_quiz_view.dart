@@ -119,14 +119,14 @@ class DailyQuizView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ReadMoreText(
-                          (controller.currentQuestion?.text ?? '') , 
+                          (controller.currentQuestion?.text ?? '') ,
                           trimMode: TrimMode.Line,
                           trimLines: 4,
                           colorClickableText: AppColors.error,
                           trimCollapsedText: 'Read more',
                           trimExpandedText: ' Read less',
                           style: AppTextTheme.titleLarge.copyWith(fontSize: 16.sp),
-                          moreStyle: AppTextTheme.titleLarge.copyWith(fontSize: 14.sp),
+                          moreStyle: AppTextTheme.titleLarge.copyWith(fontSize: 14.sp,color: AppColors.success,),
                           lessStyle: AppTextTheme.titleLarge.copyWith(
                             fontSize: 14.sp,
                             color: AppColors.error,
@@ -178,8 +178,9 @@ class DailyQuizView extends StatelessWidget {
           );
         },
         child: Container(
-          height: 48,
+          // height: 48,
           width: Get.width,
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
             color: isSelected ? AppColors.primary : AppColors.textFieldFillColor,
@@ -208,10 +209,11 @@ class DailyQuizView extends StatelessWidget {
               8.horizontalSpace,
               Expanded(
                 child: CustomText(
-                  option?.text,
+                  (option?.text??''),
                   style: AppTextTheme.bodyLarge.copyWith(
                     color: isSelected ? Colors.white : AppColors.primary,
                   ),
+                  maxLine: 10,
                 ),
               ),
             ],

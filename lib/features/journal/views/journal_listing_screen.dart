@@ -336,7 +336,7 @@ class JournalListingScreen extends StatelessWidget {
                 tabs: [
                   CustomTab(title: "English Calendar", isSelected: controller.isEnglishCalendar),
                   CustomTab(
-                    title: "Arabic Calendar",
+                    title: "Hijri Calendar",
                     isSelected: controller.isEnglishCalendar == false,
                   ),
                 ],

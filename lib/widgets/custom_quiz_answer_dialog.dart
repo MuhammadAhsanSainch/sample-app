@@ -35,117 +35,123 @@ class CustomQuizAnswerDialog extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.all(16.r),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  height: 150.h,
-                  decoration: BoxDecoration(
-                    color: AppColors.dialogImageBackground,
-                    borderRadius: BorderRadius.circular(12.r),
-                    image: DecorationImage(
-                      image: AssetImage(AppConstants.answerDialogImage),
-                      fit: BoxFit.contain,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    height: 150.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.dialogImageBackground,
+                      borderRadius: BorderRadius.circular(12.r),
+                      image: DecorationImage(
+                        image: AssetImage(AppConstants.answerDialogImage),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(top: 12.h),
+                    child: SvgPicture.asset(AppConstants.illustration, height: 40.h),
+                  ),
+                  10.verticalSpace,
+                  CustomText(
+                    'Your Answer is ${givenAnswer == actualAnswer ? 'Right' : 'Wrong'}',
+                    style: AppTextTheme.titleMedium,
+                  ),
+                  Container(
+                    // height: 48,
+                    width: Get.width,
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    decoration: BoxDecoration(
+                      color: givenAnswer == actualAnswer ? AppColors.primary : AppColors.error,
+                      border: Border.all(color: AppColors.textFieldBorderColor),
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    child: Row(
+                      spacing: 10,
+                      children: [
+                        SizedBox(),
+                        Container(
+                          height: 36,
+                          width: 36,
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            border: Border.all(color: Colors.white),
+                          ),
+                          child: Center(
+                            child: CustomText(
+                              selectedLabel,
+                              style: AppTextTheme.bodyLarge.copyWith(color: AppColors.primary),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            givenAnswer,
+                            style: AppTextTheme.bodyLarge.copyWith(color: Colors.white),
+                            maxLine: 10,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(top: 12.h),
-                  child: SvgPicture.asset(AppConstants.illustration, height: 40.h),
-                ),
-                10.verticalSpace,
-                CustomText(
-                  'Your Answer is ${givenAnswer == actualAnswer ? 'Right' : 'Wrong'}',
-                  style: AppTextTheme.titleMedium,
-                ),
-                Container(
-                  height: 48,
-                  width: Get.width,
-                  margin: EdgeInsets.symmetric(vertical: 5),
-                  decoration: BoxDecoration(
-                    color: givenAnswer == actualAnswer ? AppColors.primary : AppColors.error,
-                    border: Border.all(color: AppColors.textFieldBorderColor),
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  child: Row(
-                    spacing: 10,
-                    children: [
-                      SizedBox(),
-                      Container(
-                        height: 36,
-                        width: 36,
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                          border: Border.all(color: Colors.white),
-                        ),
-                        child: Center(
-                          child: CustomText(
-                            selectedLabel,
-                            style: AppTextTheme.bodyLarge.copyWith(color: AppColors.primary),
+                  CustomText('Correct Answer', style: AppTextTheme.titleMedium),
+                  Container(
+                    // height: 48,
+                    width: Get.width,
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      border: Border.all(color: AppColors.textFieldBorderColor),
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    child: Row(
+                      spacing: 10,
+                      children: [
+                        SizedBox(),
+                        Container(
+                          height: 36,
+                          width: 36,
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                            border: Border.all(color: Colors.white),
+                          ),
+                          child: Center(
+                            child: CustomText(
+                              actualLabel,
+                              style: AppTextTheme.bodyLarge.copyWith(color: AppColors.primary),
+                            ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: CustomText(
-                          givenAnswer,
-                          style: AppTextTheme.bodyLarge.copyWith(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                CustomText('Correct Answer', style: AppTextTheme.titleMedium),
-                Container(
-                  height: 48,
-                  width: Get.width,
-                  margin: EdgeInsets.symmetric(vertical: 5),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    border: Border.all(color: AppColors.textFieldBorderColor),
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  child: Row(
-                    spacing: 10,
-                    children: [
-                      SizedBox(),
-                      Container(
-                        height: 36,
-                        width: 36,
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                          border: Border.all(color: Colors.white),
-                        ),
-                        child: Center(
+                        Expanded(
                           child: CustomText(
-                            actualLabel,
-                            style: AppTextTheme.bodyLarge.copyWith(color: AppColors.primary),
+                            actualAnswer,
+                            style: AppTextTheme.bodyLarge.copyWith(color: Colors.white),
+                            maxLine: 10,
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: CustomText(
-                          actualAnswer,
-                          style: AppTextTheme.bodyLarge.copyWith(color: Colors.white),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                10.verticalSpace,
-                CustomText(question, style: AppTextTheme.titleMedium, maxLine: 2),
-                8.verticalSpace,
-                CustomText(
-                  explanation,
-                  style: AppTextTheme.bodyLarge.copyWith(
-                    color: AppGlobals.isDarkMode.value ? AppColors.lightColor : AppColors.grey500,
+                  10.verticalSpace,
+                  CustomText(question, style: AppTextTheme.titleMedium, maxLine: 10),
+                  8.verticalSpace,
+                  CustomText(
+                    explanation,
+                    style: AppTextTheme.bodyLarge.copyWith(
+                      color: AppGlobals.isDarkMode.value ? AppColors.lightColor : AppColors.grey500,
+                    ),
+                    maxLine: 10,
                   ),
-                  maxLine: 6,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Positioned(

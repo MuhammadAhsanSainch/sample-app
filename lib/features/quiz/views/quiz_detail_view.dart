@@ -210,7 +210,7 @@ class QuizDetailView extends StatelessWidget {
                 CustomText(
                   questionText,
                   style: AppTextTheme.headlineSmall,
-                  maxLine: 4,
+                  maxLine: 10,
                 ),
                 const SizedBox(height: 10),
                 ReadMoreText(
@@ -284,6 +284,7 @@ class QuizDetailView extends StatelessWidget {
                           : AppColors.greenColor
                       : AppColors.error,
             ),
+            maxLine: 10,
           ),
         ],
       ),
