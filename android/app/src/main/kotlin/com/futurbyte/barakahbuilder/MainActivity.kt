@@ -1,4 +1,4 @@
-package com.futurbyte.barakahbuilder
+package com.example.sampleapp
 
 import io.flutter.embedding.android.FlutterActivity
 

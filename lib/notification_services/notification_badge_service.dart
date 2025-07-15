@@ -1,7 +1,7 @@
 import 'package:path_to_water/utilities/app_exports.dart';
 
 class NotificationBadgeService {
-  static const _channel = MethodChannel('com.futurbyte.barakahbuilder/notificationBadgeChannel');
+  static const _channel = MethodChannel('com.example.sampleapp/notificationBadgeChannel');
 
   /// Gets the current number displayed on the app icon badge.
   /// Returns 0 if the badge is not set.

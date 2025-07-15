@@ -15,7 +15,7 @@ import UserNotifications // <-- Import this for notification permissions
     let controller: FlutterViewController = window?.rootViewController as! FlutterViewController
       
     // Create the Method Channel
-    let notificationBadgeChannel = FlutterMethodChannel(name: "com.futurbyte.barakahbuilder/notificationBadgeChannel",
+    let notificationBadgeChannel = FlutterMethodChannel(name: "com.example.sampleapp/notificationBadgeChannel",
                                                       binaryMessenger: controller.binaryMessenger) // <-- FIX: Use the controller's binaryMessenger
       
     // Set the Method Call Handler
@@ -50,7 +50,7 @@ import UserNotifications // <-- Import this for notification permissions
         super.application(application, didReceiveRemoteNotification: userInfo, fetchCompletionHandler: completionHandler)
       }
     // Define these at the class level for easy reuse
-    let appGroupID = "group.com.futurbyte.barakahbuilder.notificationservice" // <-- Use your App Group ID
+    let appGroupID = "group.com.example.sampleapp.notificationservice" // <-- Use your App Group ID
     let badgeKey = "notificationBadgeCount"
 
     private func getNotificationBadge(result: FlutterResult) {

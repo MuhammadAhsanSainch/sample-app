@@ -50,21 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC88pGIuBl4gyVyyzw7WUnjdEBPD0OGnIE',
-    appId: '1:1056416408417:android:a1c42ef2b8596074585b20',
-    messagingSenderId: '1056416408417',
-    projectId: 'barakah-builder',
-    storageBucket: 'barakah-builder.firebasestorage.app',
+    apiKey: 'AIzaSyC88pGIuBl4gyVyyzw7WUnjdEBPD0OGnbb',
+    appId: '1:1056416408417:android:a1c42ef2b8596074585b33',
+    messagingSenderId: '1056416408117',
+    projectId: 'sample-app',
+    storageBucket: 'sample-app.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAsUEIt3YU8K61Rat-BKOqY9Hw1uYg5Pho',
-    appId: '1:1056416408417:ios:f2cb79a62de7ff25585b20',
+    appId: '1:1056416408417:ios:f2cb79a62de7ee25585b20',
     messagingSenderId: '1056416408417',
-    projectId: 'barakah-builder',
-    storageBucket: 'barakah-builder.firebasestorage.app',
-    iosClientId: '1056416408417-ejlhfs4v7l86i26nsop32clu5hjn3ir8.apps.googleusercontent.com',
-    iosBundleId: 'com.futurbyte.barakahbuilder',
+    projectId: 'sample-app',
+    storageBucket: 'sample-app.firebasestorage.app',
+    iosClientId: '1056416408417-ejlhfs4v7l86i26nsop12clu5hjn3ir8.apps.googleusercontent.com',
+    iosBundleId: 'com.example.sample',
   );
 
 }

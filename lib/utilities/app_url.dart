@@ -1,5 +1,5 @@
 class AppUrl {
-  static const String baseUrl = 'https://islamic-api.futurbyte.ae/';
+  static const String baseUrl = 'https://sample-app/';
   static const String loginApi = "auth/login";
   static const String signupApi = "auth/register";
   static const String sendOTPApi = "auth/forgot-password";

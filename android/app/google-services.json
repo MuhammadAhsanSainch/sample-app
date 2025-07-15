@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1056416408417:android:a1c42ef2b8596074585b20",
         "android_client_info": {
-          "package_name": "com.futurbyte.barakahbuilder"
+          "package_name": "com.example.sampleapp"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "1056416408417-5bpbljo307bgp6sd5thq5ecv9sgj2226.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.futurbyte.barakahbuilder",
+            "package_name": "com.example.sampleapp",
             "certificate_hash": "d78ce4a59698b22ab56a884923e255abf450cd26"
           }
         },
@@ -42,7 +42,7 @@
               "client_id": "1056416408417-ejlhfs4v7l86i26nsop32clu5hjn3ir8.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.futurbyte.barakahbuilder"
+                "bundle_id": "com.example.sampleapp"
               }
             }
           ]
