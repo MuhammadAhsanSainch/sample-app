@@ -1,7 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:path_to_water/api_core/network_controller.dart';
 
-import '../firebase_options.dart';
+// import '../firebase_options.dart';
 import '../notification_services/notification_service.dart';
 import 'app_exports.dart';
 
@@ -10,7 +9,7 @@ class AppInitializer {
     try {
       WidgetsFlutterBinding.ensureInitialized();
 
-      await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+      // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
       await initializePreferences();
       await NotificationService.init();
